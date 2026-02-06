@@ -1,0 +1,37 @@
+name: Guardian del Codigo
+
+# 1. cuando se activa el?
+on:
+  push:
+    branches: ["main"] # Se activa cuando haces push a la rama main
+  pull_request:
+    branches: ["main"] # Se activa cuando intentas fusionar código
+
+# 2. que tiene que hacer?
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest # Usará una máquina virtual con Linux (gratis por GitHub)
+
+    steps:
+      # A. Descargar tu código en la máquina virtual
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      # B. Instalar .NET 9 en esa máquina
+      - name: Instalar .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      # C. Descargar librerías (Nuget)
+      - name: Restaurar dependencias
+        run: dotnet restore
+
+      # D. Compilar (Verificar que no haya errores de sintaxis)
+      - name: Compilar (Build)
+        run: dotnet build --no-restore --configuration Release
+
+      # E. Correr los Tests
+      - name: Ejecutar Tests
+        # Si este paso falla, todo el proceso se marca en ROJO
+        run: dotnet test --no-build --configuration Release --verbosity normal
