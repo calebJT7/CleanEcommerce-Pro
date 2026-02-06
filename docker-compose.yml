@@ -1,0 +1,30 @@
+services:
+  # SERVICIO 1: Tu Base de Datos (SQL Server)
+  basedatos:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: ecommerce-sql
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${DB_PASSWORD} 
+    ports:
+      - "1434:1433" # Mapeamos al 1434 de tu PC para no chocar con tu SQL local
+    volumes:
+      - sql_data:/var/opt/mssql # Para que los datos no se borren al apagar
+
+  # SERVICIO 2: Tu API
+  api:
+    build:
+      context: .
+      dockerfile: Api/Dockerfile
+    container_name: ecommerce-api
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      # MAGIA: Sobrescribimos la conexión para apuntar al contenedor 'basedatos'
+      - ConnectionStrings__DefaultConnection=Server=basedatos;Database=CleanEcommerceDb;User Id=sa;Password=TuPasswordSuperSeguro123!;TrustServerCertificate=True;
+    depends_on:
+      - basedatos # Espera a que la BD arranque antes de iniciar la API
+
+volumes:
+  sql_data:

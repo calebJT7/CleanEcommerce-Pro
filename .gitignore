@@ -1,0 +1,26 @@
+# --- 1. Archivos compilados (Basura temporal) ---
+[Bb]in/
+[Oo]bj/
+
+# --- 2. Configuraciones de Usuario e IDE ---
+.vs/
+.vscode/
+*.user
+*.suo
+*.userprefs
+
+# --- 3. Archivos de entorno y secretos (¡SEGURIDAD!) ---
+.env
+appsettings.Development.json
+appsettings.local.json
+
+# --- 4. Logs y archivos del sistema ---
+*.log
+.DS_Store
+Thumbs.db
+
+# --- 5. Test results ---
+TestResults/
+
+# --- 6. Docker (Opcional, pero recomendado) ---
+docker-compose.override.yml
