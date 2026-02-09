@@ -29,3 +29,10 @@ docker pull calebjt/clean-ecommerce-api:latest
 # 2. (Opcional) Correr el contenedor
 docker run -p 8080:8080 calebjt/clean-ecommerce-api:latest
 ```
+
+## Contacto
+
+Desarrollado por **Caleb Toledo**.
+
+- [LinkedIn](https://linkedin.com/in/tu-usuario)
+- [GitHub](https://github.com/calebJT7)
