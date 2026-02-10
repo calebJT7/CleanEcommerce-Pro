@@ -1,64 +1,74 @@
-using Microsoft.EntityFrameworkCore;
 using Infrastructure;
-// Estos usings adicionales son importantes si tienes servicios configurados
-// Si te dan error, bórralos, pero por tus fotos veo que los usabas:
-using Infrastructure.Repositories;
+using Infrastructure.Repositories; // Asegúrate que tus repos estén aquí
 using Application.Interfaces;
 using Application.Services;
-// using Api.Middlewares; // Descomenta esto si usas Middlewares propios
+using Microsoft.EntityFrameworkCore;
+using Api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 // 1. CONFIGURACIÓN DE SERVICIOS (ZONA BUILDER)
 
-
-// A. Controladores y Swagger
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-// B. Base de Datos Híbrida (La lógica inteligente)
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
+// A. Configuración Híbrida de Base de Datos
 if (builder.Environment.IsDevelopment())
 {
-    //  MODO CASA: SQL Server
+    // MODO CASA: SQL Server
+    // Usamos la conexión del archivo appsettings.json
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     builder.Services.AddDbContext<EcommerceDbContext>(options =>
         options.UseSqlServer(connectionString));
 }
 else
 {
-    //  MODO NUBE: PostgreSQL (Render)
+    //  MODO NUBE (Render): PostgreSQL
+    // Render nos pasará la conexión en una variable de entorno oculta
     var dbUrl = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
     builder.Services.AddDbContext<EcommerceDbContext>(options =>
         options.UseNpgsql(dbUrl));
 }
 
-// C. Inyección de Dependencias (Tus repositorios y servicios)
-// (Asegúrate de que estas líneas coincidan con lo que tenías antes)
-// builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
-// builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-// builder.Services.AddScoped<IProductoService, ProductoService>();
+// B. Inyección de Dependencias
+builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IProductoService, ProductoService>();
 
-
+// C. Controladores y Swagger
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 // 2. CONSTRUCCIÓN DE LA APP
-
-var app = builder.Build(); // <--- AQUÍ NACE LA APP 👶
-
+var app = builder.Build(); // <--- AQUÍ NACE LA APP 
 
 // 3. CONFIGURACIÓN DEL PIPELINE (ZONA APP)
 
-// A. Auto-Migración para Render (¡Esto va AQUI, después de que app nace!)
+// A. Auto-Migración Inteligente (Tu bloque mejorado)
 using (var scope = app.Services.CreateScope())
 {
-    var context = scope.ServiceProvider.GetRequiredService<EcommerceDbContext>();
-    // Esto crea la DB si no existe (Mágia para la nube)
-    context.Database.EnsureCreated();
+    var services = scope.ServiceProvider;
+    var logger = services.GetRequiredService<ILogger<Program>>();
+
+    try
+    {
+        var context = services.GetRequiredService<EcommerceDbContext>();
+        logger.LogInformation("Verificando base de datos en la nube...");
+
+        // EnsureCreated es más seguro para Render ahora mismo que Migrate()
+        // Crea la BD y las tablas si no existen.
+        context.Database.EnsureCreated();
+
+        logger.LogInformation("¡Base de datos lista!");
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Ocurrió un error al iniciar la base de datos.");
+    }
 }
 
-// B. Swagger y Https
+// B. Middlewares (Tu guardián de errores)
+app.UseMiddleware<ExceptionMiddleware>();
+
+// C. Swagger (Solo en desarrollo para no exponerlo en prod, o déjalo fuera del if si quieres verlo en Render)
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -66,7 +76,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseAuthorization();
+app.UseAuthorization(); // Importante agregarlo aunque no lo uses full todavía
+
 app.MapControllers();
 
-app.Run(); // <--- AQUÍ CORRE LA APP 🏃‍♂️
+app.Run(); // <--- ¡AQUÍ CORRE LA APP! 🏃‍♂️
