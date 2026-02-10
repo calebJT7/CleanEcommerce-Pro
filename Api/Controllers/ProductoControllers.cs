@@ -27,11 +27,24 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Producto>> PostProducto(Producto producto)
+        // 👇 Ahora recibimos el DTO plano, ¡Swagger será feliz!
+        public async Task<ActionResult> PostProducto(ProductoDto productoDto)
         {
-            _context.Productos.Add(producto);
+            // Transformamos el DTO en la Entidad pura para la Base de Datos
+            var nuevoProducto = new Producto
+            {
+                Nombre = productoDto.Nombre,
+                //Descripcion = productoDto.Descripcion,
+                Precio = productoDto.Precio,
+                //Stock = productoDto.Stock
+                // Nota: Si alguna de estas 4 palabras sale en rojo, 
+                // bórrala o cámbiala por el nombre exacto que tenga tu ProductoDto.
+            };
+
+            _context.Productos.Add(nuevoProducto);
             await _context.SaveChangesAsync();
-            return Ok(producto);
+
+            return Ok("¡Producto creado con éxito!");
         }
     }
 }
