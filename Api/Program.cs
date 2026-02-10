@@ -22,7 +22,7 @@ else
 {
     //  MODO NUBE (Render): PostgreSQL
     // Render nos pasará la conexión en una variable de entorno oculta
-    var dbUrl = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+    var dbUrl = "postgres://db_ecommerce_caleb_user:X3dprCpnUHx8TKzfBOMBneJJPw7QThD1@dpg-d64vbg8gjchc73feqhug-a.ohio-postgres.render.com/db_ecommerce_caleb";
     builder.Services.AddDbContext<EcommerceDbContext>(options =>
         options.UseNpgsql(dbUrl));
 }
