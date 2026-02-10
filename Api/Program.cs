@@ -69,7 +69,7 @@ using (var scope = app.Services.CreateScope())
 app.UseMiddleware<ExceptionMiddleware>();
 
 // C. Swagger (Solo en desarrollo para no exponerlo en prod, o déjalo fuera del if si quieres verlo en Render)
-if (app.Environment.IsDevelopment())
+//if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
