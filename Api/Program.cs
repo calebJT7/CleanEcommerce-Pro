@@ -1,52 +1,64 @@
+using Microsoft.EntityFrameworkCore;
 using Infrastructure;
+// Estos usings adicionales son importantes si tienes servicios configurados
+// Si te dan error, bórralos, pero por tus fotos veo que los usabas:
 using Infrastructure.Repositories;
 using Application.Interfaces;
 using Application.Services;
-using Microsoft.EntityFrameworkCore;
-using Api.Middlewares; // Para tu manejo de errores
+// using Api.Middlewares; // Descomenta esto si usas Middlewares propios
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Configurar la Base de Datos
-builder.Services.AddDbContext<EcommerceDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// 2. Inyección de Dependencias (Repositorios y Servicios)
-builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IProductoService, ProductoService>();
+// 1. CONFIGURACIÓN DE SERVICIOS (ZONA BUILDER)
 
-// 3. ACTIVAR CONTROLADORES (¡Esto es lo nuevo!)
-// Le dice a .NET: "Busca clases que hereden de ControllerBase"
+
+// A. Controladores y Swagger
 builder.Services.AddControllers();
-
-// 4. Configurar Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
-// migracion automatoica de la bd
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var logger = services.GetRequiredService<ILogger<Program>>();
+// B. Base de Datos Híbrida (La lógica inteligente)
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-    try
-    {
-        var context = services.GetRequiredService<EcommerceDbContext>();
-        logger.LogInformation("Intentando aplicar migraciones...");
-        context.Database.Migrate(); // ¡Esto crea la BD y tablas si no existen!
-        logger.LogInformation("¡Base de datos migrada correctamente!");
-    }
-    catch (Exception ex)
-    {
-        logger.LogError(ex, "Ocurrió un error al migrar la base de datos.");
-    }
+if (builder.Environment.IsDevelopment())
+{
+    //  MODO CASA: SQL Server
+    builder.Services.AddDbContext<EcommerceDbContext>(options =>
+        options.UseSqlServer(connectionString));
+}
+else
+{
+    //  MODO NUBE: PostgreSQL (Render)
+    var dbUrl = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+    builder.Services.AddDbContext<EcommerceDbContext>(options =>
+        options.UseNpgsql(dbUrl));
 }
 
-// 5. Configurar el Pipeline (Middleware)
-app.UseMiddleware<ExceptionMiddleware>(); // Tu guardián de errores
+// C. Inyección de Dependencias (Tus repositorios y servicios)
+// (Asegúrate de que estas líneas coincidan con lo que tenías antes)
+// builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
+// builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+// builder.Services.AddScoped<IProductoService, ProductoService>();
 
+
+
+// 2. CONSTRUCCIÓN DE LA APP
+
+var app = builder.Build(); // <--- AQUÍ NACE LA APP 👶
+
+
+// 3. CONFIGURACIÓN DEL PIPELINE (ZONA APP)
+
+// A. Auto-Migración para Render (¡Esto va AQUI, después de que app nace!)
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<EcommerceDbContext>();
+    // Esto crea la DB si no existe (Mágia para la nube)
+    context.Database.EnsureCreated();
+}
+
+// B. Swagger y Https
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -54,9 +66,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-// 6. MAPEAR CONTROLADORES (¡Esto reemplaza a los MapGet manuales!)
-// Le dice a la app: "Usa las rutas definidas en los archivos de Controllers"
+app.UseAuthorization();
 app.MapControllers();
 
-app.Run();
+app.Run(); // <--- AQUÍ CORRE LA APP 🏃‍♂️
