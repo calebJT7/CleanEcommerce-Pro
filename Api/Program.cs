@@ -22,7 +22,7 @@ else
 {
     //  MODO NUBE (Render): PostgreSQL
     // Render nos pasará la conexión en una variable de entorno oculta
-    var dbUrl = "postgres://db_ecommerce_caleb_user:X3dprCpnUHx8TKzfBOMBneJJPw7QThD1@dpg-d64vbg8gjchc73feqhug-a.ohio-postgres.render.com/db_ecommerce_caleb";
+    var dbUrl = "Host=dpg-d64vbg8gjchc73feqhug-a;Database=db_ecommerce_caleb;Username=db_ecommerce_caleb_user;Password=X3dprCpnUHx8TKzfBOMBneJJPw7QThD1;Ssl Mode=Require;";
     builder.Services.AddDbContext<EcommerceDbContext>(options =>
         options.UseNpgsql(dbUrl));
 }
