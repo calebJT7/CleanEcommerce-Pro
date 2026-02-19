@@ -7,5 +7,6 @@ namespace Domain
         public string Telefono { get; set; } = string.Empty;
 
         public decimal DeudaTotal { get; set; } = 0;
+        public List<Pago> HistorialPagos { get; set; } = new List<Pago>();
     }
 }

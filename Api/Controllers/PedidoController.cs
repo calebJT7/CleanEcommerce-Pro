@@ -3,11 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using Infrastructure; // Para el EcommerceDbContext
 using Domain;         // Para las Entidades
 using Application.DTOs; // Para los DTOs
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
+
     public class PedidosController : ControllerBase
     {
         private readonly EcommerceDbContext _context;

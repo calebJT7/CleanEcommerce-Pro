@@ -4,6 +4,9 @@ using Application.Interfaces;
 using Application.Services;
 using Microsoft.EntityFrameworkCore;
 using Api.Middlewares;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +20,21 @@ if (builder.Environment.IsDevelopment())
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     builder.Services.AddDbContext<EcommerceDbContext>(options =>
         options.UseSqlServer(connectionString));
+    // Registramos el servicio de encriptación
+    builder.Services.AddScoped<Application.Services.AuthService>();
+    // 👮‍♂️ CONFIGURACIÓN DEL GUARDIA DE SEGURIDAD (JWT)
+    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+                    builder.Configuration.GetSection("AppSettings:Token").Value!)),
+                ValidateIssuer = false,
+                ValidateAudience = false
+            };
+        });
 }
 else
 {
@@ -76,6 +94,7 @@ app.UseMiddleware<ExceptionMiddleware>();
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization(); // Importante agregarlo aunque no lo uses full todavía
 
 app.MapControllers();
