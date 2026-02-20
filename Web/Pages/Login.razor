@@ -1,0 +1,73 @@
+@page "/login"
+@using Application.DTOs
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-5">
+                    <h2 class="text-center mb-4">CleanEcommerce</h2>
+
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="alert alert-danger">@errorMessage</div>
+                    }
+
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" @bind="loginDto.Email" />
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" @bind="loginDto.Password" />
+                    </div>
+
+                    <button class="btn btn-primary w-100 shadow-sm" @onclick="ManejarLogin">
+                        Ingresar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    // 📦 Creamos el objeto para capturar los datos
+    private UsuarioLoginDto loginDto = new UsuarioLoginDto();
+    private string errorMessage = "";
+
+    private async Task ManejarLogin()
+    {
+        errorMessage = ""; // Limpiamos errores previos
+
+        // 🚀 1. Enviamos los datos a tu API (la que configuramos el viernes)
+        var response = await Http.PostAsJsonAsync("api/Usuarios/login", loginDto);
+
+        if (response.IsSuccessStatusCode)
+        {
+            // 🎟️ 2. Si todo sale bien, recibimos el Token JWT que programamos
+            var resultado = await response.Content.ReadFromJsonAsync<LoginResult>();
+
+            // 💾 2. Guardamos el Token en la bóveda del navegador (Local Storage)
+            await JSRuntime.InvokeVoidAsync("localStorage.setItem", "authToken", resultado.Token);
+
+            // 🏠 3. ¡Redirigimos a la página principal de la tienda!
+            Navigation.NavigateTo("/", forceLoad: true);
+        }
+        else
+        {
+            errorMessage = "Correo o contraseña incorrectos. Intenta de nuevo.";
+        }
+    }
+
+    // Clase auxiliar para leer la respuesta de la API
+    public class LoginResult
+    {
+        public string Mensaje { get; set; } = "";
+        public string Token { get; set; } = "";
+    }
+}

@@ -54,6 +54,15 @@ builder.Services.AddScoped<IProductoService, ProductoService>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
 
 // 2. CONSTRUCCIÓN DE LA APP
 var app = builder.Build(); // <--- AQUÍ NACE LA APP 
@@ -94,6 +103,7 @@ app.UseMiddleware<ExceptionMiddleware>();
 }
 
 app.UseHttpsRedirection();
+app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization(); // Importante agregarlo aunque no lo uses full todavía
 

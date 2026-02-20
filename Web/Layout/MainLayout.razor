@@ -1,16 +1,66 @@
-﻿@inherits LayoutComponentBase
+﻿@inject Web.Services.CarritoService Carrito
+@implements IDisposable
+@using Microsoft.AspNetCore.Components.Authorization
+@inherits LayoutComponentBase
+
+
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
     <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="/">
+                    🛍️ CleanEcommerce
+                </a>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+                <div class="d-flex align-items-center">
+                    <AuthorizeView>
+                        <Authorized>
+                            <span class="text-white me-3">👤 Hola, @(context.User.FindFirst(c =>
+                                                                                                                                c.Type.Contains("email"))?.Value)</span>
+                                <button class="btn btn-outline-danger btn-sm me-3" @onclick="CerrarSesion">
+                                    Cerrar Sesión
+                                </button>
+                            </Authorized>
+                            <NotAuthorized>
+                                <a href="/login" class="btn btn-outline-light btn-sm me-3">
+                                    👤 Iniciar Sesión
+                                </a>
+                            </NotAuthorized>
+                        </AuthorizeView>
+
+                        <button class="btn btn-light btn-sm fw-bold">
+                            🛒 Carrito <span class="badge bg-danger">@Carrito.ObtenerCantidad()</span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+
+            <article class="content px-4 py-5">
+                @Body
+            </article>
+        </main>
+    </div>
+@inject IJSRuntime JSRuntime
+@inject NavigationManager Navigation
+
+@code {
+    private async Task CerrarSesion()
+    {
+        // 1. Borramos el Token de la bóveda
+        await JSRuntime.InvokeVoidAsync("localStorage.removeItem", "authToken");
+
+        // 2. Recargamos la página para que el Guardia se dé cuenta
+        Navigation.NavigateTo("/", forceLoad: true);
+    }
+    protected override void OnInitialized()
+    {
+        // Cuando el motor toque la campana, actualizamos la pantalla
+        Carrito.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        // Buena práctica: desconectar el cable si cerramos la página
+        Carrito.OnChange -= StateHasChanged;
+    }
+}
