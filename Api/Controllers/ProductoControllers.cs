@@ -1,88 +1,105 @@
 using Microsoft.AspNetCore.Mvc;
-using Application.Interfaces;
-using Application.DTOs;
+using Microsoft.EntityFrameworkCore;
 using Infrastructure;
-//using Domain.Entities; // <--- Agrego esto por si acaso la palabra "Producto" te sale en rojo
+using Domain;
+using Application.DTOs;
 
 namespace Api.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class ProductosController : ControllerBase
     {
-        private readonly IProductoService _productoService;
         private readonly EcommerceDbContext _context;
 
-        public ProductosController(IProductoService productoService, EcommerceDbContext context)
+        public ProductosController(EcommerceDbContext context)
         {
-            _productoService = productoService;
             _context = context;
         }
 
+        // 📋 1. LEER TODOS
         [HttpGet]
-        public async Task<ActionResult<List<ProductoDto>>> GetAll()
+        public async Task<ActionResult<List<ProductoDto>>> GetProductos()
         {
-            var productos = await _productoService.GetAllAsync();
+            var productos = await _context.Productos
+                .Select(p => new ProductoDto
+                {
+                    Id = p.Id,
+                    Nombre = p.Nombre,
+                    Precio = p.Precio,
+                    Stock = p.Stock,
+                    Descripcion = p.Descripcion,
+                    ImagenUrl = p.ImagenUrl ?? "" // 📸 NUEVO: Mandamos la foto al frontend
+                })
+                .ToListAsync();
+
             return Ok(productos);
         }
 
-        [HttpPost]
-        // 👇 Ahora recibimos el DTO plano, ¡Swagger será feliz!
-        public async Task<ActionResult> PostProducto(ProductoDto productoDto)
+        // 🔍 2. LEER UNO SOLO
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ProductoDto>> GetProducto(int id)
         {
-            // Transformamos el DTO en la Entidad pura para la Base de Datos
+            var producto = await _context.Productos.FindAsync(id);
+
+            if (producto == null) return NotFound("El producto no existe.");
+
+            return Ok(new ProductoDto
+            {
+                Id = producto.Id,
+                Nombre = producto.Nombre,
+                Precio = producto.Precio,
+                Stock = producto.Stock,
+                Descripcion = producto.Descripcion,
+                ImagenUrl = producto.ImagenUrl ?? "" // 📸 NUEVO: Mandamos la foto al frontend
+            });
+        }
+
+        // ➕ 3. CREAR NUEVO
+        [HttpPost]
+        public async Task<ActionResult> CrearProducto(ProductoDto productoDto)
+        {
             var nuevoProducto = new Producto
             {
                 Nombre = productoDto.Nombre,
-                //Descripcion = productoDto.Descripcion,
                 Precio = productoDto.Precio,
-                //Stock = productoDto.Stock
-                // Nota: Si alguna de estas 4 palabras sale en rojo, 
-                // bórrala o cámbiala por el nombre exacto que tenga tu ProductoDto.
+                Stock = productoDto.Stock,
+                Descripcion = productoDto.Descripcion,
+                ImagenUrl = productoDto.ImagenUrl // 📸 NUEVO: Guardamos la foto en la BD
             };
 
             _context.Productos.Add(nuevoProducto);
             await _context.SaveChangesAsync();
-
-            return Ok("¡Producto creado con éxito!");
+            return Ok(new { mensaje = "Producto creado" });
         }
-        //  ACTUALIZAR PRODUCTO (PUT)
+
+        // ✏️ 4. ACTUALIZAR
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutProducto(int id, ProductoDto productoDto)
+        public async Task<ActionResult> ActualizarProducto(int id, ProductoDto productoDto)
         {
-            // 1. Buscamos si el producto existe en la base de datos
-            var producto = await _context.Productos.FindAsync(id);
-            if (producto == null)
-            {
-                return NotFound("El producto no existe."); // Error 404
-            }
+            var productoDB = await _context.Productos.FindAsync(id);
+            if (productoDB == null) return NotFound();
 
-            // 2. Actualizamos solo los datos que nos interesan
-            producto.Nombre = productoDto.Nombre;
-            producto.Precio = productoDto.Precio;
+            productoDB.Nombre = productoDto.Nombre;
+            productoDB.Precio = productoDto.Precio;
+            productoDB.Stock = productoDto.Stock;
+            productoDB.Descripcion = productoDto.Descripcion;
+            productoDB.ImagenUrl = productoDto.ImagenUrl; // 📸 NUEVO: Actualizamos la foto en la BD
 
-            // 3. Guardamos los cambios en la nube
             await _context.SaveChangesAsync();
-
-            return Ok("¡Producto actualizado correctamente!");
+            return Ok(new { mensaje = "Producto actualizado" });
         }
 
-        //  ELIMINAR PRODUCTO (DELETE)
+        // 🗑️ 5. BORRAR
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteProducto(int id)
+        public async Task<ActionResult> BorrarProducto(int id)
         {
-            // 1. Buscamos el producto
-            var producto = await _context.Productos.FindAsync(id);
-            if (producto == null)
-            {
-                return NotFound("El producto no existe.");
-            }
+            var productoDB = await _context.Productos.FindAsync(id);
+            if (productoDB == null) return NotFound();
 
-            // 2. Lo borramos de la tabla
-            _context.Productos.Remove(producto);
+            _context.Productos.Remove(productoDB);
             await _context.SaveChangesAsync();
-
-            return Ok("¡Producto eliminado para siempre!");
+            return Ok(new { mensaje = "Producto eliminado" });
         }
     }
 }

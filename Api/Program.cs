@@ -28,11 +28,11 @@ if (builder.Environment.IsDevelopment())
         {
             options.TokenValidationParameters = new TokenValidationParameters
             {
+                ValidateIssuer = false, // Lo ponemos en false para evitar rebotes por nombre de servidor
+                ValidateAudience = false, // Lo ponemos en false para desarrollo local
+                ValidateLifetime = true,  // Mantenemos la validación de fecha de expiración
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                    builder.Configuration.GetSection("AppSettings:Token").Value!)),
-                ValidateIssuer = false,
-                ValidateAudience = false
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Tu_Palabra_Secreta_Super_Larga_De_32_CharsTu_Palabra_Secreta_Super_Larga_De_32_CharsTu_Palabra_Secreta_Super_Larga_De_32_Chars"))
             };
         });
 }

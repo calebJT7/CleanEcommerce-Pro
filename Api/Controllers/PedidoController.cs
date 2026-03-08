@@ -4,13 +4,13 @@ using Infrastructure; // Para el EcommerceDbContext
 using Domain;         // Para las Entidades
 using Application.DTOs; // Para los DTOs
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Api.Controllers
 {
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-
     public class PedidosController : ControllerBase
     {
         private readonly EcommerceDbContext _context;
@@ -19,18 +19,38 @@ namespace Api.Controllers
         {
             _context = context;
         }
-        // 🔵 OBTENER HISTORIAL DE VENTAS (GET)
+
+        // 📋 1. OBTENER TODOS LOS PEDIDOS (Para el Panel Admin en Blazor)
+        // Ruta: GET /api/pedidos
         [HttpGet]
-        public async Task<ActionResult> GetPedidos()
+        public async Task<ActionResult<List<PedidoAdminDto>>> GetTodosLosPedidos()
         {
-            // Magia Relacional: Unimos las 4 tablas (Pedidos, Clientes, Detalles, Productos)
+            var pedidos = await _context.Pedidos
+                .Include(p => p.Cliente)
+                .OrderByDescending(p => p.FechaCreacion)
+                .Select(p => new PedidoAdminDto
+                {
+                    Id = p.Id,
+                    FechaCreacion = p.FechaCreacion,
+                    ClienteEmail = p.Cliente!.NombreCompleto, // Usamos el nombre completo porque no hay columna de email
+                    Total = p.Total,
+                    Estado = p.Estado ?? "Pendiente" // Valor por defecto en caso de que esté vacío
+                })
+                .ToListAsync();
+
+            return Ok(pedidos);
+        }
+        // 🔍 2. OBTENER HISTORIAL DETALLADO (Formato Ticket)
+        // Ruta: GET /api/pedidos/historial
+        [HttpGet("historial")]
+        public async Task<ActionResult> GetPedidosDetallados()
+        {
             var historial = await _context.Pedidos
-                .Include(p => p.Cliente)                   // Traemos los datos del Cliente
-                .Include(p => p.Detalles)                  // Traemos los Renglones
-                    .ThenInclude(d => d.Producto)          // Y de cada renglón, traemos el Producto
+                .Include(p => p.Cliente)
+                .Include(p => p.Detalles)
+                    .ThenInclude(d => d.Producto)
                 .Select(p => new
                 {
-                    // Diseñamos el "Ticket" a medida para que se vea hermoso en el Frontend
                     NumeroDeFactura = p.Id,
                     Fecha = p.FechaCreacion.ToString("dd/MM/yyyy HH:mm"),
                     Cliente = p.Cliente!.NombreCompleto,
@@ -48,65 +68,156 @@ namespace Api.Controllers
             return Ok(historial);
         }
 
-        // 🛒 REGISTRAR UNA NUEVA VENTA (POST)
+        // 🛒 3. REGISTRAR UNA NUEVA VENTA (Checkout)
+        // Ruta: POST /api/pedidos
         [HttpPost]
-        public async Task<ActionResult> CrearPedido(PedidoDto pedidoDto)
+        public async Task<ActionResult> CrearPedido([FromBody] CrearPedidoDto peticion)
         {
-            // 1. Verificamos que el cliente exista
-            var cliente = await _context.Clientes.FindAsync(pedidoDto.ClienteId);
-            if (cliente == null)
-                return NotFound("Error: El cliente no existe.");
+            var userEmail = User.FindFirstValue(ClaimTypes.Email) ?? User.FindFirstValue(ClaimTypes.Name);
 
-            // 2. Preparamos el "Ticket" o cabecera del pedido
+            if (string.IsNullOrEmpty(userEmail))
+                return Unauthorized("No se pudo identificar al usuario desde el token.");
+
+            var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.NombreCompleto == userEmail);
+
+            if (cliente == null)
+                return NotFound($"Error: El cliente con email {userEmail} no existe en la base de datos.");
+
             var nuevoPedido = new Pedido
             {
-                ClienteId = pedidoDto.ClienteId,
+                ClienteId = cliente.Id,
                 FechaCreacion = DateTime.UtcNow,
-                Total = 0, // Empezamos en cero, ahora lo calculamos
+                Total = 0,
                 Detalles = new List<DetallePedido>()
             };
 
-            // 3. Revisamos el "Carrito" (los productos que nos enviaron)
-            foreach (var item in pedidoDto.Detalles)
+            foreach (var pId in peticion.ProductoIds)
             {
-                // Buscamos el producto en la base de datos
-                var producto = await _context.Productos.FindAsync(item.ProductoId);
-                if (producto == null)
-                    return NotFound($"Error: El producto con ID {item.ProductoId} no existe.");
+                var producto = await _context.Productos.FindAsync(pId);
+                if (producto == null) continue;
 
-                // ¡REGLA DE NEGOCIO!: ¿Hay stock?
-                if (producto.Stock < item.Cantidad)
-                    return BadRequest($"No hay stock suficiente de '{producto.Nombre}'. Stock actual: {producto.Stock}");
-
-                // Si todo está bien, RESTAMOS el stock
-                producto.Stock -= item.Cantidad;
-
-                // Sumamos el dinero al total del ticket
-                var subtotal = producto.Precio * item.Cantidad;
-                nuevoPedido.Total += subtotal;
-
-                // Agregamos el "Renglón" a la factura
+                // Actualización de inventario y totales
+                producto.Stock -= 1;
+                nuevoPedido.Total += producto.Precio;
                 nuevoPedido.Detalles.Add(new DetallePedido
                 {
-                    ProductoId = item.ProductoId,
-                    Cantidad = item.Cantidad,
-                    PrecioUnitario = producto.Precio // Guardamos el precio histórico
+                    ProductoId = pId,
+                    Cantidad = 1,
+                    PrecioUnitario = producto.Precio
                 });
             }
 
-            // 4. ¡REGLA DE NEGOCIO!: Le sumamos la deuda al cliente
             cliente.DeudaTotal += nuevoPedido.Total;
-
-            // 5. Guardamos TODO junto en la base de datos
             _context.Pedidos.Add(nuevoPedido);
             await _context.SaveChangesAsync();
 
-            return Ok(new
-            {
-                mensaje = "¡Venta registrada con éxito!",
-                totalAPagar = nuevoPedido.Total,
-                nuevaDeudaCliente = cliente.DeudaTotal
-            });
+            return Ok(new { mensaje = "Venta registrada con éxito!" });
         }
+
+        // 🚚 4. ACTUALIZAR ESTADO DEL PEDIDO
+        // Ruta: PUT /api/pedidos/{id}/estado
+        [HttpPut("{id}/estado")]
+        public async Task<ActionResult> ActualizarEstado(int id, [FromBody] CambiarEstadoDto peticion)
+        {
+            var pedido = await _context.Pedidos.FindAsync(id);
+
+            if (pedido == null)
+                return NotFound("El pedido no existe.");
+
+            // Actualizamos el estado con la palabra que nos mande el Frontend
+            pedido.Estado = peticion.NuevoEstado;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { mensaje = $"El pedido #{id} ahora está: {peticion.NuevoEstado}" });
+        }
+
+        // 👁️ 5. VER EL DETALLE EXACTO DE UN PEDIDO
+        // Ruta: GET /api/pedidos/{id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Application.DTOs.PedidoDetalleDto>> GetPedidoDetalle(int id)
+        {
+            // Buscamos el pedido con toda su familia (Cliente, Detalles y los Productos de esos detalles)
+            var pedido = await _context.Pedidos
+                .Include(p => p.Cliente)
+                .Include(p => p.Detalles)
+                    .ThenInclude(d => d.Producto)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (pedido == null)
+                return NotFound("El pedido no existe.");
+
+            // Armamos el ticket
+            var ticket = new Application.DTOs.PedidoDetalleDto
+            {
+                Id = pedido.Id,
+                Fecha = pedido.FechaCreacion.ToString("dd/MM/yyyy HH:mm"),
+                Cliente = pedido.Cliente!.NombreCompleto,
+                Estado = pedido.Estado ?? "Pendiente",
+                TotalFinal = pedido.Total,
+                Renglones = pedido.Detalles.Select(d => new Application.DTOs.RenglonDto
+                {
+                    Producto = d.Producto!.Nombre,
+                    Cantidad = d.Cantidad,
+                    PrecioUnitario = d.PrecioUnitario,
+                    Subtotal = d.Cantidad * d.PrecioUnitario
+                }).ToList()
+            };
+
+            return Ok(ticket);
+        }
+        // 🛍️ 6. VER MIS COMPRAS (Exclusivo para el cliente)
+        // Ruta: GET /api/pedidos/mis-compras
+        [HttpGet("mis-compras")]
+        public async Task<ActionResult<List<PedidoAdminDto>>> GetMisPedidos()
+        {
+            // 1. Identificamos quién es el usuario leyendo su Token VIP
+            var userEmail = User.FindFirstValue(ClaimTypes.Email) ?? User.FindFirstValue(ClaimTypes.Name);
+
+            if (string.IsNullOrEmpty(userEmail))
+                return Unauthorized("No se pudo identificar al usuario.");
+
+            // 2. Buscamos en la base de datos SOLO los pedidos que coincidan con su nombre/email
+            var misPedidos = await _context.Pedidos
+                .Include(p => p.Cliente)
+                .Where(p => p.Cliente!.NombreCompleto == userEmail)
+                .OrderByDescending(p => p.FechaCreacion)
+                .Select(p => new PedidoAdminDto
+                {
+                    Id = p.Id,
+                    FechaCreacion = p.FechaCreacion,
+                    ClienteEmail = p.Cliente!.NombreCompleto,
+                    Total = p.Total,
+                    Estado = p.Estado ?? "Pendiente"
+                })
+                .ToListAsync();
+
+            return Ok(misPedidos);
+        }
+        // 📊 7. ESTADÍSTICAS DEL DASHBOARD (Para el Inicio del Admin)
+        // Ruta: GET /api/pedidos/estadisticas
+        [HttpGet("estadisticas")]
+        public async Task<ActionResult<EstadisticasDto>> GetEstadisticas()
+        {
+            var pedidos = await _context.Pedidos.ToListAsync();
+
+            var stats = new EstadisticasDto
+            {
+                TotalIngresos = pedidos.Sum(p => p.Total),
+                CantidadPedidos = pedidos.Count,
+                PedidosPendientes = pedidos.Count(p => p.Estado == "Pendiente" || string.IsNullOrEmpty(p.Estado))
+            };
+
+            return Ok(stats);
+        }
+    }
+
+    // 📦 DTO para recibir la compra desde el Frontend
+    public class CrearPedidoDto
+    {
+        public List<int> ProductoIds { get; set; } = new List<int>();
+    }
+    public class CambiarEstadoDto
+    {
+        public string NuevoEstado { get; set; } = string.Empty;
     }
 }
