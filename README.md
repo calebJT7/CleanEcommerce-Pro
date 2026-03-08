@@ -6,33 +6,28 @@
 
 ---
 
-## Acerca del Proyecto
+# 🛒 Clean E-Commerce Platform
 
-Esta es una API REST profesional construida con **Clean Architecture**.
-El proyecto simula un E-commerce con gestión de productos, carritos y usuarios.
+Una plataforma de comercio electrónico Full-Stack desarrollada con la arquitectura Clean Architecture, diseñada para ser escalable, segura y fácil de mantener.
 
-### Tecnologías
+## 🚀 Tecnologías Utilizadas
+* **Frontend:** Blazor WebAssembly (C#), HTML, Bootstrap 5.
+* **Backend:** ASP.NET Core Web API (.NET 9).
+* **Base de Datos:** SQL Server con Entity Framework Core.
+* **Seguridad:** Autenticación y Autorización mediante JWT (JSON Web Tokens).
 
-- **Backend:** C# .NET 9, Entity Framework Core.
-- **Base de Datos:** SQL Server (Dockerizado).
-- **Infraestructura:** Docker Compose.
-- **CI/CD:** GitHub Actions & Docker Hub.
+## ⚙️ Funcionalidades Principales
+* **Catálogo Dinámico:** Visualización de productos con imágenes mediante URL.
+* **Carrito de Compras:** Gestión de sesión de compras y checkout seguro.
+* **Panel de Administración (Dashboard):** * Métricas financieras y operativas en tiempo real.
+  * CRUD completo de productos y gestión de inventario.
+  * Control de logística y estados de envío de pedidos.
+* **Portal del Cliente:** Historial de compras personalizado.
 
-### Cómo correrlo (En cualquier PC del mundo)
-
-Solo necesitas tener Docker instalado y ejecutar:
-
-```bash
-# 1. Descargar la imagen
-docker pull calebjt/clean-ecommerce-api:latest
-
-# 2. (Opcional) Correr el contenedor
-docker run -p 8080:8080 calebjt/clean-ecommerce-api:latest
-```
-
+## 👨‍💻 Autor
+**Caleb** - Analista de Sistemas y Desarrollador Full-Stack.
 ## Contacto
 
 Desarrollado por **Caleb Toledo**.
 
-- [LinkedIn](https://linkedin.com/in/tu-usuario)
-- [GitHub](https://github.com/calebJT7)
+- [LinkedIn]([https://linkedin.com/in/tu-usuario](https://www.linkedin.com/in/caleb-toledo-356b56336/)
