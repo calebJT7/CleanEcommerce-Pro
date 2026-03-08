@@ -6,17 +6,17 @@
 
 ---
 
-# 🛒 Clean E-Commerce Platform
+# Clean E-Commerce Platform
 
 Una plataforma de comercio electrónico Full-Stack desarrollada con la arquitectura Clean Architecture, diseñada para ser escalable, segura y fácil de mantener.
 
-## 🚀 Tecnologías Utilizadas
+## Tecnologías Utilizadas
 * **Frontend:** Blazor WebAssembly (C#), HTML, Bootstrap 5.
 * **Backend:** ASP.NET Core Web API (.NET 9).
 * **Base de Datos:** SQL Server con Entity Framework Core.
 * **Seguridad:** Autenticación y Autorización mediante JWT (JSON Web Tokens).
 
-## ⚙️ Funcionalidades Principales
+## Funcionalidades Principales
 * **Catálogo Dinámico:** Visualización de productos con imágenes mediante URL.
 * **Carrito de Compras:** Gestión de sesión de compras y checkout seguro.
 * **Panel de Administración (Dashboard):** * Métricas financieras y operativas en tiempo real.
@@ -24,7 +24,7 @@ Una plataforma de comercio electrónico Full-Stack desarrollada con la arquitect
   * Control de logística y estados de envío de pedidos.
 * **Portal del Cliente:** Historial de compras personalizado.
 
-## 👨‍💻 Autor
+## Autor
 **Caleb** - Analista de Sistemas y Desarrollador Full-Stack.
 ## Contacto
 
