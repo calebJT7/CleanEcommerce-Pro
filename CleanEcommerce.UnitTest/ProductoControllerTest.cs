@@ -1,45 +1,55 @@
 using Xunit;
-using Moq;
-using Api.Controllers; // Necesario para ver el Controller
-using Application.Interfaces;
+using Api.Controllers;
 using Application.DTOs;
-using Microsoft.AspNetCore.Mvc; // Necesario para los resultados HTTP (Ok, BadRequest)
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Infrastructure;
+using Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace CleanEcommerce.UnitTest
 {
     public class ProductoControllerTests
     {
         [Fact]
-        public async Task GetAll_DebeRetornarStatus200OK_ConListaDeProductos()
+        public async Task GetProductos_DebeRetornarStatus200OK_ConListaDeProductos()
         {
             // 1. ARRANGE (Preparar)
-            // Creamos la lista falsa de DTOs que devolvería el servicio
-            var listaFalsa = new List<ProductoDto>
+            // Creamos un contexto de base de datos en memoria
+            var options = new DbContextOptionsBuilder<EcommerceDbContext>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .Options;
+
+            // Creamos datos de prueba
+            using (var context = new EcommerceDbContext(options))
             {
-                new ProductoDto { Id = 1, Nombre = "Auriculares", Precio = 50 }
-            };
+                context.Productos.Add(new Producto
+                {
+                    Id = 1,
+                    Nombre = "Auriculares",
+                    Precio = 50,
+                    Stock = 10,
+                    Descripcion = "Test product"
+                });
+                await context.SaveChangesAsync();
+            }
 
-            // Mockeamos el SERVICIO (El controlador habla con el servicio, no con la BD)
-            var mockService = new Mock<IProductoService>();
-            mockService.Setup(s => s.GetAllAsync())
-                       .ReturnsAsync(listaFalsa);
+            // Creamos el controlador con el contexto de prueba
+            using (var context = new EcommerceDbContext(options))
+            {
+                var controller = new ProductosController(context);
 
-            // Creamos el Controlador REAL e inyectamos el servicio FALSO
-            var controller = new ProductosController(mockService.Object);
+                // 2. ACT (Actuar)
+                var resultado = await controller.GetProductos();
 
-            // 2. ACT (Actuar)
-            // Llamamos al método como si fueramos una petición HTTP
-            var resultado = await controller.GetAll();
-
-            // 3. ASSERT (Verificar)
-            // Verificamos que la respuesta sea de tipo "OkObjectResult" (Código 200)
-            var okResult = Assert.IsType<OkObjectResult>(resultado.Result);
-
-            // Verificamos que dentro del 200 venga nuestra lista
-            var listaRetornada = Assert.IsType<List<ProductoDto>>(okResult.Value);
-            Assert.Single(listaRetornada); // Que tenga 1 elemento
+                // 3. ASSERT (Verificar)
+                var okResult = Assert.IsType<OkObjectResult>(resultado.Result);
+                var listaRetornada = Assert.IsType<List<ProductoDto>>(okResult.Value);
+                Assert.Single(listaRetornada);
+                Assert.Equal("Auriculares", listaRetornada[0].Nombre);
+                Assert.Equal(50, listaRetornada[0].Precio);
+            }
         }
     }
 }

@@ -1,0 +1,139 @@
+@page "/admin/productos"
+@using Application.DTOs
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+@inject HttpClient Http
+@inject IJSRuntime JS
+<PageTitle>Gestión de Productos - Admin</PageTitle>
+
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">📦 Gestión de Productos</h2>
+        <a href="/admin/productos/nuevo" class="btn btn-success fw-bold shadow-sm">
+            + Nuevo Producto
+        </a>
+    </div>
+
+    @if (productos == null)
+    {
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="mt-2 text-muted">Cargando inventario...</p>
+        </div>
+    }
+    else if (!productos.Any())
+    {
+        <div class="alert alert-warning shadow-sm">
+            No hay productos registrados en la base de datos.
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped align-middle mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Imagen</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th class="text-end">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var prod in productos)
+                            {
+                                <tr>
+                                    <td class="fw-bold text-muted">#@prod.Id</td>
+                                    <td class="fw-bold">@prod.Nombre</td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(prod.ImagenUrl))
+                                        {
+                                            <img src="@prod.ImagenUrl" alt="Foto" width="50" height="50"
+                                                 style="object-fit: cover; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" />
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-light text-dark">Sin foto</span>
+                                        }
+                                    </td>
+                                    <td class="text-success fw-bold">$@prod.Precio</td>
+                                    <td>
+                                        @if (prod.Stock == 0)
+                                        {
+                                            <span class="badge bg-danger">Sin Stock</span>
+                                        }
+                                        else if (prod.Stock < 5)
+                                        {
+                                            <span class="badge bg-warning text-dark">Bajo: @prod.Stock</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-success">@prod.Stock</span>
+                                        }
+                                    </td>
+                                    <td class="text-end">
+                                        <a href="/admin/productos/editar/@prod.Id" class="btn btn-sm btn-outline-primary me-2">
+                                            ✏️ Editar
+                                        </a>
+                                        <button class="btn btn-sm btn-outline-danger"
+                                                @onclick="() => Eliminar(prod.Id, prod.Nombre)">
+                                            🗑️ Borrar
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private async Task Eliminar(int id, string nombre)
+    {
+        // 1. Preguntamos al administrador si está seguro (Regla de oro de UX/QA)
+        bool confirmado = await JS.InvokeAsync<bool>("confirm", $"¿Estás seguro de que quieres eliminar '{nombre}' de tu inventario? Esta acción no se puede deshacer.");
+
+        if (confirmado)
+        {
+            // 2. Disparamos el misil a la API
+            var respuesta = await Http.DeleteAsync($"api/Productos/{id}");
+
+            if (respuesta.IsSuccessStatusCode)
+            {
+                // 3. Volvemos a pedirle a la base de datos la lista actualizada para que el producto desaparezca de la pantalla
+                await CargarInventario();
+            }
+            else
+            {
+                Console.WriteLine("Error al intentar borrar el producto.");
+            }
+        }
+    }
+    private List<ProductoDto>? productos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CargarInventario();
+    }
+
+    private async Task CargarInventario()
+    {
+        try
+        {
+            // Llamamos a tu API para traer el catálogo completo
+            productos = await Http.GetFromJsonAsync<List<ProductoDto>>("api/Productos");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error al cargar inventario: " + ex.Message);
+            productos = new List<ProductoDto>();
+        }
+    }
+}

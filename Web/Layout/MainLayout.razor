@@ -17,6 +17,12 @@
                         <Authorized>
                             <span class="text-white me-3">👤 Hola, @(context.User.FindFirst(c =>
                                                                                                                                 c.Type.Contains("email"))?.Value)</span>
+                                <a href="/mis-compras" class="text-white text-decoration-none me-3 fw-bold">
+                                    📦 Mis Compras
+                                </a>
+                                <a href="/admin" class="text-warning text-decoration-none me-3 fw-bold">
+                                    ⚙️ Admin
+                                </a>
                                 <button class="btn btn-outline-danger btn-sm me-3" @onclick="CerrarSesion">
                                     Cerrar Sesión
                                 </button>
@@ -28,9 +34,9 @@
                             </NotAuthorized>
                         </AuthorizeView>
 
-                        <button class="btn btn-light btn-sm fw-bold">
+                        <a href="/carrito" class="btn btn-light btn-sm fw-bold text-decoration-none">
                             🛒 Carrito <span class="badge bg-danger">@Carrito.ObtenerCantidad()</span>
-                        </button>
+                        </a>
                     </div>
                 </div>
             </nav>

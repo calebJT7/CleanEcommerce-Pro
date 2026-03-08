@@ -1,0 +1,124 @@
+@page "/admin/productos/editar/{Id:int}"
+@using Application.DTOs
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<PageTitle>Editar Producto - Admin</PageTitle>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0 fw-bold">✏️ Editar Producto #@Id</h4>
+                </div>
+                <div class="card-body">
+                    @if (cargando)
+                    {
+                        <div class="text-center py-4">
+                            <div class="spinner-border text-primary"></div>
+                            <p class="mt-2 text-muted">Buscando datos del producto...</p>
+                        </div>
+                    }
+                    else if (productoAEditar == null)
+                    {
+                        <div class="alert alert-danger">El producto no existe.</div>
+                        <a href="/admin/productos" class="btn btn-outline-secondary">Volver</a>
+                    }
+                    else
+                    {
+                        <EditForm Model="productoAEditar" OnValidSubmit="GuardarCambios">
+                            <DataAnnotationsValidator />
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Nombre del Producto</label>
+                                <InputText class="form-control" @bind-Value="productoAEditar.Nombre" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Descripción</label>
+                                <InputTextArea class="form-control" @bind-Value="productoAEditar.Descripcion" rows="3" />
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Precio ($)</label>
+                                    <InputNumber class="form-control" @bind-Value="productoAEditar.Precio" required
+                                                 min="0" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Stock Actual</label>
+                                    <InputNumber class="form-control" @bind-Value="productoAEditar.Stock" required
+                                                 min="0" />
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <a href="/admin/productos" class="btn btn-outline-secondary fw-bold">Cancelar</a>
+                                <button type="submit" class="btn btn-primary fw-bold" disabled="@guardando">
+                                    @(guardando ? "Actualizando..." : "🔄 Actualizar Producto")
+                                </button>
+                            </div>
+                        </EditForm>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    // Recibimos el ID desde la URL (ej: /admin/productos/editar/5)
+    [Parameter]
+    public int Id { get; set; }
+
+    private ProductoDto? productoAEditar;
+    private bool cargando = true;
+    private bool guardando = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            // 1. Buscamos los datos actuales del producto
+            productoAEditar = await Http.GetFromJsonAsync<ProductoDto>($"api/Productos/{Id}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error al cargar el producto: " + ex.Message);
+        }
+        finally
+        {
+            cargando = false;
+        }
+    }
+
+    private async Task GuardarCambios()
+    {
+        guardando = true;
+        try
+        {
+            // 2. Enviamos el paquete modificado a la API usando PUT
+            var respuesta = await Http.PutAsJsonAsync($"api/Productos/{Id}", productoAEditar);
+
+            if (respuesta.IsSuccessStatusCode)
+            {
+                // Si todo sale bien, regresamos a la grilla
+                NavigationManager.NavigateTo("/admin/productos");
+            }
+            else
+            {
+                var error = await respuesta.Content.ReadAsStringAsync();
+                Console.WriteLine("Error al actualizar: " + error);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error crítico: " + ex.Message);
+        }
+        finally
+        {
+            guardando = false;
+        }
+    }
+}

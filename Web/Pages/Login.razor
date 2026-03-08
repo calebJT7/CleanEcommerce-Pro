@@ -53,10 +53,17 @@
             var resultado = await response.Content.ReadFromJsonAsync<LoginResult>();
 
             // 💾 2. Guardamos el Token en la bóveda del navegador (Local Storage)
-            await JSRuntime.InvokeVoidAsync("localStorage.setItem", "authToken", resultado.Token);
+            if (resultado != null)
+            {
+                await JSRuntime.InvokeVoidAsync("localStorage.setItem", "authToken", resultado.Token);
 
-            // 🏠 3. ¡Redirigimos a la página principal de la tienda!
-            Navigation.NavigateTo("/", forceLoad: true);
+                // 🏠 3. ¡Redirigimos a la página principal de la tienda!
+                Navigation.NavigateTo("/", forceLoad: true);
+            }
+            else
+            {
+                errorMessage = "Error al procesar la respuesta del servidor.";
+            }
         }
         else
         {

@@ -19,5 +19,10 @@ namespace Web.Services
         {
             return ProductosId.Count;
         }
+        public void VaciarCarrito()
+        {
+            ProductosId.Clear(); // Vaciamos la lista de la memoria
+            OnChange?.Invoke();  // Tocamos la campana para que el menú vuelva a 0
+        }
     }
 }

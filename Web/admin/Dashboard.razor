@@ -1,0 +1,76 @@
+@page "/admin"
+@using Application.DTOs
+@using System.Net.Http.Headers
+@inject HttpClient Http
+@inject IJSRuntime JS
+
+<PageTitle>Panel de Control - Admin</PageTitle>
+
+<div class="container mt-4 mb-5">
+    <h2 class="fw-bold mb-4">📊 Panel de Control General</h2>
+
+    @if (stats == null)
+    {
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary"></div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="card text-white bg-success shadow border-0" style="border-radius: 15px;">
+                    <div class="card-body py-4">
+                        <h5 class="card-title text-uppercase fw-light">💰 Ingresos Totales</h5>
+                        <h1 class="fw-bold display-5 mb-0">$@stats.TotalIngresos</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card text-white bg-primary shadow border-0" style="border-radius: 15px;">
+                    <div class="card-body py-4">
+                        <h5 class="card-title text-uppercase fw-light">📦 Total de Pedidos</h5>
+                        <h1 class="fw-bold display-5 mb-0">@stats.CantidadPedidos</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card text-white bg-warning text-dark shadow border-0" style="border-radius: 15px;">
+                    <div class="card-body py-4">
+                        <h5 class="card-title text-uppercase fw-light">⏳ Envíos Pendientes</h5>
+                        <h1 class="fw-bold display-5 mb-0">@stats.PedidosPendientes</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5 text-center">
+            <h3 class="text-muted fw-bold mt-4">¡Felicidades, Caleb!</h3>
+            <p class="text-secondary fs-5">Has completado el núcleo de tu E-Commerce. Todas las conexiones están funcionando
+                a la perfección.</p>
+            </div>
+        }
+    </div>
+
+@code {
+    private EstadisticasDto? stats;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var token = await JS.InvokeAsync<string>("localStorage.getItem", "authToken");
+            if (!string.IsNullOrEmpty(token))
+            {
+                Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                stats = await Http.GetFromJsonAsync<EstadisticasDto>("api/Pedidos/estadisticas");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error cargando dashboard: " + ex.Message);
+        }
+    }
+}

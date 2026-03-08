@@ -1,0 +1,196 @@
+@page "/carrito"
+@using Application.DTOs
+@using Microsoft.AspNetCore.Components
+@inject Web.Services.CarritoService MotorCarrito
+@inject HttpClient Http
+@inject IJSRuntime JSRuntime
+@using System.Net.Http.Headers
+
+<PageTitle>Mi Carrito - CleanEcommerce</PageTitle>
+
+<div class="container mt-4">
+    <h2 class="mb-4 fw-bold">🛒 Tu Carrito de Compras</h2>
+
+    @* 0. ¡NUEVO! Primero revisamos si acabamos de comprar *@
+    @if (compraExitosa)
+    {
+        <div class="alert alert-success text-center shadow-sm py-5">
+            <h3 class="fw-bold mb-2">¡Gracias por tu compra! 🎉</h3>
+            <p class="text-muted">Tu pedido ha sido procesado con éxito.</p>
+            <a href="/" class="btn btn-dark mt-3">Volver a la tienda</a>
+        </div>
+    }
+    @* 1. Si no compramos y está vacío *@
+    else if (MotorCarrito.ObtenerCantidad() == 0)
+    {
+        <div class="alert alert-warning text-center shadow-sm py-5">
+            <h4 class="fw-bold">Tu carrito está vacío</h4>
+            <p class="text-muted">¡Parece que aún no has agregado nada! Vuelve a la tienda para explorar nuestros productos.</p>
+            <a href="/" class="btn btn-dark mt-3">Volver a la tienda</a>
+        </div>
+    }
+    @* 2. Si está cargando... *@
+    else if (productosEnCarrito == null)
+    {
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="mt-2 text-muted">Cargando detalles de tus productos...</p>
+        </div>
+    }
+    @* 3. Si ya tenemos los datos, armamos la tabla *@
+    else
+    {
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Producto</th>
+                                <th class="text-end">Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in productosEnCarrito)
+                            {
+                                <tr>
+                                    <td>
+        <div class="d-flex align-items-center">
+            @if (!string.IsNullOrEmpty(item.ImagenUrl))
+            {
+                <img src="@item.ImagenUrl" alt="Foto" class="me-3 rounded shadow-sm" style="width: 50px; height: 50px; object-fit: cover;">
+            }
+            else
+            {
+                <div class="me-3 rounded bg-light d-flex align-items-center justify-content-center shadow-sm" style="width: 50px; height: 50px;">
+                    <span>📦</span>
+                </div>
+            }
+            <span class="fw-bold">@item.Nombre</span>
+        </div>
+    </td>
+                                    <td class="text-end text-success fw-bold">$@item.Precio</td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td class="text-end fw-bold fs-5">Total:</td>
+                                <td class="text-end text-success fw-bold fs-5">$@totalCarrito</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="text-center py-4">
+                    @if (procesandoPago)
+                    {
+                        <button class="btn btn-secondary btn-lg w-100 fw-bold mt-3 shadow-sm" disabled>
+                            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                            Procesando tu compra...
+                        </button>
+                    }
+                    else if (compraExitosa)
+                    {
+                        <div class="alert alert-success mt-3 shadow-sm text-center">
+                            <h4 class="fw-bold mb-2">¡Gracias por tu compra! 🎉</h4>
+                            <p class="mb-0">Tu pedido ha sido procesado con éxito.</p>
+                            <a href="/" class="btn btn-outline-success mt-3">Volver a la tienda</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <button class="btn btn-success btn-lg w-100 fw-bold mt-3 shadow-sm" @onclick="ProcesarPago">
+                            Proceder al Pago 💳
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    // Variables para guardar la lista real y la suma matemática
+    private List<ProductoDto>? productosEnCarrito;
+    private decimal totalCarrito = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        MotorCarrito.OnChange += StateHasChanged;
+        await CargarDetallesDelCarrito();
+    }
+
+    private async Task CargarDetallesDelCarrito()
+    {
+        try
+        {
+            // 1. Pedimos todos los productos a la API
+            var todosLosProductos = await Http.GetFromJsonAsync<List<ProductoDto>>("api/Productos");
+
+            if (todosLosProductos != null)
+            {
+                // 2. Filtramos: Nos quedamos SOLO con los productos cuyos IDs estén en el Motor del Carrito
+                productosEnCarrito = todosLosProductos
+                    .Where(p => MotorCarrito.ProductosId.Contains(p.Id))
+                    .ToList();
+
+                // 3. Calculamos la suma total de los precios
+                totalCarrito = productosEnCarrito.Sum(p => p.Precio);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error al cargar el carrito: " + ex.Message);
+            productosEnCarrito = new List<ProductoDto>();
+        }
+    }
+    // Variables para controlar la pantalla
+    private bool procesandoPago = false;
+    private bool compraExitosa = false;
+
+   private async Task ProcesarPago()
+    {
+        procesandoPago = true;
+        
+        try
+        {
+            // 1. Buscamos tu Pase VIP
+    var token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+
+    // 2. Si hay token, lo LIMPIAMOS y se lo pegamos al cartero
+    if (!string.IsNullOrEmpty(token))
+    {
+        token = token.Replace("\"", ""); // 🔥 EL PARCHE: Quitamos comillas fantasma
+        Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+    }
+
+    // 3. Preparamos el paquete EXACTAMENTE como lo espera el Backend
+    var nuevoPedido = new { ProductoIds = MotorCarrito.ProductosId };
+
+    // 4. Enviamos el paquete
+    var respuesta = await Http.PostAsJsonAsync("api/Pedidos", nuevoPedido);
+            if (respuesta.IsSuccessStatusCode)
+            {
+                // Si la API dice "Todo OK (200 o 201)", vaciamos el carrito y festejamos
+                MotorCarrito.VaciarCarrito();
+                compraExitosa = true;
+            }
+            else
+            {
+                // Si la API rechaza la compra (ej. por falta de stock), lo mostramos en consola
+                var error = await respuesta.Content.ReadAsStringAsync();
+                Console.WriteLine($"Error al comprar: {respuesta.StatusCode} - {error}");
+                // (Opcional: aquí podrías mostrar un cartel rojo de error en la pantalla)
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error de conexión: " + ex.Message);
+        }
+        finally
+        {
+            procesandoPago = false;
+        }
+    }
+}

@@ -1,0 +1,76 @@
+@page "/admin/pedidos/{Id:int}"
+@using Application.DTOs
+@using System.Net.Http.Headers
+@inject HttpClient Http
+@inject IJSRuntime JS
+
+<PageTitle>Detalle del Pedido #@Id</PageTitle>
+
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">📦 Detalle del Pedido #@Id</h2>
+        <a href="/admin/pedidos" class="btn btn-outline-secondary">⬅️ Volver a Pedidos</a>
+    </div>
+
+    @if (ticket == null)
+    {
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary"></div>
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-dark text-white d-flex justify-content-between">
+                <span><strong>Cliente:</strong> @ticket.Cliente</span>
+                <span><strong>Fecha:</strong> @ticket.Fecha</span>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-striped mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Producto</th>
+                            <th class="text-center">Cantidad</th>
+                            <th class="text-end">Precio Unitario</th>
+                            <th class="text-end">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var renglon in ticket.Renglones)
+                        {
+                            <tr>
+                                <td>@renglon.Producto</td>
+                                <td class="text-center">@renglon.Cantidad</td>
+                                <td class="text-end">$@renglon.PrecioUnitario</td>
+                                <td class="text-end fw-bold">$@renglon.Subtotal</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr class="table-active">
+                            <td colspan="3" class="text-end fw-bold">TOTAL FINAL:</td>
+                            <td class="text-end fw-bold text-success fs-5">$@ticket.TotalFinal</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private PedidoDetalleDto? ticket;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var token = await JS.InvokeAsync<string>("localStorage.getItem", "authToken");
+        if (!string.IsNullOrEmpty(token))
+        {
+            Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            ticket = await Http.GetFromJsonAsync<PedidoDetalleDto>($"api/Pedidos/{Id}");
+        }
+    }
+}

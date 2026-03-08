@@ -13,5 +13,6 @@ namespace Domain
 
         // Una lista que guardará todos los "renglones" o productos de este pedido
         public List<DetallePedido> Detalles { get; set; } = new List<DetallePedido>();
+        public string? Estado { get; set; }
     }
 }

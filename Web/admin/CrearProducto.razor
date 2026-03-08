@@ -1,0 +1,95 @@
+@page "/admin/productos/nuevo"
+@using Application.DTOs
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Web
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<PageTitle>Nuevo Producto - Admin</PageTitle>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0 fw-bold">➕ Agregar Nuevo Producto</h4>
+                </div>
+                <div class="card-body">
+                    <EditForm Model="nuevoProducto" OnValidSubmit="GuardarProducto">
+                        <DataAnnotationsValidator />
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Nombre del Producto</label>
+                            <InputText class="form-control" @bind-Value="nuevoProducto.Nombre" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Descripción</label>
+                            <InputTextArea class="form-control" @bind-Value="nuevoProducto.Descripcion" rows="3" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">📸 URL de la Imagen</label>
+                            <InputText class="form-control" @bind-Value="nuevoProducto.ImagenUrl"
+                                       placeholder="Ej: https://.../foto.jpg" />
+                            <small class="text-muted">Pega el enlace de una imagen de internet (terminado en .jpg o
+                                .png)</small>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Precio ($)</label>
+                                    <InputNumber class="form-control" @bind-Value="nuevoProducto.Precio" required min="0" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Stock Inicial</label>
+                                    <InputNumber class="form-control" @bind-Value="nuevoProducto.Stock" required min="0" />
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <a href="/admin/productos" class="btn btn-outline-secondary fw-bold">Cancelar</a>
+                                <button type="submit" class="btn btn-success fw-bold" disabled="@guardando">
+                                    @(guardando ? "Guardando..." : "💾 Guardar Producto")
+                                </button>
+                            </div>
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@code {
+    // Instanciamos un objeto vacío para que el formulario lo llene
+    private ProductoDto nuevoProducto = new ProductoDto();
+    private bool guardando = false;
+
+    private async Task GuardarProducto()
+    {
+        guardando = true;
+        try
+        {
+            // 🚨 IMPORTANTE: Verifica que tu API use esta ruta para el POST
+            var respuesta = await Http.PostAsJsonAsync("api/Productos", nuevoProducto);
+
+            if (respuesta.IsSuccessStatusCode)
+            {
+                // Si la API dice 200 OK o 201 Created, volvemos a la grilla
+                NavigationManager.NavigateTo("/admin/productos");
+            }
+            else
+            {
+                var error = await respuesta.Content.ReadAsStringAsync();
+                Console.WriteLine("Error al guardar: " + error);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error crítico: " + ex.Message);
+        }
+        finally
+        {
+            guardando = false;
+        }
+    }
+}

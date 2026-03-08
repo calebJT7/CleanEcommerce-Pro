@@ -1,5 +1,6 @@
 @page "/"
 @using Application.DTOs
+@using Microsoft.AspNetCore.Components
 @inject HttpClient Http
 @inject Web.Services.CarritoService Carrito
 
@@ -31,9 +32,25 @@
             {
                 <div class="col">
                     <div class="card h-100 shadow-sm border-0">
+                        @if (!string.IsNullOrEmpty(producto.ImagenUrl))
+                        {
+                            <img src="@producto.ImagenUrl" class="card-img-top" alt="@producto.Nombre"
+                                 style="height: 250px; object-fit: cover; border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                        }
+                        else
+                        {
+                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center"
+                                 style="height: 250px; border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                                <span class="text-muted fs-1">📦</span>
+                            </div>
+                        }
                         <div class="card-body text-center">
                             <h5 class="card-title fw-bold">@producto.Nombre</h5>
                             <h3 class="text-success fw-bold">$@producto.Precio</h3>
+
+                            <a href="/producto/@producto.Id" class="btn btn-outline-secondary w-100 mt-2">
+                                👁️ Ver Detalles
+                            </a>
                         </div>
                         <div class="card-footer bg-white border-0 pb-4 text-center">
                             <button class="btn btn-dark w-100 shadow-sm" @onclick="() => Carrito.AgregarAlCarrito(producto.Id)">

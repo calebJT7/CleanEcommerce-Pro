@@ -1,0 +1,81 @@
+@page "/producto/{Id:int}"
+@using Application.DTOs
+@inject HttpClient Http
+
+<PageTitle>Detalles del Producto</PageTitle>
+
+<div class="container mt-5 mb-5">
+    @if (producto == null)
+    {
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary"></div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                @if (!string.IsNullOrEmpty(producto.ImagenUrl))
+                {
+                    <img src="@producto.ImagenUrl" class="img-fluid rounded shadow-lg" alt="@producto.Nombre"
+                         style="width: 100%; object-fit: cover; border-radius: 15px;" />
+                }
+                else
+                {
+                    <div class="bg-light rounded shadow-sm d-flex align-items-center justify-content-center"
+                         style="height: 400px; border-radius: 15px;">
+                        <span class="fs-1">📦 Sin imagen</span>
+                    </div>
+                }
+            </div>
+
+            <div class="col-md-6 d-flex flex-column justify-content-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Inicio</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">@producto.Nombre</li>
+                    </ol>
+                </nav>
+
+                <h1 class="fw-bold display-5 text-dark">@producto.Nombre</h1>
+                <h2 class="text-success fw-bold mb-4">$@producto.Precio</h2>
+
+                <p class="fs-5 text-secondary mb-4">
+                    @(string.IsNullOrEmpty(producto.Descripcion) ? "Este producto no tiene descripción." :
+                producto.Descripcion)
+                </p>
+
+                <hr />
+
+                <div class="mb-4">
+                    <span class="fw-bold fs-5">Disponibilidad:</span>
+                    @if (producto.Stock > 0)
+                    {
+                        <span class="badge bg-success fs-6 ms-2 px-3 py-2">@producto.Stock en stock</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger fs-6 ms-2 px-3 py-2">Agotado</span>
+                    }
+                </div>
+
+                <button class="btn btn-primary btn-lg w-100 shadow-sm py-3 fw-bold" disabled="@(producto.Stock <= 0)">
+                    🛒 Agregar al Carrito
+                </button>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private ProductoDto? producto;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Usamos la puerta GET por ID que creamos la semana pasada en ProductosController
+        producto = await Http.GetFromJsonAsync<ProductoDto>($"api/Productos/{Id}");
+    }
+}

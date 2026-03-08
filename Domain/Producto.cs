@@ -11,6 +11,8 @@ public class Producto
     // "decimal" es mejor que "double" para dinero (más preciso)
     [Column(TypeName = "decimal(18,2)")]
     public decimal Precio { get; set; }
+    public string? Descripcion { get; set; }
 
     public int Stock { get; set; }
+    public string ImagenUrl { get; set; } = string.Empty;
 }
