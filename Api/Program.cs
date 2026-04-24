@@ -7,8 +7,16 @@ using Api.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 // 1. CONFIGURACIÓN DE SERVICIOS (ZONA BUILDER)
 
@@ -16,21 +24,21 @@ var builder = WebApplication.CreateBuilder(args);
 if (builder.Environment.IsDevelopment())
 {
     // MODO CASA: SQL Server
-    // Usamos la conexión del archivo appsettings.json
+    // Usa la conexión del archivo appsettings.json
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     builder.Services.AddDbContext<EcommerceDbContext>(options =>
         options.UseSqlServer(connectionString));
-    // Registramos el servicio de encriptación
+    // Registrar el servicio de encriptación
     builder.Services.AddScoped<Application.Services.AuthService>();
-    // 👮‍♂️ CONFIGURACIÓN DEL GUARDIA DE SEGURIDAD (JWT)
+    //  CONFIGURACIÓN DEL GUARDIA DE SEGURIDAD (JWT)
     builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(options =>
         {
             options.TokenValidationParameters = new TokenValidationParameters
             {
-                ValidateIssuer = false, // Lo ponemos en false para evitar rebotes por nombre de servidor
-                ValidateAudience = false, // Lo ponemos en false para desarrollo local
-                ValidateLifetime = true,  // Mantenemos la validación de fecha de expiración
+                ValidateIssuer = false, // Lo pongo en false para evitar rebotes por nombre de servidor
+                ValidateAudience = false, // Lo pongo en false para desarrollo local
+                ValidateLifetime = true,  // Mantengo la validación de fecha de expiración
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Tu_Palabra_Secreta_Super_Larga_De_32_CharsTu_Palabra_Secreta_Super_Larga_De_32_CharsTu_Palabra_Secreta_Super_Larga_De_32_Chars"))
             };
@@ -65,11 +73,11 @@ builder.Services.AddCors(options =>
 });
 
 // 2. CONSTRUCCIÓN DE LA APP
-var app = builder.Build(); // <--- AQUÍ NACE LA APP 
+var app = builder.Build();
 
 // 3. CONFIGURACIÓN DEL PIPELINE (ZONA APP)
 
-// A. Auto-Migración Inteligente (Tu bloque mejorado)
+// A. Auto-Migración Inteligente 
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -92,10 +100,10 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// B. Middlewares (Tu guardián de errores)
+// B. Middlewares 
 app.UseMiddleware<ExceptionMiddleware>();
 
-// C. Swagger (Solo en desarrollo para no exponerlo en prod, o déjalo fuera del if si quieres verlo en Render)
+// C. Swagger 
 //if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -109,4 +117,4 @@ app.UseAuthorization(); // Importante agregarlo aunque no lo uses full todavía
 
 app.MapControllers();
 
-app.Run(); // <--- ¡AQUÍ CORRE LA APP! 🏃‍♂️
+app.Run();
