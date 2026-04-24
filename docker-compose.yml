@@ -1,4 +1,9 @@
 services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"   # Puerto de comunicación
+      - "15672:15672" # Panel de control (Usuario: guest / Pass: guest)
   # SERVICIO 1: Tu Base de Datos (SQL Server)
   basedatos:
     image: mcr.microsoft.com/mssql/server:2022-latest

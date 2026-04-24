@@ -5,6 +5,7 @@ using Domain;         // Para las Entidades
 using Application.DTOs; // Para los DTOs
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using MassTransit; //  IMPORTANTE: Para la mensajería asíncrona
 
 namespace Api.Controllers
 {
@@ -20,8 +21,7 @@ namespace Api.Controllers
             _context = context;
         }
 
-        // 📋 1. OBTENER TODOS LOS PEDIDOS (Para el Panel Admin en Blazor)
-        // Ruta: GET /api/pedidos
+        //  1. OBTENER TODOS LOS PEDIDOS
         [HttpGet]
         public async Task<ActionResult<List<PedidoAdminDto>>> GetTodosLosPedidos()
         {
@@ -32,16 +32,16 @@ namespace Api.Controllers
                 {
                     Id = p.Id,
                     FechaCreacion = p.FechaCreacion,
-                    ClienteEmail = p.Cliente!.NombreCompleto, // Usamos el nombre completo porque no hay columna de email
+                    ClienteEmail = p.Cliente!.NombreCompleto,
                     Total = p.Total,
-                    Estado = p.Estado ?? "Pendiente" // Valor por defecto en caso de que esté vacío
+                    Estado = p.Estado ?? "Pendiente"
                 })
                 .ToListAsync();
 
             return Ok(pedidos);
         }
-        // 🔍 2. OBTENER HISTORIAL DETALLADO (Formato Ticket)
-        // Ruta: GET /api/pedidos/historial
+
+        // 2. OBTENER HISTORIAL DETALLADO
         [HttpGet("historial")]
         public async Task<ActionResult> GetPedidosDetallados()
         {
@@ -68,10 +68,9 @@ namespace Api.Controllers
             return Ok(historial);
         }
 
-        // 🛒 3. REGISTRAR UNA NUEVA VENTA (Checkout)
-        // Ruta: POST /api/pedidos
+        // 3. REGISTRAR UNA NUEVA VENTA (Checkout con RabbitMQ)
         [HttpPost]
-        public async Task<ActionResult> CrearPedido([FromBody] CrearPedidoDto peticion)
+        public async Task<ActionResult> CrearPedido([FromBody] CrearPedidoDto peticion, [FromServices] IPublishEndpoint publishEndpoint)
         {
             var userEmail = User.FindFirstValue(ClaimTypes.Email) ?? User.FindFirstValue(ClaimTypes.Name);
 
@@ -96,7 +95,6 @@ namespace Api.Controllers
                 var producto = await _context.Productos.FindAsync(pId);
                 if (producto == null) continue;
 
-                // Actualización de inventario y totales
                 producto.Stock -= 1;
                 nuevoPedido.Total += producto.Precio;
                 nuevoPedido.Detalles.Add(new DetallePedido
@@ -111,11 +109,18 @@ namespace Api.Controllers
             _context.Pedidos.Add(nuevoPedido);
             await _context.SaveChangesAsync();
 
-            return Ok(new { mensaje = "Venta registrada con éxito!" });
+            //  NOTIFICACIÓN ASÍNCRONA CON RABBITMQ
+            // Esto dispara el evento para que otros microservicios lo procesen
+            await publishEndpoint.Publish(new PedidoCreated(
+                nuevoPedido.Id,
+                userEmail,
+                nuevoPedido.Total
+            ));
+
+            return Ok(new { mensaje = "Venta registrada con éxito y notificación enviada!" });
         }
 
-        // 🚚 4. ACTUALIZAR ESTADO DEL PEDIDO
-        // Ruta: PUT /api/pedidos/{id}/estado
+        //  4. ACTUALIZAR ESTADO DEL PEDIDO
         [HttpPut("{id}/estado")]
         public async Task<ActionResult> ActualizarEstado(int id, [FromBody] CambiarEstadoDto peticion)
         {
@@ -124,19 +129,16 @@ namespace Api.Controllers
             if (pedido == null)
                 return NotFound("El pedido no existe.");
 
-            // Actualizamos el estado con la palabra que nos mande el Frontend
             pedido.Estado = peticion.NuevoEstado;
             await _context.SaveChangesAsync();
 
             return Ok(new { mensaje = $"El pedido #{id} ahora está: {peticion.NuevoEstado}" });
         }
 
-        // 👁️ 5. VER EL DETALLE EXACTO DE UN PEDIDO
-        // Ruta: GET /api/pedidos/{id}
+        //  5. VER EL DETALLE EXACTO DE UN PEDIDO
         [HttpGet("{id}")]
         public async Task<ActionResult<Application.DTOs.PedidoDetalleDto>> GetPedidoDetalle(int id)
         {
-            // Buscamos el pedido con toda su familia (Cliente, Detalles y los Productos de esos detalles)
             var pedido = await _context.Pedidos
                 .Include(p => p.Cliente)
                 .Include(p => p.Detalles)
@@ -146,7 +148,6 @@ namespace Api.Controllers
             if (pedido == null)
                 return NotFound("El pedido no existe.");
 
-            // Armamos el ticket
             var ticket = new Application.DTOs.PedidoDetalleDto
             {
                 Id = pedido.Id,
@@ -165,18 +166,16 @@ namespace Api.Controllers
 
             return Ok(ticket);
         }
-        // 🛍️ 6. VER MIS COMPRAS (Exclusivo para el cliente)
-        // Ruta: GET /api/pedidos/mis-compras
+
+        //  6. VER MIS COMPRAS
         [HttpGet("mis-compras")]
         public async Task<ActionResult<List<PedidoAdminDto>>> GetMisPedidos()
         {
-            // 1. Identificamos quién es el usuario leyendo su Token VIP
             var userEmail = User.FindFirstValue(ClaimTypes.Email) ?? User.FindFirstValue(ClaimTypes.Name);
 
             if (string.IsNullOrEmpty(userEmail))
                 return Unauthorized("No se pudo identificar al usuario.");
 
-            // 2. Buscamos en la base de datos SOLO los pedidos que coincidan con su nombre/email
             var misPedidos = await _context.Pedidos
                 .Include(p => p.Cliente)
                 .Where(p => p.Cliente!.NombreCompleto == userEmail)
@@ -193,8 +192,8 @@ namespace Api.Controllers
 
             return Ok(misPedidos);
         }
-        // 📊 7. ESTADÍSTICAS DEL DASHBOARD (Para el Inicio del Admin)
-        // Ruta: GET /api/pedidos/estadisticas
+
+        //  7. ESTADÍSTICAS DEL DASHBOARD
         [HttpGet("estadisticas")]
         public async Task<ActionResult<EstadisticasDto>> GetEstadisticas()
         {
@@ -211,11 +210,16 @@ namespace Api.Controllers
         }
     }
 
-    //  DTO para recibir la compra desde el Frontend
+    // --- CONTRATOS Y DTOS ---
+
+    // Contrato para RabbitMQ (Representa el evento de "Pedido Creado")
+    public record PedidoCreated(int PedidoId, string EmailCliente, decimal Total);
+
     public class CrearPedidoDto
     {
         public List<int> ProductoIds { get; set; } = new List<int>();
     }
+
     public class CambiarEstadoDto
     {
         public string NuevoEstado { get; set; } = string.Empty;
