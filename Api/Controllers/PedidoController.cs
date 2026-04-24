@@ -211,7 +211,7 @@ namespace Api.Controllers
         }
     }
 
-    // 📦 DTO para recibir la compra desde el Frontend
+    //  DTO para recibir la compra desde el Frontend
     public class CrearPedidoDto
     {
         public List<int> ProductoIds { get; set; } = new List<int>();
