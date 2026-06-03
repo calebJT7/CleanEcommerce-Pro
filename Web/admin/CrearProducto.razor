@@ -8,59 +8,60 @@
 
 <PageTitle>Nuevo Producto - Admin</PageTitle>
 
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-sm border-0">
-                <div class="card-header bg-dark text-white">
-                    <h4 class="mb-0 fw-bold">➕ Agregar Nuevo Producto</h4>
+<div class="page-header">
+    <h1 class="page-title">Nuevo producto</h1>
+    <p class="page-subtitle">Completa los datos para publicar en el catálogo</p>
+</div>
+
+<div class="form-panel">
+    <div class="panel">
+        <div class="panel__header">
+            <h2>Información del producto</h2>
+        </div>
+        <div class="panel__body">
+            <EditForm Model="nuevoProducto" OnValidSubmit="GuardarProducto">
+                <DataAnnotationsValidator />
+
+                <div class="mb-3">
+                    <label class="form-label">Nombre del producto</label>
+                    <InputText class="form-control" @bind-Value="nuevoProducto.Nombre" required />
                 </div>
-                <div class="card-body">
-                    <EditForm Model="nuevoProducto" OnValidSubmit="GuardarProducto">
-                        <DataAnnotationsValidator />
 
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Nombre del Producto</label>
-                            <InputText class="form-control" @bind-Value="nuevoProducto.Nombre" required />
-                        </div>
+                <div class="mb-3">
+                    <label class="form-label">Descripción</label>
+                    <InputTextArea class="form-control" @bind-Value="nuevoProducto.Descripcion" rows="3" />
+                </div>
 
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Descripción</label>
-                            <InputTextArea class="form-control" @bind-Value="nuevoProducto.Descripcion" rows="3" />
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">📸 URL de la Imagen</label>
-                            <InputText class="form-control" @bind-Value="nuevoProducto.ImagenUrl"
-                                       placeholder="Ej: https://.../foto.jpg" />
-                            <small class="text-muted">Pega el enlace de una imagen de internet (terminado en .jpg o
-                                .png)</small>
-                            </div>
-                            <div class="row mb-4">
-                                <div class="col-md-6">
-                                    <label class="form-label fw-bold">Precio ($)</label>
-                                    <InputNumber class="form-control" @bind-Value="nuevoProducto.Precio" required min="0" />
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label fw-bold">Stock Inicial</label>
-                                    <InputNumber class="form-control" @bind-Value="nuevoProducto.Stock" required min="0" />
-                                </div>
-                            </div>
+                <div class="mb-3">
+                    <label class="form-label">URL de la imagen</label>
+                    <InputText class="form-control" @bind-Value="nuevoProducto.ImagenUrl"
+                               placeholder="https://ejemplo.com/imagen.jpg" />
+                    <div class="form-text">Enlace directo a una imagen en formato JPG o PNG</div>
+                </div>
 
-                            <div class="d-flex justify-content-between">
-                                <a href="/admin/productos" class="btn btn-outline-secondary fw-bold">Cancelar</a>
-                                <button type="submit" class="btn btn-success fw-bold" disabled="@guardando">
-                                    @(guardando ? "Guardando..." : "💾 Guardar Producto")
-                                </button>
-                            </div>
-                        </EditForm>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Precio ($)</label>
+                        <InputNumber class="form-control" @bind-Value="nuevoProducto.Precio" required min="0" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Stock inicial</label>
+                        <InputNumber class="form-control" @bind-Value="nuevoProducto.Stock" required min="0" />
                     </div>
                 </div>
-            </div>
+
+                <div class="form-actions">
+                    <a href="/admin/productos" class="btn btn-outline-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-primary" disabled="@guardando">
+                        @(guardando ? "Guardando..." : "Guardar producto")
+                    </button>
+                </div>
+            </EditForm>
         </div>
     </div>
+</div>
 
 @code {
-    // Instanciamos un objeto vacío para que el formulario lo llene
     private ProductoDto nuevoProducto = new ProductoDto();
     private bool guardando = false;
 
@@ -69,12 +70,10 @@
         guardando = true;
         try
         {
-            // 🚨 IMPORTANTE: Verifica que tu API use esta ruta para el POST
             var respuesta = await Http.PostAsJsonAsync("api/Productos", nuevoProducto);
 
             if (respuesta.IsSuccessStatusCode)
             {
-                // Si la API dice 200 OK o 201 Created, volvemos a la grilla
                 NavigationManager.NavigateTo("/admin/productos");
             }
             else

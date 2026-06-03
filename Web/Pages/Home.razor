@@ -6,80 +6,73 @@
 
 <PageTitle>Inicio - CleanEcommerce</PageTitle>
 
-<div class="container mt-4">
-    <h2 class="mb-4 text-center fw-bold">Nuestros Productos</h2>
-
-    @* 1. ESTADO DE CARGA: Mientras esperamos que la API responda *@
-    @if (productos == null)
-    {
-        <div class="text-center mt-5">
-            <div class="spinner-border text-primary" role="status"></div>
-            <p class="mt-2 text-muted">Cargando la tienda...</p>
-        </div>
-    }
-    @* 2. ESTADO VACÍO: Si la API responde pero no hay productos *@
-    else if (!productos.Any())
-    {
-        <div class="alert alert-info text-center shadow-sm">
-            Aún no hay productos en la tienda. ¡Vuelve pronto!
-        </div>
-    }
-    @* 3. ESTADO LISTO: Dibujamos las tarjetas (Cards) *@
-    else
-    {
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            @foreach (var producto in productos)
-            {
-                <div class="col">
-                    <div class="card h-100 shadow-sm border-0">
-                        @if (!string.IsNullOrEmpty(producto.ImagenUrl))
-                        {
-                            <img src="@producto.ImagenUrl" class="card-img-top" alt="@producto.Nombre"
-                                 style="height: 250px; object-fit: cover; border-top-left-radius: 15px; border-top-right-radius: 15px;">
-                        }
-                        else
-                        {
-                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center"
-                                 style="height: 250px; border-top-left-radius: 15px; border-top-right-radius: 15px;">
-                                <span class="text-muted fs-1">📦</span>
-                            </div>
-                        }
-                        <div class="card-body text-center">
-                            <h5 class="card-title fw-bold">@producto.Nombre</h5>
-                            <h3 class="text-success fw-bold">$@producto.Precio</h3>
-
-                            <a href="/producto/@producto.Id" class="btn btn-outline-secondary w-100 mt-2">
-                                👁️ Ver Detalles
-                            </a>
-                        </div>
-                        <div class="card-footer bg-white border-0 pb-4 text-center">
-                            <button class="btn btn-dark w-100 shadow-sm" @onclick="() => Carrito.AgregarAlCarrito(producto.Id)">
-                                Agregar al Carrito 🛒
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-    }
+<div class="catalog-toolbar">
+    <div>
+        <h1 class="page-title">Catálogo</h1>
+        <p class="page-subtitle">Explora nuestros productos disponibles</p>
+    </div>
 </div>
 
+@if (productos == null)
+{
+    <div class="state-loading">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p>Cargando productos...</p>
+    </div>
+}
+else if (!productos.Any())
+{
+    <div class="state-empty">
+        <p class="state-empty__title">Sin productos por ahora</p>
+        <p class="state-empty__text">El catálogo está vacío. Vuelve más tarde para ver nuevas incorporaciones.</p>
+    </div>
+}
+else
+{
+    <div class="product-grid">
+        @foreach (var producto in productos)
+        {
+            <article class="product-card">
+                <div class="product-card__media">
+                    @if (!string.IsNullOrEmpty(producto.ImagenUrl))
+                    {
+                        <img src="@producto.ImagenUrl" alt="@producto.Nombre" loading="lazy" />
+                    }
+                    else
+                    {
+                        <div class="product-card__placeholder">Sin imagen</div>
+                    }
+                </div>
+                <div class="product-card__body">
+                    <h2 class="product-card__title">@producto.Nombre</h2>
+                    <p class="product-card__price">$@producto.Precio.ToString("N2")</p>
+                </div>
+                <div class="product-card__actions">
+                    <a href="/producto/@producto.Id" class="btn btn-outline-secondary btn-sm w-100">
+                        Ver detalles
+                    </a>
+                    <button type="button" class="btn btn-primary btn-sm w-100"
+                            @onclick="() => Carrito.AgregarAlCarrito(producto.Id)">
+                        Agregar al carrito
+                    </button>
+                </div>
+            </article>
+        }
+    </div>
+}
+
 @code {
-    // 📦 Aquí guardaremos los productos que lleguen de la API
     private List<ProductoDto>? productos;
 
-    // 🚀 Este método se ejecuta AUTOMÁTICAMENTE cuando la página carga
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            // Le pedimos a tu API la lista de productos
             productos = await Http.GetFromJsonAsync<List<ProductoDto>>("api/Productos");
         }
         catch (Exception ex)
         {
             Console.WriteLine("Error al cargar productos: " + ex.Message);
-            // Si hay error, inicializamos la lista vacía para que no se quede cargando infinito
             productos = new List<ProductoDto>();
         }
     }

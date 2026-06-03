@@ -6,53 +6,35 @@
 
 <PageTitle>Panel de Control - Admin</PageTitle>
 
-<div class="container mt-4 mb-5">
-    <h2 class="fw-bold mb-4">📊 Panel de Control General</h2>
+<div class="page-header">
+    <h1 class="page-title">Panel de control</h1>
+    <p class="page-subtitle">Resumen general de la tienda</p>
+</div>
 
-    @if (stats == null)
-    {
-        <div class="text-center py-5">
-            <div class="spinner-border text-primary"></div>
-        </div>
-    }
-    else
-    {
-        <div class="row">
-            <div class="col-md-4 mb-3">
-                <div class="card text-white bg-success shadow border-0" style="border-radius: 15px;">
-                    <div class="card-body py-4">
-                        <h5 class="card-title text-uppercase fw-light">💰 Ingresos Totales</h5>
-                        <h1 class="fw-bold display-5 mb-0">$@stats.TotalIngresos</h1>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4 mb-3">
-                <div class="card text-white bg-primary shadow border-0" style="border-radius: 15px;">
-                    <div class="card-body py-4">
-                        <h5 class="card-title text-uppercase fw-light">📦 Total de Pedidos</h5>
-                        <h1 class="fw-bold display-5 mb-0">@stats.CantidadPedidos</h1>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4 mb-3">
-                <div class="card text-white bg-warning text-dark shadow border-0" style="border-radius: 15px;">
-                    <div class="card-body py-4">
-                        <h5 class="card-title text-uppercase fw-light">⏳ Envíos Pendientes</h5>
-                        <h1 class="fw-bold display-5 mb-0">@stats.PedidosPendientes</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="mt-5 text-center">
-            <h3 class="text-muted fw-bold mt-4">¡Felicidades, Caleb!</h3>
-            <p class="text-secondary fs-5">Has completado el núcleo de tu E-Commerce. Todas las conexiones están funcionando
-                a la perfección.</p>
-            </div>
-        }
+@if (stats == null)
+{
+    <div class="state-loading">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p>Cargando estadísticas...</p>
     </div>
+}
+else
+{
+    <div class="stats-grid">
+        <div class="stat-card stat-card--revenue">
+            <p class="stat-card__label">Ingresos totales</p>
+            <p class="stat-card__value">$@stats.TotalIngresos.ToString("N2")</p>
+        </div>
+        <div class="stat-card stat-card--orders">
+            <p class="stat-card__label">Total de pedidos</p>
+            <p class="stat-card__value">@stats.CantidadPedidos</p>
+        </div>
+        <div class="stat-card stat-card--pending">
+            <p class="stat-card__label">Envíos pendientes</p>
+            <p class="stat-card__value">@stats.PedidosPendientes</p>
+        </div>
+    </div>
+}
 
 @code {
     private EstadisticasDto? stats;

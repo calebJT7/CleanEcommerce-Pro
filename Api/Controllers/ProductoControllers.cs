@@ -3,9 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Infrastructure;
 using Domain;
 using Application.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductosController : ControllerBase
@@ -17,7 +19,7 @@ namespace Api.Controllers
             _context = context;
         }
 
-        // 📋 1. LEER TODOS
+        //  1. LEER TODOS
         [HttpGet]
         public async Task<ActionResult<List<ProductoDto>>> GetProductos()
         {
@@ -29,14 +31,14 @@ namespace Api.Controllers
                     Precio = p.Precio,
                     Stock = p.Stock,
                     Descripcion = p.Descripcion,
-                    ImagenUrl = p.ImagenUrl ?? "" // 📸 NUEVO: Mandamos la foto al frontend
+                    ImagenUrl = p.ImagenUrl ?? "" //  NUEVO: Mandamos la foto al frontend
                 })
                 .ToListAsync();
 
             return Ok(productos);
         }
 
-        // 🔍 2. LEER UNO SOLO
+        //  2. LEER UNO SOLO
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductoDto>> GetProducto(int id)
         {
@@ -51,11 +53,11 @@ namespace Api.Controllers
                 Precio = producto.Precio,
                 Stock = producto.Stock,
                 Descripcion = producto.Descripcion,
-                ImagenUrl = producto.ImagenUrl ?? "" // 📸 NUEVO: Mandamos la foto al frontend
+                ImagenUrl = producto.ImagenUrl ?? "" //  NUEVO: Mandamos la foto al frontend
             });
         }
 
-        // ➕ 3. CREAR NUEVO
+        //  3. CREAR NUEVO
         [HttpPost]
         public async Task<ActionResult> CrearProducto(ProductoDto productoDto)
         {
@@ -65,7 +67,7 @@ namespace Api.Controllers
                 Precio = productoDto.Precio,
                 Stock = productoDto.Stock,
                 Descripcion = productoDto.Descripcion,
-                ImagenUrl = productoDto.ImagenUrl // 📸 NUEVO: Guardamos la foto en la BD
+                ImagenUrl = productoDto.ImagenUrl //  NUEVO: Guardamos la foto en la BD
             };
 
             _context.Productos.Add(nuevoProducto);
@@ -73,7 +75,7 @@ namespace Api.Controllers
             return Ok(new { mensaje = "Producto creado" });
         }
 
-        // ✏️ 4. ACTUALIZAR
+        //  4. ACTUALIZAR
         [HttpPut("{id}")]
         public async Task<ActionResult> ActualizarProducto(int id, ProductoDto productoDto)
         {
@@ -84,13 +86,13 @@ namespace Api.Controllers
             productoDB.Precio = productoDto.Precio;
             productoDB.Stock = productoDto.Stock;
             productoDB.Descripcion = productoDto.Descripcion;
-            productoDB.ImagenUrl = productoDto.ImagenUrl; // 📸 NUEVO: Actualizamos la foto en la BD
+            productoDB.ImagenUrl = productoDto.ImagenUrl; //  NUEVO: Actualizamos la foto en la BD
 
             await _context.SaveChangesAsync();
             return Ok(new { mensaje = "Producto actualizado" });
         }
 
-        // 🗑️ 5. BORRAR
+        //  5. BORRAR
         [HttpDelete("{id}")]
         public async Task<ActionResult> BorrarProducto(int id)
         {

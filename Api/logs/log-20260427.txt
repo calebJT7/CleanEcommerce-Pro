@@ -1,0 +1,959 @@
+2026-04-27 17:56:35.329 -03:00 [INF] Verificando base de datos en la nube...
+2026-04-27 17:56:36.219 -03:00 [WRN] No store type was specified for the decimal property 'DeudaTotal' on entity type 'Cliente'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 17:56:36.232 -03:00 [WRN] No store type was specified for the decimal property 'PrecioUnitario' on entity type 'DetallePedido'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 17:56:36.239 -03:00 [WRN] No store type was specified for the decimal property 'Monto' on entity type 'Pago'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 17:56:36.244 -03:00 [WRN] No store type was specified for the decimal property 'Total' on entity type 'Pedido'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 17:56:38.047 -03:00 [INF] Executed DbCommand (37ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-04-27 17:56:38.394 -03:00 [INF] Executed DbCommand (309ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2026-04-27 17:56:38.405 -03:00 [INF] ¡Base de datos lista!
+2026-04-27 17:56:38.621 -03:00 [INF] User profile is available. Using 'C:\Users\caleb\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-04-27 18:16:46.159 -03:00 [INF] Verificando base de datos en la nube...
+2026-04-27 18:16:46.912 -03:00 [WRN] No store type was specified for the decimal property 'DeudaTotal' on entity type 'Cliente'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 18:16:46.919 -03:00 [WRN] No store type was specified for the decimal property 'PrecioUnitario' on entity type 'DetallePedido'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 18:16:46.924 -03:00 [WRN] No store type was specified for the decimal property 'Monto' on entity type 'Pago'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 18:16:46.928 -03:00 [WRN] No store type was specified for the decimal property 'Total' on entity type 'Pedido'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 18:16:47.662 -03:00 [INF] Executed DbCommand (20ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-04-27 18:16:47.803 -03:00 [INF] Executed DbCommand (123ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2026-04-27 18:16:47.814 -03:00 [INF] ¡Base de datos lista!
+2026-04-27 18:16:48.037 -03:00 [INF] User profile is available. Using 'C:\Users\caleb\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-04-27 18:21:49.483 -03:00 [INF] Verificando base de datos en la nube...
+2026-04-27 18:21:50.793 -03:00 [WRN] No store type was specified for the decimal property 'DeudaTotal' on entity type 'Cliente'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 18:21:50.803 -03:00 [WRN] No store type was specified for the decimal property 'PrecioUnitario' on entity type 'DetallePedido'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 18:21:50.813 -03:00 [WRN] No store type was specified for the decimal property 'Monto' on entity type 'Pago'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 18:21:50.823 -03:00 [WRN] No store type was specified for the decimal property 'Total' on entity type 'Pedido'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 18:21:52.075 -03:00 [INF] Executed DbCommand (41ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-04-27 18:21:52.240 -03:00 [INF] Executed DbCommand (119ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2026-04-27 18:21:52.251 -03:00 [INF] ¡Base de datos lista!
+2026-04-27 18:21:52.470 -03:00 [INF] User profile is available. Using 'C:\Users\caleb\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-04-27 18:21:53.368 -03:00 [INF] Now listening on: http://localhost:5002
+2026-04-27 18:21:53.386 -03:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-04-27 18:21:53.401 -03:00 [INF] Hosting environment: Development
+2026-04-27 18:21:53.434 -03:00 [INF] Content root path: C:\Users\caleb\CleanEcommerce\Api
+2026-04-27 18:21:53.842 -03:00 [INF] Bus started: "rabbitmq://localhost/"
+2026-04-27 18:22:35.634 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/swagger - null null
+2026-04-27 18:22:35.784 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/swagger - 301 0 null 154.2022ms
+2026-04-27 18:22:35.821 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/swagger/index.html - null null
+2026-04-27 18:22:36.076 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/swagger/index.html - 200 null text/html;charset=utf-8 254.8533ms
+2026-04-27 18:22:36.158 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/swagger/swagger-ui-bundle.js - null null
+2026-04-27 18:22:36.158 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/swagger/swagger-ui.css - null null
+2026-04-27 18:22:36.161 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/swagger/swagger-ui-standalone-preset.js - null null
+2026-04-27 18:22:36.221 -03:00 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2026-04-27 18:22:36.222 -03:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2026-04-27 18:22:36.240 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/swagger/swagger-ui-standalone-preset.js - 200 230280 text/javascript 79.0491ms
+2026-04-27 18:22:36.250 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/swagger/swagger-ui.css - 200 152034 text/css 91.1488ms
+2026-04-27 18:22:36.267 -03:00 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2026-04-27 18:22:36.294 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/swagger/swagger-ui-bundle.js - 200 1456926 text/javascript 136.3013ms
+2026-04-27 18:22:36.543 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/swagger/v1/swagger.json - null null
+2026-04-27 18:22:36.572 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/swagger/favicon-32x32.png - null null
+2026-04-27 18:22:36.590 -03:00 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2026-04-27 18:22:36.603 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/swagger/favicon-32x32.png - 200 628 image/png 30.8456ms
+2026-04-27 18:22:36.834 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 291.1284ms
+2026-04-27 18:23:32.100 -03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5002/api/Usuarios/registrar - application/json 77
+2026-04-27 18:23:32.136 -03:00 [WRN] Failed to determine the https port for redirect.
+2026-04-27 18:23:32.145 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:23:32.331 -03:00 [INF] Executing endpoint 'Api.Controllers.UsuariosController.Registrar (Api)'
+2026-04-27 18:23:32.461 -03:00 [INF] Route matched with {action = "Registrar", controller = "Usuarios"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] Registrar(Application.DTOs.UsuarioRegistroDto) on controller Api.Controllers.UsuariosController (Api).
+2026-04-27 18:23:33.729 -03:00 [INF] Executed DbCommand (216ms) [Parameters=[@__request_Email_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Usuario] AS [u]
+        WHERE [u].[Email] = @__request_Email_0) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2026-04-27 18:23:34.274 -03:00 [INF] Executed DbCommand (54ms) [Parameters=[@p0='?' (Size = 4000), @p1='?' (DbType = Boolean), @p2='?' (Size = 4000), @p3='?' (Size = 8000) (DbType = Binary), @p4='?' (Size = 8000) (DbType = Binary)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Usuario] ([Email], [EsAdmin], [NombreCompleto], [PasswordHash], [PasswordSalt])
+OUTPUT INSERTED.[Id]
+VALUES (@p0, @p1, @p2, @p3, @p4);
+2026-04-27 18:23:34.377 -03:00 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2026-04-27 18:23:34.390 -03:00 [INF] Executed action Api.Controllers.UsuariosController.Registrar (Api) in 1913.1733ms
+2026-04-27 18:23:34.400 -03:00 [INF] Executed endpoint 'Api.Controllers.UsuariosController.Registrar (Api)'
+2026-04-27 18:23:34.416 -03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5002/api/Usuarios/registrar - 200 null text/plain; charset=utf-8 2315.7944ms
+2026-04-27 18:24:09.225 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Clientes - null null
+2026-04-27 18:24:09.255 -03:00 [INF] Executing endpoint 'Api.Controllers.ClientesController.GetClientes (Api)'
+2026-04-27 18:24:09.280 -03:00 [INF] Route matched with {action = "GetClientes", controller = "Clientes"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[Domain.Cliente]]] GetClientes() on controller Api.Controllers.ClientesController (Api).
+2026-04-27 18:24:09.654 -03:00 [INF] Executed DbCommand (29ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[DeudaTotal], [c].[NombreCompleto], [c].[Telefono]
+FROM [Clientes] AS [c]
+2026-04-27 18:24:09.735 -03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Domain.Cliente, Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-04-27 18:24:09.862 -03:00 [INF] Executed action Api.Controllers.ClientesController.GetClientes (Api) in 570.0475ms
+2026-04-27 18:24:09.923 -03:00 [INF] Executed endpoint 'Api.Controllers.ClientesController.GetClientes (Api)'
+2026-04-27 18:24:09.931 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Clientes - 200 null application/json; charset=utf-8 705.8203ms
+2026-04-27 18:24:29.353 -03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5002/api/Usuarios/login - null null
+2026-04-27 18:24:29.376 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:24:29.384 -03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5002/api/Usuarios/login - 204 null null 30.5079ms
+2026-04-27 18:24:29.399 -03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5002/api/Usuarios/login - application/json; charset=utf-8 38
+2026-04-27 18:24:29.412 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:24:29.421 -03:00 [INF] Executing endpoint 'Api.Controllers.UsuariosController.Login (Api)'
+2026-04-27 18:24:29.436 -03:00 [INF] Route matched with {action = "Login", controller = "Usuarios"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] Login(Application.DTOs.UsuarioLoginDto) on controller Api.Controllers.UsuariosController (Api).
+2026-04-27 18:24:29.504 -03:00 [INF] Executed DbCommand (10ms) [Parameters=[@__request_Email_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Email], [u].[EsAdmin], [u].[NombreCompleto], [u].[PasswordHash], [u].[PasswordSalt]
+FROM [Usuario] AS [u]
+WHERE [u].[Email] = @__request_Email_0
+2026-04-27 18:24:29.623 -03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType5`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-04-27 18:24:29.650 -03:00 [INF] Executed action Api.Controllers.UsuariosController.Login (Api) in 203.1501ms
+2026-04-27 18:24:29.661 -03:00 [INF] Executed endpoint 'Api.Controllers.UsuariosController.Login (Api)'
+2026-04-27 18:24:29.670 -03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5002/api/Usuarios/login - 200 null application/json; charset=utf-8 270.4591ms
+2026-04-27 18:24:30.983 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 18:24:31.008 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:24:31.013 -03:00 [INF] Executing endpoint 'Api.Controllers.ProductosController.GetProductos (Api)'
+2026-04-27 18:24:31.026 -03:00 [INF] Route matched with {action = "GetProductos", controller = "Productos"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Application.DTOs.ProductoDto]]] GetProductos() on controller Api.Controllers.ProductosController (Api).
+2026-04-27 18:24:31.091 -03:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[Nombre], [p].[Precio], [p].[Stock], [p].[Descripcion], [p].[ImagenUrl]
+FROM [Productos] AS [p]
+2026-04-27 18:24:31.100 -03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Application.DTOs.ProductoDto, Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-04-27 18:24:31.111 -03:00 [INF] Executed action Api.Controllers.ProductosController.GetProductos (Api) in 79.9204ms
+2026-04-27 18:24:31.115 -03:00 [INF] Executed endpoint 'Api.Controllers.ProductosController.GetProductos (Api)'
+2026-04-27 18:24:31.121 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 200 null application/json; charset=utf-8 137.5365ms
+2026-04-27 18:24:57.573 -03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5002/api/Pedidos/estadisticas - null null
+2026-04-27 18:24:57.604 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:24:57.635 -03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5002/api/Pedidos/estadisticas - 204 null null 61.6428ms
+2026-04-27 18:24:57.689 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Pedidos/estadisticas - null null
+2026-04-27 18:24:57.743 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:24:57.911 -03:00 [INF] Executing endpoint 'Api.Controllers.PedidosController.GetEstadisticas (Api)'
+2026-04-27 18:24:57.944 -03:00 [INF] Route matched with {action = "GetEstadisticas", controller = "Pedidos"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Application.DTOs.EstadisticasDto]] GetEstadisticas() on controller Api.Controllers.PedidosController (Api).
+2026-04-27 18:24:58.131 -03:00 [INF] Executed DbCommand (86ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[ClienteId], [p].[Estado], [p].[FechaCreacion], [p].[Total]
+FROM [Pedidos] AS [p]
+2026-04-27 18:24:58.225 -03:00 [INF] Executing OkObjectResult, writing value of type 'Application.DTOs.EstadisticasDto'.
+2026-04-27 18:24:58.256 -03:00 [INF] Executed action Api.Controllers.PedidosController.GetEstadisticas (Api) in 286.282ms
+2026-04-27 18:24:58.303 -03:00 [INF] Executed endpoint 'Api.Controllers.PedidosController.GetEstadisticas (Api)'
+2026-04-27 18:24:58.330 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Pedidos/estadisticas - 200 null application/json; charset=utf-8 640.845ms
+2026-04-27 18:28:41.144 -03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5002/api/Pedidos - null null
+2026-04-27 18:28:41.160 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:28:41.165 -03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5002/api/Pedidos - 204 null null 21.331ms
+2026-04-27 18:28:41.188 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Pedidos - null null
+2026-04-27 18:28:41.199 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:28:41.213 -03:00 [INF] Executing endpoint 'Api.Controllers.PedidosController.GetTodosLosPedidos (Api)'
+2026-04-27 18:28:41.232 -03:00 [INF] Route matched with {action = "GetTodosLosPedidos", controller = "Pedidos"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Application.DTOs.PedidoAdminDto]]] GetTodosLosPedidos() on controller Api.Controllers.PedidosController (Api).
+2026-04-27 18:28:41.665 -03:00 [INF] Executed DbCommand (89ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[FechaCreacion], [c].[NombreCompleto] AS [ClienteEmail], [p].[Total], COALESCE([p].[Estado], N'Pendiente') AS [Estado]
+FROM [Pedidos] AS [p]
+INNER JOIN [Clientes] AS [c] ON [p].[ClienteId] = [c].[Id]
+ORDER BY [p].[FechaCreacion] DESC
+2026-04-27 18:28:41.677 -03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Application.DTOs.PedidoAdminDto, Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-04-27 18:28:41.692 -03:00 [INF] Executed action Api.Controllers.PedidosController.GetTodosLosPedidos (Api) in 448.8354ms
+2026-04-27 18:28:41.697 -03:00 [INF] Executed endpoint 'Api.Controllers.PedidosController.GetTodosLosPedidos (Api)'
+2026-04-27 18:28:41.703 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Pedidos - 200 null application/json; charset=utf-8 514.9025ms
+2026-04-27 18:30:36.567 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 18:30:36.596 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:30:36.600 -03:00 [INF] Executing endpoint 'Api.Controllers.ProductosController.GetProductos (Api)'
+2026-04-27 18:30:36.605 -03:00 [INF] Route matched with {action = "GetProductos", controller = "Productos"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Application.DTOs.ProductoDto]]] GetProductos() on controller Api.Controllers.ProductosController (Api).
+2026-04-27 18:30:36.651 -03:00 [INF] Executed DbCommand (25ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[Nombre], [p].[Precio], [p].[Stock], [p].[Descripcion], [p].[ImagenUrl]
+FROM [Productos] AS [p]
+2026-04-27 18:30:36.663 -03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Application.DTOs.ProductoDto, Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-04-27 18:30:36.672 -03:00 [INF] Executed action Api.Controllers.ProductosController.GetProductos (Api) in 58.1491ms
+2026-04-27 18:30:36.678 -03:00 [INF] Executed endpoint 'Api.Controllers.ProductosController.GetProductos (Api)'
+2026-04-27 18:30:36.684 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 200 null application/json; charset=utf-8 117.1634ms
+2026-04-27 18:30:53.620 -03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5002/api/Usuarios/login - null null
+2026-04-27 18:30:53.643 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:30:53.649 -03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5002/api/Usuarios/login - 204 null null 29.4366ms
+2026-04-27 18:30:53.667 -03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5002/api/Usuarios/login - application/json; charset=utf-8 55
+2026-04-27 18:30:53.679 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:30:53.684 -03:00 [INF] Executing endpoint 'Api.Controllers.UsuariosController.Login (Api)'
+2026-04-27 18:30:53.689 -03:00 [INF] Route matched with {action = "Login", controller = "Usuarios"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] Login(Application.DTOs.UsuarioLoginDto) on controller Api.Controllers.UsuariosController (Api).
+2026-04-27 18:30:53.716 -03:00 [INF] Executed DbCommand (10ms) [Parameters=[@__request_Email_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Email], [u].[EsAdmin], [u].[NombreCompleto], [u].[PasswordHash], [u].[PasswordSalt]
+FROM [Usuario] AS [u]
+WHERE [u].[Email] = @__request_Email_0
+2026-04-27 18:30:53.733 -03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType5`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-04-27 18:30:53.744 -03:00 [INF] Executed action Api.Controllers.UsuariosController.Login (Api) in 45.5516ms
+2026-04-27 18:30:53.754 -03:00 [INF] Executed endpoint 'Api.Controllers.UsuariosController.Login (Api)'
+2026-04-27 18:30:53.760 -03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5002/api/Usuarios/login - 200 null application/json; charset=utf-8 92.1788ms
+2026-04-27 18:30:54.716 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 18:30:54.727 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:30:54.733 -03:00 [INF] Executing endpoint 'Api.Controllers.ProductosController.GetProductos (Api)'
+2026-04-27 18:30:54.739 -03:00 [INF] Route matched with {action = "GetProductos", controller = "Productos"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Application.DTOs.ProductoDto]]] GetProductos() on controller Api.Controllers.ProductosController (Api).
+2026-04-27 18:30:54.756 -03:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[Nombre], [p].[Precio], [p].[Stock], [p].[Descripcion], [p].[ImagenUrl]
+FROM [Productos] AS [p]
+2026-04-27 18:30:54.770 -03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Application.DTOs.ProductoDto, Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-04-27 18:30:54.777 -03:00 [INF] Executed action Api.Controllers.ProductosController.GetProductos (Api) in 27.8197ms
+2026-04-27 18:30:54.784 -03:00 [INF] Executed endpoint 'Api.Controllers.ProductosController.GetProductos (Api)'
+2026-04-27 18:30:54.789 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 200 null application/json; charset=utf-8 72.8772ms
+2026-04-27 18:31:38.601 -03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5002/api/Pedidos/estadisticas - null null
+2026-04-27 18:31:38.618 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:31:38.625 -03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5002/api/Pedidos/estadisticas - 204 null null 24.0428ms
+2026-04-27 18:31:38.645 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Pedidos/estadisticas - null null
+2026-04-27 18:31:38.658 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:31:38.670 -03:00 [INF] Executing endpoint 'Api.Controllers.PedidosController.GetEstadisticas (Api)'
+2026-04-27 18:31:38.674 -03:00 [INF] Route matched with {action = "GetEstadisticas", controller = "Pedidos"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Application.DTOs.EstadisticasDto]] GetEstadisticas() on controller Api.Controllers.PedidosController (Api).
+2026-04-27 18:31:38.703 -03:00 [INF] Executed DbCommand (20ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[ClienteId], [p].[Estado], [p].[FechaCreacion], [p].[Total]
+FROM [Pedidos] AS [p]
+2026-04-27 18:31:38.710 -03:00 [INF] Executing OkObjectResult, writing value of type 'Application.DTOs.EstadisticasDto'.
+2026-04-27 18:31:38.716 -03:00 [INF] Executed action Api.Controllers.PedidosController.GetEstadisticas (Api) in 37.2445ms
+2026-04-27 18:31:38.723 -03:00 [INF] Executed endpoint 'Api.Controllers.PedidosController.GetEstadisticas (Api)'
+2026-04-27 18:31:38.727 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Pedidos/estadisticas - 200 null application/json; charset=utf-8 81.1946ms
+2026-04-27 18:31:42.690 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 18:31:42.714 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:31:42.717 -03:00 [INF] Executing endpoint 'Api.Controllers.ProductosController.GetProductos (Api)'
+2026-04-27 18:31:42.721 -03:00 [INF] Route matched with {action = "GetProductos", controller = "Productos"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Application.DTOs.ProductoDto]]] GetProductos() on controller Api.Controllers.ProductosController (Api).
+2026-04-27 18:31:42.739 -03:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[Nombre], [p].[Precio], [p].[Stock], [p].[Descripcion], [p].[ImagenUrl]
+FROM [Productos] AS [p]
+2026-04-27 18:31:42.752 -03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Application.DTOs.ProductoDto, Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-04-27 18:31:42.758 -03:00 [INF] Executed action Api.Controllers.ProductosController.GetProductos (Api) in 25.9916ms
+2026-04-27 18:31:42.766 -03:00 [INF] Executed endpoint 'Api.Controllers.ProductosController.GetProductos (Api)'
+2026-04-27 18:31:42.772 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 200 null application/json; charset=utf-8 82.4633ms
+2026-04-27 18:31:48.648 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 18:31:48.663 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:31:48.668 -03:00 [INF] Executing endpoint 'Api.Controllers.ProductosController.GetProductos (Api)'
+2026-04-27 18:31:48.677 -03:00 [INF] Route matched with {action = "GetProductos", controller = "Productos"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Application.DTOs.ProductoDto]]] GetProductos() on controller Api.Controllers.ProductosController (Api).
+2026-04-27 18:31:48.701 -03:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[Nombre], [p].[Precio], [p].[Stock], [p].[Descripcion], [p].[ImagenUrl]
+FROM [Productos] AS [p]
+2026-04-27 18:31:48.722 -03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Application.DTOs.ProductoDto, Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-04-27 18:31:48.731 -03:00 [INF] Executed action Api.Controllers.ProductosController.GetProductos (Api) in 36.7085ms
+2026-04-27 18:31:48.738 -03:00 [INF] Executed endpoint 'Api.Controllers.ProductosController.GetProductos (Api)'
+2026-04-27 18:31:48.744 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 200 null application/json; charset=utf-8 96.3355ms
+2026-04-27 18:31:53.737 -03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5002/api/Pedidos - null null
+2026-04-27 18:31:53.753 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:31:53.758 -03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5002/api/Pedidos - 204 null null 20.6951ms
+2026-04-27 18:31:53.783 -03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5002/api/Pedidos - application/json; charset=utf-8 21
+2026-04-27 18:31:53.799 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:31:53.808 -03:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-04-27 18:31:53.832 -03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-04-27 18:31:53.837 -03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5002/api/Pedidos - 401 0 null 53.8618ms
+2026-04-27 18:31:55.336 -03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5002/api/Pedidos - application/json; charset=utf-8 21
+2026-04-27 18:31:55.353 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:31:55.359 -03:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-04-27 18:31:55.371 -03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-04-27 18:31:55.378 -03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5002/api/Pedidos - 401 0 null 41.9231ms
+2026-04-27 18:31:56.042 -03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5002/api/Pedidos - application/json; charset=utf-8 21
+2026-04-27 18:31:56.060 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:31:56.066 -03:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-04-27 18:31:56.072 -03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-04-27 18:31:56.080 -03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5002/api/Pedidos - 401 0 null 37.3407ms
+2026-04-27 18:31:56.638 -03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5002/api/Pedidos - application/json; charset=utf-8 21
+2026-04-27 18:31:56.658 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:31:56.663 -03:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-04-27 18:31:56.669 -03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-04-27 18:31:56.674 -03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5002/api/Pedidos - 401 0 null 36.1825ms
+2026-04-27 18:31:56.833 -03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5002/api/Pedidos - application/json; charset=utf-8 21
+2026-04-27 18:31:56.852 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:31:56.858 -03:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-04-27 18:31:56.867 -03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-04-27 18:31:56.875 -03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5002/api/Pedidos - 401 0 null 42.0375ms
+2026-04-27 18:32:06.205 -03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5002/api/Usuarios/login - null null
+2026-04-27 18:32:06.226 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:32:06.233 -03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5002/api/Usuarios/login - 204 null null 27.7409ms
+2026-04-27 18:32:06.258 -03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5002/api/Usuarios/login - application/json; charset=utf-8 55
+2026-04-27 18:32:06.275 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:32:06.280 -03:00 [INF] Executing endpoint 'Api.Controllers.UsuariosController.Login (Api)'
+2026-04-27 18:32:06.289 -03:00 [INF] Route matched with {action = "Login", controller = "Usuarios"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] Login(Application.DTOs.UsuarioLoginDto) on controller Api.Controllers.UsuariosController (Api).
+2026-04-27 18:32:06.315 -03:00 [INF] Executed DbCommand (10ms) [Parameters=[@__request_Email_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Email], [u].[EsAdmin], [u].[NombreCompleto], [u].[PasswordHash], [u].[PasswordSalt]
+FROM [Usuario] AS [u]
+WHERE [u].[Email] = @__request_Email_0
+2026-04-27 18:32:06.329 -03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType5`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-04-27 18:32:06.337 -03:00 [INF] Executed action Api.Controllers.UsuariosController.Login (Api) in 37.1797ms
+2026-04-27 18:32:06.347 -03:00 [INF] Executed endpoint 'Api.Controllers.UsuariosController.Login (Api)'
+2026-04-27 18:32:06.353 -03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5002/api/Usuarios/login - 200 null application/json; charset=utf-8 94.8545ms
+2026-04-27 18:32:07.340 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 18:32:07.360 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:32:07.367 -03:00 [INF] Executing endpoint 'Api.Controllers.ProductosController.GetProductos (Api)'
+2026-04-27 18:32:07.373 -03:00 [INF] Route matched with {action = "GetProductos", controller = "Productos"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Application.DTOs.ProductoDto]]] GetProductos() on controller Api.Controllers.ProductosController (Api).
+2026-04-27 18:32:07.387 -03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[Nombre], [p].[Precio], [p].[Stock], [p].[Descripcion], [p].[ImagenUrl]
+FROM [Productos] AS [p]
+2026-04-27 18:32:07.401 -03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Application.DTOs.ProductoDto, Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-04-27 18:32:07.408 -03:00 [INF] Executed action Api.Controllers.ProductosController.GetProductos (Api) in 24.22ms
+2026-04-27 18:32:07.416 -03:00 [INF] Executed endpoint 'Api.Controllers.ProductosController.GetProductos (Api)'
+2026-04-27 18:32:07.422 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 200 null application/json; charset=utf-8 81.558ms
+2026-04-27 18:32:13.583 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 18:32:13.603 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:32:13.612 -03:00 [INF] Executing endpoint 'Api.Controllers.ProductosController.GetProductos (Api)'
+2026-04-27 18:32:13.624 -03:00 [INF] Route matched with {action = "GetProductos", controller = "Productos"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Application.DTOs.ProductoDto]]] GetProductos() on controller Api.Controllers.ProductosController (Api).
+2026-04-27 18:32:13.645 -03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[Nombre], [p].[Precio], [p].[Stock], [p].[Descripcion], [p].[ImagenUrl]
+FROM [Productos] AS [p]
+2026-04-27 18:32:13.669 -03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Application.DTOs.ProductoDto, Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-04-27 18:32:13.680 -03:00 [INF] Executed action Api.Controllers.ProductosController.GetProductos (Api) in 40.7343ms
+2026-04-27 18:32:13.693 -03:00 [INF] Executed endpoint 'Api.Controllers.ProductosController.GetProductos (Api)'
+2026-04-27 18:32:13.699 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 200 null application/json; charset=utf-8 115.5309ms
+2026-04-27 18:32:15.581 -03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5002/api/Pedidos - null null
+2026-04-27 18:32:15.603 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:32:15.617 -03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5002/api/Pedidos - 204 null null 35.4897ms
+2026-04-27 18:32:15.648 -03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5002/api/Pedidos - application/json; charset=utf-8 21
+2026-04-27 18:32:15.664 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:32:15.668 -03:00 [INF] Executing endpoint 'Api.Controllers.PedidosController.CrearPedido (Api)'
+2026-04-27 18:32:15.684 -03:00 [INF] Route matched with {action = "CrearPedido", controller = "Pedidos"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] CrearPedido(Api.Controllers.CrearPedidoDto, MassTransit.IPublishEndpoint) on controller Api.Controllers.PedidosController (Api).
+2026-04-27 18:32:15.778 -03:00 [INF] Executed DbCommand (9ms) [Parameters=[@__userEmail_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [c].[Id], [c].[DeudaTotal], [c].[NombreCompleto], [c].[Telefono]
+FROM [Clientes] AS [c]
+WHERE [c].[NombreCompleto] = @__userEmail_0
+2026-04-27 18:32:15.842 -03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [p].[Id], [p].[Descripcion], [p].[ImagenUrl], [p].[Nombre], [p].[Precio], [p].[Stock]
+FROM [Productos] AS [p]
+WHERE [p].[Id] = @__p_0
+2026-04-27 18:32:15.887 -03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [p].[Id], [p].[Descripcion], [p].[ImagenUrl], [p].[Nombre], [p].[Precio], [p].[Stock]
+FROM [Productos] AS [p]
+WHERE [p].[Id] = @__p_0
+2026-04-27 18:32:16.204 -03:00 [INF] Executed DbCommand (55ms) [Parameters=[@p1='?' (DbType = Int32), @p0='?' (Precision = 18) (Scale = 2) (DbType = Decimal), @p2='?' (DbType = Int32), @p3='?' (Size = 4000), @p4='?' (DbType = DateTime2), @p5='?' (Precision = 18) (Scale = 2) (DbType = Decimal), @p7='?' (DbType = Int32), @p6='?' (DbType = Int32), @p9='?' (DbType = Int32), @p8='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [Clientes] SET [DeudaTotal] = @p0
+OUTPUT 1
+WHERE [Id] = @p1;
+INSERT INTO [Pedidos] ([ClienteId], [Estado], [FechaCreacion], [Total])
+OUTPUT INSERTED.[Id]
+VALUES (@p2, @p3, @p4, @p5);
+UPDATE [Productos] SET [Stock] = @p6
+OUTPUT 1
+WHERE [Id] = @p7;
+UPDATE [Productos] SET [Stock] = @p8
+OUTPUT 1
+WHERE [Id] = @p9;
+2026-04-27 18:32:16.350 -03:00 [INF] Executed DbCommand (95ms) [Parameters=[@p10='?' (DbType = Int32), @p11='?' (DbType = Int32), @p12='?' (Precision = 18) (Scale = 2) (DbType = Decimal), @p13='?' (DbType = Int32), @p14='?' (DbType = Int32), @p15='?' (DbType = Int32), @p16='?' (Precision = 18) (Scale = 2) (DbType = Decimal), @p17='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+MERGE [DetallesPedido] USING (
+VALUES (@p10, @p11, @p12, @p13, 0),
+(@p14, @p15, @p16, @p17, 1)) AS i ([Cantidad], [PedidoId], [PrecioUnitario], [ProductoId], _Position) ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([Cantidad], [PedidoId], [PrecioUnitario], [ProductoId])
+VALUES (i.[Cantidad], i.[PedidoId], i.[PrecioUnitario], i.[ProductoId])
+OUTPUT INSERTED.[Id], i._Position;
+2026-04-27 18:32:16.906 -03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType4`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-04-27 18:32:16.919 -03:00 [INF] Executed action Api.Controllers.PedidosController.CrearPedido (Api) in 1226.2088ms
+2026-04-27 18:32:16.928 -03:00 [INF] Executed endpoint 'Api.Controllers.PedidosController.CrearPedido (Api)'
+2026-04-27 18:32:16.935 -03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5002/api/Pedidos - 200 null application/json; charset=utf-8 1287.258ms
+2026-04-27 18:32:20.283 -03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5002/api/Productos - null null
+2026-04-27 18:32:20.302 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:32:20.312 -03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5002/api/Productos - 204 null null 28.3486ms
+2026-04-27 18:32:20.344 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 18:32:20.373 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:32:20.378 -03:00 [INF] Executing endpoint 'Api.Controllers.ProductosController.GetProductos (Api)'
+2026-04-27 18:32:20.384 -03:00 [INF] Route matched with {action = "GetProductos", controller = "Productos"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Application.DTOs.ProductoDto]]] GetProductos() on controller Api.Controllers.ProductosController (Api).
+2026-04-27 18:32:20.397 -03:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[Nombre], [p].[Precio], [p].[Stock], [p].[Descripcion], [p].[ImagenUrl]
+FROM [Productos] AS [p]
+2026-04-27 18:32:20.407 -03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Application.DTOs.ProductoDto, Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-04-27 18:32:20.413 -03:00 [INF] Executed action Api.Controllers.ProductosController.GetProductos (Api) in 19.2404ms
+2026-04-27 18:32:20.421 -03:00 [INF] Executed endpoint 'Api.Controllers.ProductosController.GetProductos (Api)'
+2026-04-27 18:32:20.424 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 200 null application/json; charset=utf-8 80.253ms
+2026-04-27 18:34:31.203 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 18:34:31.216 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:34:31.219 -03:00 [INF] Executing endpoint 'Api.Controllers.ProductosController.GetProductos (Api)'
+2026-04-27 18:34:31.229 -03:00 [INF] Route matched with {action = "GetProductos", controller = "Productos"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Application.DTOs.ProductoDto]]] GetProductos() on controller Api.Controllers.ProductosController (Api).
+2026-04-27 18:34:31.261 -03:00 [INF] Executed DbCommand (19ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[Nombre], [p].[Precio], [p].[Stock], [p].[Descripcion], [p].[ImagenUrl]
+FROM [Productos] AS [p]
+2026-04-27 18:34:31.277 -03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Application.DTOs.ProductoDto, Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-04-27 18:34:31.286 -03:00 [INF] Executed action Api.Controllers.ProductosController.GetProductos (Api) in 46.2309ms
+2026-04-27 18:34:31.294 -03:00 [INF] Executed endpoint 'Api.Controllers.ProductosController.GetProductos (Api)'
+2026-04-27 18:34:31.302 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 200 null application/json; charset=utf-8 98.9073ms
+2026-04-27 18:34:43.679 -03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5002/api/Pedidos/estadisticas - null null
+2026-04-27 18:34:43.689 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:34:43.693 -03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5002/api/Pedidos/estadisticas - 204 null null 13.4152ms
+2026-04-27 18:34:43.711 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Pedidos/estadisticas - null null
+2026-04-27 18:34:43.721 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:34:43.725 -03:00 [INF] Executing endpoint 'Api.Controllers.PedidosController.GetEstadisticas (Api)'
+2026-04-27 18:34:43.732 -03:00 [INF] Route matched with {action = "GetEstadisticas", controller = "Pedidos"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Application.DTOs.EstadisticasDto]] GetEstadisticas() on controller Api.Controllers.PedidosController (Api).
+2026-04-27 18:34:43.757 -03:00 [INF] Executed DbCommand (15ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[ClienteId], [p].[Estado], [p].[FechaCreacion], [p].[Total]
+FROM [Pedidos] AS [p]
+2026-04-27 18:34:43.767 -03:00 [INF] Executing OkObjectResult, writing value of type 'Application.DTOs.EstadisticasDto'.
+2026-04-27 18:34:43.772 -03:00 [INF] Executed action Api.Controllers.PedidosController.GetEstadisticas (Api) in 31.5718ms
+2026-04-27 18:34:43.780 -03:00 [INF] Executed endpoint 'Api.Controllers.PedidosController.GetEstadisticas (Api)'
+2026-04-27 18:34:43.784 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Pedidos/estadisticas - 200 null application/json; charset=utf-8 73.3882ms
+2026-04-27 18:47:46.515 -03:00 [INF] Application is shutting down...
+2026-04-27 18:47:46.648 -03:00 [INF] Bus stopped: "rabbitmq://localhost/"
+2026-04-27 18:48:15.057 -03:00 [INF] Verificando base de datos en la nube...
+2026-04-27 18:48:16.134 -03:00 [WRN] No store type was specified for the decimal property 'DeudaTotal' on entity type 'Cliente'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 18:48:16.143 -03:00 [WRN] No store type was specified for the decimal property 'PrecioUnitario' on entity type 'DetallePedido'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 18:48:16.147 -03:00 [WRN] No store type was specified for the decimal property 'Monto' on entity type 'Pago'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 18:48:16.158 -03:00 [WRN] No store type was specified for the decimal property 'Total' on entity type 'Pedido'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 18:48:16.864 -03:00 [INF] Executed DbCommand (28ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-04-27 18:48:17.003 -03:00 [INF] Executed DbCommand (104ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2026-04-27 18:48:17.011 -03:00 [INF] ¡Base de datos lista!
+2026-04-27 18:48:17.142 -03:00 [INF] User profile is available. Using 'C:\Users\caleb\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-04-27 18:48:17.597 -03:00 [INF] Now listening on: http://localhost:5002
+2026-04-27 18:48:17.601 -03:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-04-27 18:48:17.604 -03:00 [INF] Hosting environment: Development
+2026-04-27 18:48:17.607 -03:00 [INF] Content root path: C:\Users\caleb\CleanEcommerce\Api
+2026-04-27 18:48:17.720 -03:00 [INF] Bus started: "rabbitmq://localhost/"
+2026-04-27 18:52:33.184 -03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5002/api/Pedidos/estadisticas - null null
+2026-04-27 18:52:33.349 -03:00 [WRN] Failed to determine the https port for redirect.
+2026-04-27 18:52:33.357 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:52:33.391 -03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5002/api/Pedidos/estadisticas - 204 null null 212.0224ms
+2026-04-27 18:52:33.429 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Pedidos/estadisticas - null null
+2026-04-27 18:52:33.463 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:52:33.755 -03:00 [INF] Executing endpoint 'Api.Controllers.PedidosController.GetEstadisticas (Api)'
+2026-04-27 18:52:33.853 -03:00 [INF] Route matched with {action = "GetEstadisticas", controller = "Pedidos"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Application.DTOs.EstadisticasDto]] GetEstadisticas() on controller Api.Controllers.PedidosController (Api).
+2026-04-27 18:52:34.819 -03:00 [INF] Executed DbCommand (73ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[ClienteId], [p].[Estado], [p].[FechaCreacion], [p].[Total]
+FROM [Pedidos] AS [p]
+2026-04-27 18:52:35.098 -03:00 [INF] Executing OkObjectResult, writing value of type 'Application.DTOs.EstadisticasDto'.
+2026-04-27 18:52:35.276 -03:00 [INF] Executed action Api.Controllers.PedidosController.GetEstadisticas (Api) in 1400.2979ms
+2026-04-27 18:52:35.284 -03:00 [INF] Executed endpoint 'Api.Controllers.PedidosController.GetEstadisticas (Api)'
+2026-04-27 18:52:35.302 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Pedidos/estadisticas - 200 null application/json; charset=utf-8 1872.905ms
+2026-04-27 18:52:41.583 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 18:52:41.600 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:52:41.612 -03:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2026-04-27 18:52:41.626 -03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-04-27 18:52:41.631 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 401 0 null 47.4599ms
+2026-04-27 18:52:45.313 -03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5002/api/Pedidos/estadisticas - null null
+2026-04-27 18:52:45.327 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:52:45.331 -03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5002/api/Pedidos/estadisticas - 204 null null 18.0735ms
+2026-04-27 18:52:45.348 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Pedidos/estadisticas - null null
+2026-04-27 18:52:45.361 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:52:45.376 -03:00 [INF] Executing endpoint 'Api.Controllers.PedidosController.GetEstadisticas (Api)'
+2026-04-27 18:52:45.384 -03:00 [INF] Route matched with {action = "GetEstadisticas", controller = "Pedidos"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Application.DTOs.EstadisticasDto]] GetEstadisticas() on controller Api.Controllers.PedidosController (Api).
+2026-04-27 18:52:45.583 -03:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[ClienteId], [p].[Estado], [p].[FechaCreacion], [p].[Total]
+FROM [Pedidos] AS [p]
+2026-04-27 18:52:45.595 -03:00 [INF] Executing OkObjectResult, writing value of type 'Application.DTOs.EstadisticasDto'.
+2026-04-27 18:52:45.603 -03:00 [INF] Executed action Api.Controllers.PedidosController.GetEstadisticas (Api) in 207.9602ms
+2026-04-27 18:52:45.610 -03:00 [INF] Executed endpoint 'Api.Controllers.PedidosController.GetEstadisticas (Api)'
+2026-04-27 18:52:45.614 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Pedidos/estadisticas - 200 null application/json; charset=utf-8 266.4213ms
+2026-04-27 18:53:02.448 -03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5002/api/Pedidos/estadisticas - null null
+2026-04-27 18:53:02.469 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:53:02.476 -03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5002/api/Pedidos/estadisticas - 204 null null 27.7755ms
+2026-04-27 18:53:02.496 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Pedidos/estadisticas - null null
+2026-04-27 18:53:02.510 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:53:02.516 -03:00 [INF] Executing endpoint 'Api.Controllers.PedidosController.GetEstadisticas (Api)'
+2026-04-27 18:53:02.523 -03:00 [INF] Route matched with {action = "GetEstadisticas", controller = "Pedidos"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Application.DTOs.EstadisticasDto]] GetEstadisticas() on controller Api.Controllers.PedidosController (Api).
+2026-04-27 18:53:02.544 -03:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[ClienteId], [p].[Estado], [p].[FechaCreacion], [p].[Total]
+FROM [Pedidos] AS [p]
+2026-04-27 18:53:02.556 -03:00 [INF] Executing OkObjectResult, writing value of type 'Application.DTOs.EstadisticasDto'.
+2026-04-27 18:53:02.564 -03:00 [INF] Executed action Api.Controllers.PedidosController.GetEstadisticas (Api) in 30.6322ms
+2026-04-27 18:53:02.572 -03:00 [INF] Executed endpoint 'Api.Controllers.PedidosController.GetEstadisticas (Api)'
+2026-04-27 18:53:02.579 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Pedidos/estadisticas - 200 null application/json; charset=utf-8 82.7626ms
+2026-04-27 18:55:16.681 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/swagger/index.html - null null
+2026-04-27 18:55:16.886 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/swagger/index.html - 200 null text/html;charset=utf-8 205.3663ms
+2026-04-27 18:55:17.250 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/swagger/v1/swagger.json - null null
+2026-04-27 18:55:17.466 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 215.5133ms
+2026-04-27 18:55:23.708 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 18:55:23.724 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:55:23.731 -03:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2026-04-27 18:55:23.742 -03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-04-27 18:55:23.760 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 401 0 null 52.6751ms
+2026-04-27 18:55:31.582 -03:00 [INF] Application is shutting down...
+2026-04-27 18:55:31.723 -03:00 [INF] Bus stopped: "rabbitmq://localhost/"
+2026-04-27 18:55:42.742 -03:00 [INF] Verificando base de datos en la nube...
+2026-04-27 18:55:43.533 -03:00 [WRN] No store type was specified for the decimal property 'DeudaTotal' on entity type 'Cliente'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 18:55:43.543 -03:00 [WRN] No store type was specified for the decimal property 'PrecioUnitario' on entity type 'DetallePedido'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 18:55:43.551 -03:00 [WRN] No store type was specified for the decimal property 'Monto' on entity type 'Pago'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 18:55:43.566 -03:00 [WRN] No store type was specified for the decimal property 'Total' on entity type 'Pedido'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 18:55:44.245 -03:00 [INF] Executed DbCommand (22ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-04-27 18:55:44.402 -03:00 [INF] Executed DbCommand (119ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2026-04-27 18:55:44.500 -03:00 [INF] ¡Base de datos lista!
+2026-04-27 18:55:44.645 -03:00 [INF] User profile is available. Using 'C:\Users\caleb\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-04-27 18:55:45.205 -03:00 [INF] Now listening on: http://localhost:5002
+2026-04-27 18:55:45.209 -03:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-04-27 18:55:45.213 -03:00 [INF] Hosting environment: Development
+2026-04-27 18:55:45.219 -03:00 [INF] Content root path: C:\Users\caleb\CleanEcommerce\Api
+2026-04-27 18:55:45.375 -03:00 [INF] Bus started: "rabbitmq://localhost/"
+2026-04-27 18:55:53.986 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 18:55:54.121 -03:00 [WRN] Failed to determine the https port for redirect.
+2026-04-27 18:55:54.128 -03:00 [INF] CORS policy execution successful.
+2026-04-27 18:55:54.225 -03:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2026-04-27 18:55:54.241 -03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-04-27 18:55:54.261 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 401 0 null 280.9308ms
+2026-04-27 18:55:58.524 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/swagger/index.html - null null
+2026-04-27 18:55:58.784 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/swagger/index.html - 200 null text/html;charset=utf-8 260.1889ms
+2026-04-27 18:55:58.894 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/swagger/v1/swagger.json - null null
+2026-04-27 18:55:59.115 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 221.1186ms
+2026-04-27 18:56:08.498 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 18:56:08.524 -03:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2026-04-27 18:56:08.528 -03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-04-27 18:56:08.534 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 401 0 null 36.1039ms
+2026-04-27 19:02:47.090 -03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5002/api/Usuarios/login - null null
+2026-04-27 19:02:47.117 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:02:47.130 -03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5002/api/Usuarios/login - 204 null null 40.6573ms
+2026-04-27 19:02:47.155 -03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5002/api/Usuarios/login - application/json; charset=utf-8 55
+2026-04-27 19:02:47.178 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:02:47.192 -03:00 [INF] Executing endpoint 'Api.Controllers.UsuariosController.Login (Api)'
+2026-04-27 19:02:47.302 -03:00 [INF] Route matched with {action = "Login", controller = "Usuarios"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] Login(Application.DTOs.UsuarioLoginDto) on controller Api.Controllers.UsuariosController (Api).
+2026-04-27 19:02:48.784 -03:00 [INF] Executed DbCommand (113ms) [Parameters=[@__request_Email_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Email], [u].[EsAdmin], [u].[NombreCompleto], [u].[PasswordHash], [u].[PasswordSalt]
+FROM [Usuario] AS [u]
+WHERE [u].[Email] = @__request_Email_0
+2026-04-27 19:02:49.032 -03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType5`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-04-27 19:02:49.088 -03:00 [INF] Executed action Api.Controllers.UsuariosController.Login (Api) in 1766.1987ms
+2026-04-27 19:02:49.101 -03:00 [INF] Executed endpoint 'Api.Controllers.UsuariosController.Login (Api)'
+2026-04-27 19:02:49.118 -03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5002/api/Usuarios/login - 200 null application/json; charset=utf-8 1962.6447ms
+2026-04-27 19:02:49.973 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 19:02:49.988 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:02:49.999 -03:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2026-04-27 19:02:50.004 -03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-04-27 19:02:50.011 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 401 0 null 37.7558ms
+2026-04-27 19:02:52.661 -03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5002/api/Pedidos/estadisticas - null null
+2026-04-27 19:02:52.674 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:02:52.681 -03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5002/api/Pedidos/estadisticas - 204 null null 19.9358ms
+2026-04-27 19:02:52.719 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Pedidos/estadisticas - null null
+2026-04-27 19:02:52.749 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:02:52.891 -03:00 [INF] Executing endpoint 'Api.Controllers.PedidosController.GetEstadisticas (Api)'
+2026-04-27 19:02:52.904 -03:00 [INF] Route matched with {action = "GetEstadisticas", controller = "Pedidos"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Application.DTOs.EstadisticasDto]] GetEstadisticas() on controller Api.Controllers.PedidosController (Api).
+2026-04-27 19:02:53.131 -03:00 [INF] Executed DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[ClienteId], [p].[Estado], [p].[FechaCreacion], [p].[Total]
+FROM [Pedidos] AS [p]
+2026-04-27 19:02:53.225 -03:00 [INF] Executing OkObjectResult, writing value of type 'Application.DTOs.EstadisticasDto'.
+2026-04-27 19:02:53.266 -03:00 [INF] Executed action Api.Controllers.PedidosController.GetEstadisticas (Api) in 354.0091ms
+2026-04-27 19:02:53.282 -03:00 [INF] Executed endpoint 'Api.Controllers.PedidosController.GetEstadisticas (Api)'
+2026-04-27 19:02:53.291 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Pedidos/estadisticas - 200 null application/json; charset=utf-8 571.9931ms
+2026-04-27 19:08:38.825 -03:00 [INF] Application is shutting down...
+2026-04-27 19:08:38.903 -03:00 [INF] Bus stopped: "rabbitmq://localhost/"
+2026-04-27 19:08:48.656 -03:00 [INF] Verificando base de datos en la nube...
+2026-04-27 19:08:49.388 -03:00 [WRN] No store type was specified for the decimal property 'DeudaTotal' on entity type 'Cliente'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 19:08:49.397 -03:00 [WRN] No store type was specified for the decimal property 'PrecioUnitario' on entity type 'DetallePedido'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 19:08:49.403 -03:00 [WRN] No store type was specified for the decimal property 'Monto' on entity type 'Pago'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 19:08:49.408 -03:00 [WRN] No store type was specified for the decimal property 'Total' on entity type 'Pedido'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 19:08:49.949 -03:00 [INF] Executed DbCommand (15ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-04-27 19:08:50.067 -03:00 [INF] Executed DbCommand (97ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2026-04-27 19:08:50.074 -03:00 [INF] ¡Base de datos lista!
+2026-04-27 19:08:50.180 -03:00 [INF] User profile is available. Using 'C:\Users\caleb\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-04-27 19:08:50.480 -03:00 [INF] Now listening on: http://localhost:5002
+2026-04-27 19:08:50.484 -03:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-04-27 19:08:50.486 -03:00 [INF] Hosting environment: Development
+2026-04-27 19:08:50.489 -03:00 [INF] Content root path: C:\Users\caleb\CleanEcommerce\Api
+2026-04-27 19:08:50.620 -03:00 [INF] Bus started: "rabbitmq://localhost/"
+2026-04-27 19:09:26.132 -03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5002/api/Pedidos/estadisticas - null null
+2026-04-27 19:09:26.256 -03:00 [WRN] Failed to determine the https port for redirect.
+2026-04-27 19:09:26.263 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:09:26.284 -03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5002/api/Pedidos/estadisticas - 204 null null 157.7195ms
+2026-04-27 19:09:26.313 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Pedidos/estadisticas - null null
+2026-04-27 19:09:26.343 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:09:26.555 -03:00 [INF] Executing endpoint 'Api.Controllers.PedidosController.GetEstadisticas (Api)'
+2026-04-27 19:09:26.599 -03:00 [INF] Route matched with {action = "GetEstadisticas", controller = "Pedidos"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Application.DTOs.EstadisticasDto]] GetEstadisticas() on controller Api.Controllers.PedidosController (Api).
+2026-04-27 19:09:27.308 -03:00 [INF] Executed DbCommand (33ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[ClienteId], [p].[Estado], [p].[FechaCreacion], [p].[Total]
+FROM [Pedidos] AS [p]
+2026-04-27 19:09:27.493 -03:00 [INF] Executing OkObjectResult, writing value of type 'Application.DTOs.EstadisticasDto'.
+2026-04-27 19:09:27.639 -03:00 [INF] Executed action Api.Controllers.PedidosController.GetEstadisticas (Api) in 1024.5944ms
+2026-04-27 19:09:27.647 -03:00 [INF] Executed endpoint 'Api.Controllers.PedidosController.GetEstadisticas (Api)'
+2026-04-27 19:09:27.667 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Pedidos/estadisticas - 200 null application/json; charset=utf-8 1354.5969ms
+2026-04-27 19:09:36.013 -03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5002/api/Productos - null null
+2026-04-27 19:09:36.038 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:09:36.046 -03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5002/api/Productos - 204 null null 32.4395ms
+2026-04-27 19:09:36.073 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 19:09:36.092 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:09:36.112 -03:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2026-04-27 19:09:36.127 -03:00 [INF] AuthenticationScheme: Bearer was forbidden.
+2026-04-27 19:09:36.135 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 403 0 null 62.5266ms
+2026-04-27 19:09:39.940 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 19:09:39.960 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:09:39.977 -03:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2026-04-27 19:09:39.989 -03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-04-27 19:09:39.994 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 401 0 null 54.3606ms
+2026-04-27 19:09:53.920 -03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5002/api/Usuarios/login - null null
+2026-04-27 19:09:53.935 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:09:53.940 -03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5002/api/Usuarios/login - 204 null null 20.069ms
+2026-04-27 19:09:53.954 -03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5002/api/Usuarios/login - application/json; charset=utf-8 38
+2026-04-27 19:09:53.968 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:09:53.973 -03:00 [INF] Executing endpoint 'Api.Controllers.UsuariosController.Login (Api)'
+2026-04-27 19:09:54.001 -03:00 [INF] Route matched with {action = "Login", controller = "Usuarios"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] Login(Application.DTOs.UsuarioLoginDto) on controller Api.Controllers.UsuariosController (Api).
+2026-04-27 19:09:54.440 -03:00 [INF] Executed DbCommand (32ms) [Parameters=[@__request_Email_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Email], [u].[EsAdmin], [u].[NombreCompleto], [u].[PasswordHash], [u].[PasswordSalt]
+FROM [Usuario] AS [u]
+WHERE [u].[Email] = @__request_Email_0
+2026-04-27 19:09:54.539 -03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType5`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-04-27 19:09:54.573 -03:00 [INF] Executed action Api.Controllers.UsuariosController.Login (Api) in 562.7483ms
+2026-04-27 19:09:54.585 -03:00 [INF] Executed endpoint 'Api.Controllers.UsuariosController.Login (Api)'
+2026-04-27 19:09:54.594 -03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5002/api/Usuarios/login - 200 null application/json; charset=utf-8 639.5349ms
+2026-04-27 19:09:55.564 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 19:09:55.590 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:09:55.597 -03:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2026-04-27 19:09:55.605 -03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-04-27 19:09:55.611 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 401 0 null 47.1313ms
+2026-04-27 19:10:56.767 -03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5002/api/Usuarios/registrar - application/json 94
+2026-04-27 19:10:56.786 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:10:56.792 -03:00 [INF] Executing endpoint 'Api.Controllers.UsuariosController.Registrar (Api)'
+2026-04-27 19:10:56.807 -03:00 [INF] Route matched with {action = "Registrar", controller = "Usuarios"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] Registrar(Application.DTOs.UsuarioRegistroDto) on controller Api.Controllers.UsuariosController (Api).
+2026-04-27 19:10:56.894 -03:00 [INF] Executed DbCommand (7ms) [Parameters=[@__request_Email_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Usuario] AS [u]
+        WHERE [u].[Email] = @__request_Email_0) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2026-04-27 19:10:57.160 -03:00 [INF] Executed DbCommand (33ms) [Parameters=[@p0='?' (Size = 4000), @p1='?' (DbType = Boolean), @p2='?' (Size = 4000), @p3='?' (Size = 8000) (DbType = Binary), @p4='?' (Size = 8000) (DbType = Binary)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Usuario] ([Email], [EsAdmin], [NombreCompleto], [PasswordHash], [PasswordSalt])
+OUTPUT INSERTED.[Id]
+VALUES (@p0, @p1, @p2, @p3, @p4);
+2026-04-27 19:10:57.221 -03:00 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2026-04-27 19:10:57.230 -03:00 [INF] Executed action Api.Controllers.UsuariosController.Registrar (Api) in 413.8287ms
+2026-04-27 19:10:57.238 -03:00 [INF] Executed endpoint 'Api.Controllers.UsuariosController.Registrar (Api)'
+2026-04-27 19:10:57.245 -03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5002/api/Usuarios/registrar - 200 null text/plain; charset=utf-8 477.6932ms
+2026-04-27 19:11:06.597 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 19:11:06.613 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:11:06.618 -03:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2026-04-27 19:11:06.623 -03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-04-27 19:11:06.627 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 401 0 null 29.4146ms
+2026-04-27 19:11:21.746 -03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5002/api/Usuarios/login - null null
+2026-04-27 19:11:21.764 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:11:21.769 -03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5002/api/Usuarios/login - 204 null null 22.8454ms
+2026-04-27 19:11:21.790 -03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5002/api/Usuarios/login - application/json; charset=utf-8 56
+2026-04-27 19:11:21.804 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:11:21.809 -03:00 [INF] Executing endpoint 'Api.Controllers.UsuariosController.Login (Api)'
+2026-04-27 19:11:21.816 -03:00 [INF] Route matched with {action = "Login", controller = "Usuarios"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] Login(Application.DTOs.UsuarioLoginDto) on controller Api.Controllers.UsuariosController (Api).
+2026-04-27 19:11:21.847 -03:00 [INF] Executed DbCommand (9ms) [Parameters=[@__request_Email_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Email], [u].[EsAdmin], [u].[NombreCompleto], [u].[PasswordHash], [u].[PasswordSalt]
+FROM [Usuario] AS [u]
+WHERE [u].[Email] = @__request_Email_0
+2026-04-27 19:11:21.862 -03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType5`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-04-27 19:11:21.872 -03:00 [INF] Executed action Api.Controllers.UsuariosController.Login (Api) in 45.1593ms
+2026-04-27 19:11:21.881 -03:00 [INF] Executed endpoint 'Api.Controllers.UsuariosController.Login (Api)'
+2026-04-27 19:11:21.890 -03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5002/api/Usuarios/login - 200 null application/json; charset=utf-8 99.7181ms
+2026-04-27 19:11:22.771 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 19:11:22.792 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:11:22.797 -03:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2026-04-27 19:11:22.803 -03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-04-27 19:11:22.813 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 401 0 null 42.1169ms
+2026-04-27 19:15:51.866 -03:00 [INF] Application is shutting down...
+2026-04-27 19:15:51.937 -03:00 [INF] Bus stopped: "rabbitmq://localhost/"
+2026-04-27 19:16:14.069 -03:00 [INF] Verificando base de datos en la nube...
+2026-04-27 19:16:14.699 -03:00 [WRN] No store type was specified for the decimal property 'DeudaTotal' on entity type 'Cliente'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 19:16:14.705 -03:00 [WRN] No store type was specified for the decimal property 'PrecioUnitario' on entity type 'DetallePedido'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 19:16:14.710 -03:00 [WRN] No store type was specified for the decimal property 'Monto' on entity type 'Pago'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 19:16:14.713 -03:00 [WRN] No store type was specified for the decimal property 'Total' on entity type 'Pedido'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 19:16:15.198 -03:00 [INF] Executed DbCommand (18ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-04-27 19:16:15.300 -03:00 [INF] Executed DbCommand (84ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2026-04-27 19:16:15.306 -03:00 [INF] ¡Base de datos lista!
+2026-04-27 19:16:15.395 -03:00 [INF] User profile is available. Using 'C:\Users\caleb\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-04-27 19:16:15.699 -03:00 [INF] Now listening on: http://localhost:5002
+2026-04-27 19:16:15.701 -03:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-04-27 19:16:15.703 -03:00 [INF] Hosting environment: Development
+2026-04-27 19:16:15.706 -03:00 [INF] Content root path: C:\Users\caleb\CleanEcommerce\Api
+2026-04-27 19:16:15.823 -03:00 [INF] Bus started: "rabbitmq://localhost/"
+2026-04-27 19:16:35.668 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 19:16:35.815 -03:00 [WRN] Failed to determine the https port for redirect.
+2026-04-27 19:16:35.823 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:16:35.909 -03:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2026-04-27 19:16:35.929 -03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-04-27 19:16:35.946 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 401 0 null 281.9916ms
+2026-04-27 19:16:39.436 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 19:16:39.460 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:16:39.477 -03:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2026-04-27 19:16:39.487 -03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-04-27 19:16:39.495 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 401 0 null 58.8764ms
+2026-04-27 19:16:51.066 -03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5002/api/Usuarios/login - null null
+2026-04-27 19:16:51.080 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:16:51.088 -03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5002/api/Usuarios/login - 204 null null 21.4216ms
+2026-04-27 19:16:51.104 -03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5002/api/Usuarios/login - application/json; charset=utf-8 56
+2026-04-27 19:16:51.118 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:16:51.129 -03:00 [INF] Executing endpoint 'Api.Controllers.UsuariosController.Login (Api)'
+2026-04-27 19:16:51.191 -03:00 [INF] Route matched with {action = "Login", controller = "Usuarios"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] Login(Application.DTOs.UsuarioLoginDto) on controller Api.Controllers.UsuariosController (Api).
+2026-04-27 19:16:52.246 -03:00 [INF] Executed DbCommand (96ms) [Parameters=[@__request_Email_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Email], [u].[EsAdmin], [u].[NombreCompleto], [u].[PasswordHash], [u].[PasswordSalt]
+FROM [Usuario] AS [u]
+WHERE [u].[Email] = @__request_Email_0
+2026-04-27 19:16:52.456 -03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType5`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-04-27 19:16:52.502 -03:00 [INF] Executed action Api.Controllers.UsuariosController.Login (Api) in 1292.998ms
+2026-04-27 19:16:52.510 -03:00 [INF] Executed endpoint 'Api.Controllers.UsuariosController.Login (Api)'
+2026-04-27 19:16:52.526 -03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5002/api/Usuarios/login - 200 null application/json; charset=utf-8 1422.0784ms
+2026-04-27 19:16:53.348 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 19:16:53.358 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:16:53.365 -03:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2026-04-27 19:16:53.369 -03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-04-27 19:16:53.374 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 401 0 null 26.0458ms
+2026-04-27 19:20:15.587 -03:00 [INF] Application is shutting down...
+2026-04-27 19:20:15.655 -03:00 [INF] Bus stopped: "rabbitmq://localhost/"
+2026-04-27 19:20:31.881 -03:00 [INF] Verificando base de datos en la nube...
+2026-04-27 19:20:32.444 -03:00 [WRN] No store type was specified for the decimal property 'DeudaTotal' on entity type 'Cliente'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 19:20:32.463 -03:00 [WRN] No store type was specified for the decimal property 'PrecioUnitario' on entity type 'DetallePedido'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 19:20:32.482 -03:00 [WRN] No store type was specified for the decimal property 'Monto' on entity type 'Pago'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 19:20:32.499 -03:00 [WRN] No store type was specified for the decimal property 'Total' on entity type 'Pedido'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 19:20:33.094 -03:00 [INF] Executed DbCommand (26ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-04-27 19:20:33.287 -03:00 [INF] Executed DbCommand (155ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2026-04-27 19:20:33.312 -03:00 [INF] ¡Base de datos lista!
+2026-04-27 19:20:33.449 -03:00 [INF] User profile is available. Using 'C:\Users\caleb\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-04-27 19:20:33.709 -03:00 [INF] Now listening on: http://localhost:5002
+2026-04-27 19:20:33.712 -03:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-04-27 19:20:33.714 -03:00 [INF] Hosting environment: Development
+2026-04-27 19:20:33.719 -03:00 [INF] Content root path: C:\Users\caleb\CleanEcommerce\Api
+2026-04-27 19:20:33.832 -03:00 [INF] Bus started: "rabbitmq://localhost/"
+2026-04-27 19:21:28.314 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 19:21:28.413 -03:00 [WRN] Failed to determine the https port for redirect.
+2026-04-27 19:21:28.419 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:21:28.484 -03:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2026-04-27 19:21:28.494 -03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-04-27 19:21:28.507 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 401 0 null 199.9197ms
+2026-04-27 19:21:32.315 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 19:21:32.332 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:21:32.357 -03:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2026-04-27 19:21:32.364 -03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-04-27 19:21:32.373 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 401 0 null 58.5882ms
+2026-04-27 19:21:44.331 -03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5002/api/Usuarios/login - null null
+2026-04-27 19:21:44.352 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:21:44.369 -03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5002/api/Usuarios/login - 204 null null 37.8617ms
+2026-04-27 19:21:44.401 -03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5002/api/Usuarios/login - application/json; charset=utf-8 56
+2026-04-27 19:21:44.427 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:21:44.440 -03:00 [INF] Executing endpoint 'Api.Controllers.UsuariosController.Login (Api)'
+2026-04-27 19:21:44.510 -03:00 [INF] Route matched with {action = "Login", controller = "Usuarios"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] Login(Application.DTOs.UsuarioLoginDto) on controller Api.Controllers.UsuariosController (Api).
+2026-04-27 19:21:45.601 -03:00 [INF] Executed DbCommand (63ms) [Parameters=[@__request_Email_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Email], [u].[EsAdmin], [u].[NombreCompleto], [u].[PasswordHash], [u].[PasswordSalt]
+FROM [Usuario] AS [u]
+WHERE [u].[Email] = @__request_Email_0
+2026-04-27 19:21:45.799 -03:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType5`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-04-27 19:21:45.863 -03:00 [INF] Executed action Api.Controllers.UsuariosController.Login (Api) in 1335.6943ms
+2026-04-27 19:21:45.873 -03:00 [INF] Executed endpoint 'Api.Controllers.UsuariosController.Login (Api)'
+2026-04-27 19:21:45.890 -03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5002/api/Usuarios/login - 200 null application/json; charset=utf-8 1489.0889ms
+2026-04-27 19:21:46.695 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 19:21:46.719 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:21:46.728 -03:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2026-04-27 19:21:46.735 -03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-04-27 19:21:46.739 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 401 0 null 44.1452ms
+2026-04-27 19:21:53.601 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 19:21:53.611 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:21:53.616 -03:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2026-04-27 19:21:53.624 -03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-04-27 19:21:53.631 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 401 0 null 29.4563ms
+2026-04-27 19:22:50.069 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 19:22:50.092 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:22:50.099 -03:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2026-04-27 19:22:50.104 -03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-04-27 19:22:50.111 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 401 0 null 42.8182ms
+2026-04-27 19:23:34.144 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 19:23:34.153 -03:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2026-04-27 19:23:34.158 -03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-04-27 19:23:34.164 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 401 0 null 19.6914ms
+2026-04-27 19:23:36.279 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 19:23:36.291 -03:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2026-04-27 19:23:36.294 -03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-04-27 19:23:36.299 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 401 0 null 19.7278ms
+2026-04-27 19:32:18.939 -03:00 [INF] Application is shutting down...
+2026-04-27 19:32:19.010 -03:00 [INF] Bus stopped: "rabbitmq://localhost/"
+2026-04-27 19:32:49.900 -03:00 [INF] Verificando base de datos en la nube...
+2026-04-27 19:32:50.514 -03:00 [WRN] No store type was specified for the decimal property 'DeudaTotal' on entity type 'Cliente'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 19:32:50.527 -03:00 [WRN] No store type was specified for the decimal property 'PrecioUnitario' on entity type 'DetallePedido'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 19:32:50.543 -03:00 [WRN] No store type was specified for the decimal property 'Monto' on entity type 'Pago'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 19:32:50.552 -03:00 [WRN] No store type was specified for the decimal property 'Total' on entity type 'Pedido'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-04-27 19:32:51.137 -03:00 [INF] Executed DbCommand (19ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-04-27 19:32:51.292 -03:00 [INF] Executed DbCommand (119ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+
+IF EXISTS
+    (SELECT *
+     FROM [sys].[objects] o
+     WHERE [o].[type] = 'U'
+     AND [o].[is_ms_shipped] = 0
+     AND NOT EXISTS (SELECT *
+         FROM [sys].[extended_properties] AS [ep]
+         WHERE [ep].[major_id] = [o].[object_id]
+             AND [ep].[minor_id] = 0
+             AND [ep].[class] = 1
+             AND [ep].[name] = N'microsoft_database_tools_support'
+    )
+)
+SELECT 1 ELSE SELECT 0
+2026-04-27 19:32:51.300 -03:00 [INF] ¡Base de datos lista!
+2026-04-27 19:32:51.420 -03:00 [INF] User profile is available. Using 'C:\Users\caleb\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-04-27 19:32:51.822 -03:00 [INF] Now listening on: http://localhost:5002
+2026-04-27 19:32:51.827 -03:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-04-27 19:32:51.834 -03:00 [INF] Hosting environment: Development
+2026-04-27 19:32:51.840 -03:00 [INF] Content root path: C:\Users\caleb\CleanEcommerce\Api
+2026-04-27 19:32:51.947 -03:00 [INF] Bus started: "rabbitmq://localhost/"
+2026-04-27 19:33:03.635 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 19:33:03.757 -03:00 [WRN] Failed to determine the https port for redirect.
+2026-04-27 19:33:03.764 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:33:03.853 -03:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2026-04-27 19:33:03.864 -03:00 [INF] AuthenticationScheme: Bearer was challenged.
+2026-04-27 19:33:03.891 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 401 0 null 259.2148ms
+2026-04-27 19:33:06.187 -03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5002/api/Pedidos - null null
+2026-04-27 19:33:06.212 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:33:06.227 -03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5002/api/Pedidos - 204 null null 40.5398ms
+2026-04-27 19:33:06.256 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Pedidos - null null
+2026-04-27 19:33:06.278 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:33:06.442 -03:00 [INF] Executing endpoint 'Api.Controllers.PedidosController.GetTodosLosPedidos (Api)'
+2026-04-27 19:33:06.502 -03:00 [INF] Route matched with {action = "GetTodosLosPedidos", controller = "Pedidos"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Application.DTOs.PedidoAdminDto]]] GetTodosLosPedidos() on controller Api.Controllers.PedidosController (Api).
+2026-04-27 19:33:07.478 -03:00 [INF] Executed DbCommand (102ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[FechaCreacion], [c].[NombreCompleto] AS [ClienteEmail], [p].[Total], COALESCE([p].[Estado], N'Pendiente') AS [Estado]
+FROM [Pedidos] AS [p]
+INNER JOIN [Clientes] AS [c] ON [p].[ClienteId] = [c].[Id]
+ORDER BY [p].[FechaCreacion] DESC
+2026-04-27 19:33:07.574 -03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Application.DTOs.PedidoAdminDto, Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-04-27 19:33:07.803 -03:00 [INF] Executed action Api.Controllers.PedidosController.GetTodosLosPedidos (Api) in 1285.4839ms
+2026-04-27 19:33:07.808 -03:00 [INF] Executed endpoint 'Api.Controllers.PedidosController.GetTodosLosPedidos (Api)'
+2026-04-27 19:33:07.826 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Pedidos - 200 null application/json; charset=utf-8 1570.0364ms
+2026-04-27 19:33:20.447 -03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5002/api/Pedidos/estadisticas - null null
+2026-04-27 19:33:20.464 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:33:20.472 -03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5002/api/Pedidos/estadisticas - 204 null null 24.6818ms
+2026-04-27 19:33:20.493 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Pedidos/estadisticas - null null
+2026-04-27 19:33:20.512 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:33:20.527 -03:00 [INF] Executing endpoint 'Api.Controllers.PedidosController.GetEstadisticas (Api)'
+2026-04-27 19:33:20.546 -03:00 [INF] Route matched with {action = "GetEstadisticas", controller = "Pedidos"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Application.DTOs.EstadisticasDto]] GetEstadisticas() on controller Api.Controllers.PedidosController (Api).
+2026-04-27 19:33:20.827 -03:00 [INF] Executed DbCommand (35ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[ClienteId], [p].[Estado], [p].[FechaCreacion], [p].[Total]
+FROM [Pedidos] AS [p]
+2026-04-27 19:33:20.986 -03:00 [INF] Executing OkObjectResult, writing value of type 'Application.DTOs.EstadisticasDto'.
+2026-04-27 19:33:21.019 -03:00 [INF] Executed action Api.Controllers.PedidosController.GetEstadisticas (Api) in 462.9285ms
+2026-04-27 19:33:21.027 -03:00 [INF] Executed endpoint 'Api.Controllers.PedidosController.GetEstadisticas (Api)'
+2026-04-27 19:33:21.034 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Pedidos/estadisticas - 200 null application/json; charset=utf-8 540.2033ms
+2026-04-27 19:33:24.657 -03:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5002/api/Productos - null null
+2026-04-27 19:33:24.671 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:33:24.677 -03:00 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5002/api/Productos - 204 null null 19.1443ms
+2026-04-27 19:33:24.702 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5002/api/Productos - null null
+2026-04-27 19:33:24.722 -03:00 [INF] CORS policy execution successful.
+2026-04-27 19:33:24.732 -03:00 [INF] Executing endpoint 'Api.Controllers.ProductosController.GetProductos (Api)'
+2026-04-27 19:33:24.750 -03:00 [INF] Route matched with {action = "GetProductos", controller = "Productos"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Application.DTOs.ProductoDto]]] GetProductos() on controller Api.Controllers.ProductosController (Api).
+2026-04-27 19:33:24.814 -03:00 [INF] Executed DbCommand (13ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[Nombre], [p].[Precio], [p].[Stock], [p].[Descripcion], [p].[ImagenUrl]
+FROM [Productos] AS [p]
+2026-04-27 19:33:24.832 -03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Application.DTOs.ProductoDto, Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-04-27 19:33:24.862 -03:00 [INF] Executed action Api.Controllers.ProductosController.GetProductos (Api) in 96.1564ms
+2026-04-27 19:33:24.870 -03:00 [INF] Executed endpoint 'Api.Controllers.ProductosController.GetProductos (Api)'
+2026-04-27 19:33:24.877 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5002/api/Productos - 200 null application/json; charset=utf-8 174.7796ms
