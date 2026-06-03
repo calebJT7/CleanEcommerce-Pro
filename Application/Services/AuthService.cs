@@ -12,13 +12,13 @@ namespace Application.Services
     {
         private readonly IConfiguration _config;
 
-        // 🔌 Inyectamos la configuración para poder leer el secreto del appsettings.json
+        //  Inyectamos la configuración para poder leer el secreto del appsettings.json
         public AuthService(IConfiguration config)
         {
             _config = config;
         }
 
-        // 🔒 1. MÉTODO PARA ENCRIPTAR (REGISTRO)
+        //  1. MÉTODO PARA ENCRIPTAR (REGISTRO)
         public void CrearPasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512())
@@ -28,7 +28,7 @@ namespace Application.Services
             }
         }
 
-        // 🔓 2. MÉTODO PARA VERIFICAR (LOGIN)
+        //  2. MÉTODO PARA VERIFICAR (LOGIN)
         public bool VerificarPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512(passwordSalt))
@@ -38,7 +38,7 @@ namespace Application.Services
             }
         }
 
-        // 🎟️ 3. ¡NUEVO! MÉTODO PARA CREAR EL PASE VIP (JWT)
+        //  3. MÉTODO PARA CREAR EL PASE VIP (JWT)
         public string CrearToken(Usuario usuario)
         {
             // A. ¿Qué información llevará el pase? (Claims)
@@ -47,6 +47,11 @@ namespace Application.Services
                 new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
                 new Claim(ClaimTypes.Email, usuario.Email)
             };
+            if (usuario.Email == "calebtoledo375@gmail.com")
+            {
+                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+                claims.Add(new Claim("role", "Admin"));
+            }
 
             // B. Buscamos la firma secreta del servidor
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(

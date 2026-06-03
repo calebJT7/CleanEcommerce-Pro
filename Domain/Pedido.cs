@@ -5,7 +5,7 @@ namespace Domain
         public int Id { get; set; }
         public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;
 
-        // 🔗 ¡El puente! Aquí conectamos el pedido con un Cliente específico
+        // El puente Aca conectamos el pedido con un Cliente específico
         public int ClienteId { get; set; }
         public Cliente? Cliente { get; set; }
 
