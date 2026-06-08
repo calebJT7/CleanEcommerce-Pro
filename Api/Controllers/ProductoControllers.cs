@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
-    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductosController : ControllerBase
@@ -20,6 +19,7 @@ namespace Api.Controllers
         }
 
         //  1. LEER TODOS
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<List<ProductoDto>>> GetProductos()
         {
@@ -39,6 +39,7 @@ namespace Api.Controllers
         }
 
         //  2. LEER UNO SOLO
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductoDto>> GetProducto(int id)
         {
@@ -58,6 +59,7 @@ namespace Api.Controllers
         }
 
         //  3. CREAR NUEVO
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult> CrearProducto(ProductoDto productoDto)
         {
@@ -76,6 +78,7 @@ namespace Api.Controllers
         }
 
         //  4. ACTUALIZAR
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<ActionResult> ActualizarProducto(int id, ProductoDto productoDto)
         {
@@ -93,6 +96,7 @@ namespace Api.Controllers
         }
 
         //  5. BORRAR
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> BorrarProducto(int id)
         {
