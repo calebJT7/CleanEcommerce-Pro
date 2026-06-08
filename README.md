@@ -1,46 +1,59 @@
-# Clean E-Commerce Platform (Pro Edition)
+# Clean E-Commerce Platform (Enterprise Architecture)
 
 ![CI Status](https://github.com/calebJT7/CleanEcommerce-Pro/actions/workflows/ci.yml/badge.svg)
 ![.NET Version](https://img.shields.io/badge/.NET-9.0-purple?style=for-the-badge&logo=dotnet)
 ![Architecture](https://img.shields.io/badge/Architecture-Clean-green?style=for-the-badge)
 ![Messaging](https://img.shields.io/badge/Messaging-RabbitMQ-orange?style=for-the-badge&logo=rabbitmq)
 
-A Full-Stack e-commerce platform built with **Clean Architecture** and **Domain-Driven Design (DDD)** principles, designed for high scalability and enterprise-grade reliability.
+A Full-Stack e-commerce ecosystem built with **Clean Architecture** and **Domain-Driven Design (DDD)** principles. This repository contains the Core Web API and the internal Management Dashboard, designed to securely serve decoupled client applications.
 
-## 🚀 Advanced Enterprise Features (New!)
+## 🏗️ Architecture Overview
+
+The system features a strict separation of concerns, operating through a dual-frontend architecture:
+* **Core API (.NET 9):** Centralized backend handling secure endpoints, business logic, and database operations with role-based JWT claim validation.
+* **Admin Dashboard (Blazor WebAssembly):** A highly secure, private panel restricted to `Admin` roles for inventory management and order monitoring.
+* **Client Storefront (Next.js):** *Hosted in a separate repository.* A public-facing, SEO-optimized application consuming public API endpoints (`[AllowAnonymous]`) for the end-user shopping experience.
+
+## 🚀 Advanced Enterprise Features
 
 - **Asynchronous Messaging:** Integrated **RabbitMQ** with **MassTransit** to decouple order processing. The system publishes `PedidoCreated` events for background workers.
+- **Strict Role Isolation:** Custom JWT claim logic ensuring airtight security between public storefront consumers and administrative staff.
 - **Structured Logging:** Implemented **Serilog** with Console and File sinks for professional monitoring and troubleshooting.
-- **Automated Testing:** High-reliability core business logic covered by **xUnit** unit tests.
-- **CI/CD Pipeline:** Fully automated build and test workflows using **GitHub Actions** to ensure code quality on every push.
+- **Automated Testing & CI/CD:** Core business logic covered by **xUnit** unit tests, integrated with **GitHub Actions** to ensure code quality on every push.
 
-## Technologies Used
+## 🛠️ Technologies Used
 
-- **Backend:** ASP.NET Core Web API (.NET 9).
-- **Frontend:** Blazor WebAssembly (C#), HTML, Bootstrap 5.
-- **Database:** SQL Server & Entity Framework Core.
-- **Messaging:** RabbitMQ & MassTransit.
-- **DevOps:** Docker, Docker Compose, GitHub Actions.
+- **Backend:** ASP.NET Core Web API (.NET 9)
+- **Admin Panel:** Blazor WebAssembly (C#), HTML, Bootstrap 5
+- **Database:** SQL Server & Entity Framework Core
+- **Messaging:** RabbitMQ & MassTransit
+- **DevOps:** Docker, Docker Compose, GitHub Actions
 
-## Main Features
+## 🔮 Future Roadmap
 
-- **Dynamic Catalog:** Real-time product management.
-- **Secure Checkout:** JWT-based authentication and secure transaction flow.
-- **Admin Dashboard:** Financial metrics, inventory CRUD, and logistics tracking.
-- **Event-Driven Flow:** Orders trigger asynchronous notifications.
+- [ ] Complete database persistence integration for the incoming Next.js `/api/Orders` payload.
+- [ ] Implement Refresh Token rotation to boost JWT security for long-lived admin sessions.
+- [ ] Migrate file logging to an ELK Stack (Elasticsearch, Logstash, Kibana) for cloud observability.
 
 ---
 
-# Plataforma de Comercio Electrónico (Versión Pro)
+# Plataforma de Comercio Electrónico (Arquitectura Empresarial)
 
-Plataforma Full-Stack desarrollada bajo **Clean Architecture**, optimizada para entornos empresariales con enfoque en escalabilidad y mantenimiento.
+Ecosistema Full-Stack desarrollado bajo **Clean Architecture**, optimizado para entornos corporativos con un enfoque estricto en la seguridad, escalabilidad y la separación de responsabilidades.
 
-## 🚀 Funcionalidades Avanzadas Recientes
+## 🏗️ Resumen de la Arquitectura
+
+El sistema opera mediante una arquitectura de múltiples frontends:
+* **Core API (.NET 9):** Backend centralizado que maneja la lógica de negocio y exposición de endpoints seguros mediante validación de claims y roles JWT.
+* **Panel Administrativo (Blazor):** Dashboard privado y de alto rendimiento, restringido exclusivamente a administradores para el control de inventario.
+* **Vitrina de Clientes (Next.js):** *En repositorio independiente.* Aplicación pública optimizada que consume los endpoints abiertos de la API para el catálogo y carrito de compras.
+
+## 🚀 Funcionalidades Avanzadas
 
 - **Mensajería Asíncrona:** Uso de **RabbitMQ** y **MassTransit** para desacoplar el procesamiento de pedidos mediante eventos.
-- **Logging Estructurado:** Implementación de **Serilog** para trazabilidad profesional de errores y auditoría.
+- **Aislamiento de Seguridad:** Implementación de tokens JWT con validación personalizada para evitar la escalación de privilegios desde aplicaciones cliente.
+- **Logging Estructurado:** Trazabilidad profesional de errores y auditoría con **Serilog**.
 - **Calidad de Código:** Tests unitarios con **xUnit** y automatización de integración continua (CI) mediante **GitHub Actions**.
-- **Arquitectura:** Separación estricta de responsabilidades (Domain, Application, Infrastructure, API).
 
 ## Reproduction Steps / Pasos para la Reproducción
 
