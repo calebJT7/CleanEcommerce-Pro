@@ -7,21 +7,21 @@
 
 A Full-Stack e-commerce ecosystem built with **Clean Architecture** and **Domain-Driven Design (DDD)** principles. This repository contains the Core Web API and the internal Management Dashboard, designed to securely serve decoupled client applications.
 
-## 🏗️ Architecture Overview
+##  Architecture Overview
 
 The system features a strict separation of concerns, operating through a dual-frontend architecture:
 * **Core API (.NET 9):** Centralized backend handling secure endpoints, business logic, and database operations with role-based JWT claim validation.
 * **Admin Dashboard (Blazor WebAssembly):** A highly secure, private panel restricted to `Admin` roles for inventory management and order monitoring.
 * **Client Storefront (Next.js):** *Hosted in a separate repository.* A public-facing, SEO-optimized application consuming public API endpoints (`[AllowAnonymous]`) for the end-user shopping experience.
 
-## 🚀 Advanced Enterprise Features
+## Advanced Enterprise Features
 
 - **Asynchronous Messaging:** Integrated **RabbitMQ** with **MassTransit** to decouple order processing. The system publishes `PedidoCreated` events for background workers.
 - **Strict Role Isolation:** Custom JWT claim logic ensuring airtight security between public storefront consumers and administrative staff.
 - **Structured Logging:** Implemented **Serilog** with Console and File sinks for professional monitoring and troubleshooting.
 - **Automated Testing & CI/CD:** Core business logic covered by **xUnit** unit tests, integrated with **GitHub Actions** to ensure code quality on every push.
 
-## 🛠️ Technologies Used
+##  Technologies Used
 
 - **Backend:** ASP.NET Core Web API (.NET 9)
 - **Admin Panel:** Blazor WebAssembly (C#), HTML, Bootstrap 5
@@ -29,7 +29,7 @@ The system features a strict separation of concerns, operating through a dual-fr
 - **Messaging:** RabbitMQ & MassTransit
 - **DevOps:** Docker, Docker Compose, GitHub Actions
 
-## 🔮 Future Roadmap
+##  Future Roadmap
 
 - [ ] Complete database persistence integration for the incoming Next.js `/api/Orders` payload.
 - [ ] Implement Refresh Token rotation to boost JWT security for long-lived admin sessions.
@@ -41,14 +41,14 @@ The system features a strict separation of concerns, operating through a dual-fr
 
 Ecosistema Full-Stack desarrollado bajo **Clean Architecture**, optimizado para entornos corporativos con un enfoque estricto en la seguridad, escalabilidad y la separación de responsabilidades.
 
-## 🏗️ Resumen de la Arquitectura
+##  Resumen de la Arquitectura
 
 El sistema opera mediante una arquitectura de múltiples frontends:
 * **Core API (.NET 9):** Backend centralizado que maneja la lógica de negocio y exposición de endpoints seguros mediante validación de claims y roles JWT.
 * **Panel Administrativo (Blazor):** Dashboard privado y de alto rendimiento, restringido exclusivamente a administradores para el control de inventario.
 * **Vitrina de Clientes (Next.js):** *En repositorio independiente.* Aplicación pública optimizada que consume los endpoints abiertos de la API para el catálogo y carrito de compras.
 
-## 🚀 Funcionalidades Avanzadas
+##  Funcionalidades Avanzadas
 
 - **Mensajería Asíncrona:** Uso de **RabbitMQ** y **MassTransit** para desacoplar el procesamiento de pedidos mediante eventos.
 - **Aislamiento de Seguridad:** Implementación de tokens JWT con validación personalizada para evitar la escalación de privilegios desde aplicaciones cliente.
