@@ -38,7 +38,7 @@ namespace Application.Services
             }
         }
 
-        //  3. MÉTODO PARA CREAR EL PASE VIP (JWT)
+        // 🎫 3. MÉTODO PARA CREAR EL PASE VIP (JWT)
         public string CrearToken(Usuario usuario)
         {
             // A. ¿Qué información llevará el pase? (Claims)
@@ -47,10 +47,18 @@ namespace Application.Services
                 new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
                 new Claim(ClaimTypes.Email, usuario.Email)
             };
-            if (usuario.Email == "calebtoledo375@gmail.com")
+
+            // 🔥 El arreglo: Ahora leemos la propiedad de la base de datos
+            // Hardcodeamos TU mail de prueba actual como el jefe supremo
+            if (usuario.Email == "bangtankpos375@gmail.com")
             {
                 claims.Add(new Claim(ClaimTypes.Role, "Admin"));
                 claims.Add(new Claim("role", "Admin"));
+            }
+            else
+            {
+                claims.Add(new Claim(ClaimTypes.Role, "Cliente"));
+                claims.Add(new Claim("role", "Cliente"));
             }
 
             // B. Buscamos la firma secreta del servidor

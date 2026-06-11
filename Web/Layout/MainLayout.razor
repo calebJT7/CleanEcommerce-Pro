@@ -27,13 +27,17 @@
                             <span class="app-user">@emailLogueado</span>
                         }
 
-                        @if (emailLogueado == "calebtoledo375@gmail.com")
+                        @if (emailLogueado == "bangtankpos375@gmail.com")
                         {
                             <nav class="app-admin-nav" aria-label="Administración">
-                                <span class="d-none d-md-inline text-secondary small me-1" style="color:#64748b!important;font-size:0.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Admin</span>
-                                <a href="/admin" class="nav-link-item @(EsRutaActiva("/admin", exact: true) ? "active" : "")">Dashboard</a>
-                                <a href="/admin/productos" class="nav-link-item @(EsRutaActiva("/admin/productos") ? "active" : "")">Productos</a>
-                                <a href="/admin/pedidos" class="nav-link-item @(EsRutaActiva("/admin/pedidos") ? "active" : "")">Pedidos</a>
+                                <span class="d-none d-md-inline text-secondary small me-1"
+                                      style="color:#64748b!important;font-size:0.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Admin</span>
+                                <a href="/admin"
+                                   class="nav-link-item @(EsRutaActiva("/admin", exact: true) ? "active" : "")">Dashboard</a>
+                                <a href="/admin/productos"
+                                   class="nav-link-item @(EsRutaActiva("/admin/productos") ? "active" : "")">Productos</a>
+                                <a href="/admin/pedidos"
+                                   class="nav-link-item @(EsRutaActiva("/admin/pedidos") ? "active" : "")">Pedidos</a>
                             </nav>
                         }
 
@@ -61,9 +65,12 @@
         <div class="app-shell-admin">
             <aside class="admin-sidebar d-none d-lg-block" aria-label="Panel de administración">
                 <p class="admin-sidebar__label">Panel</p>
-                <a href="/admin" class="admin-sidebar__link @(EsRutaActiva("/admin", exact: true) ? "active" : "")">Dashboard</a>
-                <a href="/admin/productos" class="admin-sidebar__link @(EsRutaActiva("/admin/productos") ? "active" : "")">Productos</a>
-                <a href="/admin/pedidos" class="admin-sidebar__link @(EsRutaActiva("/admin/pedidos") ? "active" : "")">Pedidos</a>
+                <a href="/admin"
+                   class="admin-sidebar__link @(EsRutaActiva("/admin", exact: true) ? "active" : "")">Dashboard</a>
+                <a href="/admin/productos"
+                   class="admin-sidebar__link @(EsRutaActiva("/admin/productos") ? "active" : "")">Productos</a>
+                <a href="/admin/pedidos"
+                   class="admin-sidebar__link @(EsRutaActiva("/admin/pedidos") ? "active" : "")">Pedidos</a>
                 <div class="admin-sidebar__divider"></div>
                 <a href="/" class="admin-sidebar__link">Volver a la tienda</a>
             </aside>
