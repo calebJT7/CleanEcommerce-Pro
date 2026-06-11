@@ -6,7 +6,7 @@
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
-      "applicationUrl": "https://api-caleb-ecommerce-fzbqhjhhhufzcybp.centralus-01.azurewebsites.net/",
+      "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -16,7 +16,7 @@
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
-      "applicationUrl": "https://api-caleb-ecommerce-fzbqhjhhhufzcybp.centralus-01.azurewebsites.net/",
+      "applicationUrl": "https://localhost:7100",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
