@@ -10,7 +10,10 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 // 🔐 Registramos el HttpClient simple por ahora
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5002/") });
+builder.Services.AddScoped(sp => new HttpClient
+{
+    BaseAddress = new Uri("https://api-caleb-ecommerce-fzbqhjhhhufzcybp.centralus-01.azurewebsites.net/")
+});
 
 // Activamos la seguridad inteligente de Blazor
 builder.Services.AddAuthorizationCore();
