@@ -29,32 +29,40 @@ if (builder.Environment.IsDevelopment())
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     builder.Services.AddDbContext<EcommerceDbContext>(options =>
         options.UseSqlServer(connectionString));
-    // Registrar el servicio de encriptación
-    builder.Services.AddScoped<Application.Services.AuthService>();
-    //  CONFIGURACIÓN DEL GUARDIA DE SEGURIDAD (JWT)
-    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        .AddJwtBearer(options =>
-        {
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = false, // Lo pongo en false para evitar rebotes por nombre de servidor
-                ValidateAudience = false, // Lo pongo en false para desarrollo local
-                ValidateLifetime = true,  // Mantengo la validación de fecha de expiración
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Tu_Palabra_Secreta_Super_Larga_De_32_CharsTu_Palabra_Secreta_Super_Larga_De_32_CharsTu_Palabra_Secreta_Super_Larga_De_32_Chars"))
-            };
-        });
 }
 else
 {
-    //  MODO NUBE (Render): PostgreSQL
-    // Render nos pasará la conexión en una variable de entorno oculta
+    //  MODO NUBE (Azure u otro proveedor): PostgreSQL
     var dbUrl = "Host=dpg-d64vbg8gjchc73feqhug-a;Database=db_ecommerce_caleb;Username=db_ecommerce_caleb_user;Password=X3dprCpnUHx8TKzfBOMBneJJPw7QThD1;Ssl Mode=Require;";
     builder.Services.AddDbContext<EcommerceDbContext>(options =>
         options.UseNpgsql(dbUrl));
 }
 
-// B. Inyección de Dependencias
+// B. Seguridad y JWT (activo en cualquier ambiente)
+builder.Services.AddScoped<Application.Services.AuthService>();
+
+var jwtSecret = builder.Configuration["AppSettings:Token"];
+if (string.IsNullOrWhiteSpace(jwtSecret))
+{
+    jwtSecret = "Tu_Palabra_Secreta_Super_Larga_De_32_CharsTu_Palabra_Secreta_Super_Larga_De_32_CharsTu_Palabra_Secreta_Super_Larga_De_32_Chars";
+}
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret))
+        };
+    });
+
+builder.Services.AddAuthorization();
+
+// C. Inyección de Dependencias
 builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IProductoService, ProductoService>();
@@ -62,7 +70,32 @@ builder.Services.AddScoped<IProductoService, ProductoService>();
 // C. Controladores y Swagger
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "Ingrese el token JWT en el encabezado Authorization con el prefijo Bearer."
+    });
+    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>

@@ -49,8 +49,13 @@ namespace Application.Services
             };
 
             // B. Buscamos la firma secreta del servidor
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                _config.GetSection("AppSettings:Token").Value!));
+            var tokenKey = _config.GetSection("AppSettings:Token").Value;
+            if (string.IsNullOrWhiteSpace(tokenKey))
+            {
+                tokenKey = "Tu_Palabra_Secreta_Super_Larga_De_32_CharsTu_Palabra_Secreta_Super_Larga_De_32_CharsTu_Palabra_Secreta_Super_Larga_De_32_Chars";
+            }
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey));
 
             // C. Creamos el sello de seguridad
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
