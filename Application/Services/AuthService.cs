@@ -12,13 +12,13 @@ namespace Application.Services
     {
         private readonly IConfiguration _config;
 
-        // 🔌 Inyectamos la configuración para poder leer el secreto del appsettings.json
+        //  Inyectamos la configuración para poder leer el secreto del appsettings.json
         public AuthService(IConfiguration config)
         {
             _config = config;
         }
 
-        // 🔒 1. MÉTODO PARA ENCRIPTAR (REGISTRO)
+        //  1. MÉTODO PARA ENCRIPTAR (REGISTRO)
         public void CrearPasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512())
@@ -28,7 +28,7 @@ namespace Application.Services
             }
         }
 
-        // 🔓 2. MÉTODO PARA VERIFICAR (LOGIN)
+        //  2. MÉTODO PARA VERIFICAR (LOGIN)
         public bool VerificarPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512(passwordSalt))
@@ -38,7 +38,7 @@ namespace Application.Services
             }
         }
 
-        // 🎟️ 3. ¡NUEVO! MÉTODO PARA CREAR EL PASE VIP (JWT)
+        // 🎫 3. MÉTODO PARA CREAR EL PASE VIP (JWT)
         public string CrearToken(Usuario usuario)
         {
             // A. ¿Qué información llevará el pase? (Claims)
@@ -47,6 +47,19 @@ namespace Application.Services
                 new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
                 new Claim(ClaimTypes.Email, usuario.Email)
             };
+
+            // 🔥 El arreglo: Ahora leemos la propiedad de la base de datos
+            // Hardcodeamos TU mail de prueba actual como el jefe supremo
+            if (usuario.Email == "bangtankpos375@gmail.com")
+            {
+                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+                claims.Add(new Claim("role", "Admin"));
+            }
+            else
+            {
+                claims.Add(new Claim(ClaimTypes.Role, "Cliente"));
+                claims.Add(new Claim("role", "Cliente"));
+            }
 
             // B. Buscamos la firma secreta del servidor
             var tokenKey = _config.GetSection("AppSettings:Token").Value;

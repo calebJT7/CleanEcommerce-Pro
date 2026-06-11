@@ -3,70 +3,135 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @inherits LayoutComponentBase
 
-
 <div class="page">
-    <main>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
-            <div class="container">
-                <a class="navbar-brand fw-bold" href="/">
-                    🛍️ CleanEcommerce
-                </a>
+    <header class="app-header">
+        <div class="app-header__inner">
+            <a class="app-brand" href="/">
+                <span class="app-brand__mark">CE</span>
+                <span>CleanEcommerce</span>
+            </a>
 
-                <div class="d-flex align-items-center">
-                    <AuthorizeView>
-                        <Authorized>
-                            <span class="text-white me-3">👤 Hola, @(context.User.FindFirst(c =>
-                                                                                                                                c.Type.Contains("email"))?.Value)</span>
-                                <a href="/mis-compras" class="text-white text-decoration-none me-3 fw-bold">
-                                    📦 Mis Compras
-                                </a>
-                                <a href="/admin" class="text-warning text-decoration-none me-3 fw-bold">
-                                    ⚙️ Admin
-                                </a>
-                                <button class="btn btn-outline-danger btn-sm me-3" @onclick="CerrarSesion">
-                                    Cerrar Sesión
-                                </button>
-                            </Authorized>
-                            <NotAuthorized>
-                                <a href="/login" class="btn btn-outline-light btn-sm me-3">
-                                    👤 Iniciar Sesión
-                                </a>
-                            </NotAuthorized>
-                        </AuthorizeView>
+            <button type="button" class="app-navbar-toggler" @onclick="ToggleMobileNav" aria-label="Menú">
+                <span class="app-navbar-toggler-icon"></span>
+            </button>
 
-                        <a href="/carrito" class="btn btn-light btn-sm fw-bold text-decoration-none">
-                            🛒 Carrito <span class="badge bg-danger">@Carrito.ObtenerCantidad()</span>
+            <div class="app-nav-actions @(mobileNavOpen ? "is-open" : "")">
+                <AuthorizeView>
+                    <Authorized>
+                        @{
+                            var emailLogueado = context.User.FindFirst(c => c.Type.Contains("email"))?.Value;
+                        }
+
+                        @if (!string.IsNullOrEmpty(emailLogueado))
+                        {
+                            <span class="app-user">@emailLogueado</span>
+                        }
+
+                        @if (emailLogueado == "bangtankpos375@gmail.com")
+                        {
+                            <nav class="app-admin-nav" aria-label="Administración">
+                                <span class="d-none d-md-inline text-secondary small me-1"
+                                      style="color:#64748b!important;font-size:0.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Admin</span>
+                                <a href="/admin"
+                                   class="nav-link-item @(EsRutaActiva("/admin", exact: true) ? "active" : "")">Dashboard</a>
+                                <a href="/admin/productos"
+                                   class="nav-link-item @(EsRutaActiva("/admin/productos") ? "active" : "")">Productos</a>
+                                <a href="/admin/pedidos"
+                                   class="nav-link-item @(EsRutaActiva("/admin/pedidos") ? "active" : "")">Pedidos</a>
+                            </nav>
+                        }
+
+                        <button type="button" class="btn btn-sm btn-header-danger" @onclick="CerrarSesion">
+                            Cerrar sesión
+                        </button>
+                    </Authorized>
+                    <NotAuthorized>
+                        <a href="/login" class="btn btn-sm btn-header-ghost">
+                            Iniciar sesión
                         </a>
-                    </div>
-                </div>
-            </nav>
+                    </NotAuthorized>
+                </AuthorizeView>
 
-            <article class="content px-4 py-5">
+                <a href="/carrito" class="btn-cart text-decoration-none">
+                    Carrito
+                    <span class="btn-cart__count">@Carrito.ObtenerCantidad()</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    @if (EsRutaAdmin)
+    {
+        <div class="app-shell-admin">
+            <aside class="admin-sidebar d-none d-lg-block" aria-label="Panel de administración">
+                <p class="admin-sidebar__label">Panel</p>
+                <a href="/admin"
+                   class="admin-sidebar__link @(EsRutaActiva("/admin", exact: true) ? "active" : "")">Dashboard</a>
+                <a href="/admin/productos"
+                   class="admin-sidebar__link @(EsRutaActiva("/admin/productos") ? "active" : "")">Productos</a>
+                <a href="/admin/pedidos"
+                   class="admin-sidebar__link @(EsRutaActiva("/admin/pedidos") ? "active" : "")">Pedidos</a>
+                <div class="admin-sidebar__divider"></div>
+                <a href="/" class="admin-sidebar__link">Volver a la tienda</a>
+            </aside>
+            <main class="admin-main">
                 @Body
-            </article>
+            </main>
+        </div>
+    }
+    else
+    {
+        <main class="app-content">
+            <div class="app-content__inner">
+                @Body
+            </div>
         </main>
-    </div>
+    }
+</div>
+
 @inject IJSRuntime JSRuntime
 @inject NavigationManager Navigation
 
 @code {
+    private bool mobileNavOpen;
+
+    private bool EsRutaAdmin =>
+        Navigation.Uri.Contains("/admin", StringComparison.OrdinalIgnoreCase);
+
+    private bool EsRutaActiva(string path, bool exact = false)
+    {
+        var relative = Navigation.ToBaseRelativePath(Navigation.Uri).TrimEnd('/');
+        var normalized = path.TrimStart('/');
+
+        if (exact)
+            return relative.Equals(normalized, StringComparison.OrdinalIgnoreCase);
+
+        return relative.StartsWith(normalized, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private void ToggleMobileNav() => mobileNavOpen = !mobileNavOpen;
+
     private async Task CerrarSesion()
     {
-        // 1. Borramos el Token de la bóveda
         await JSRuntime.InvokeVoidAsync("localStorage.removeItem", "authToken");
-
-        // 2. Recargamos la página para que el Guardia se dé cuenta
         Navigation.NavigateTo("/", forceLoad: true);
     }
+
     protected override void OnInitialized()
     {
-        // Cuando el motor toque la campana, actualizamos la pantalla
         Carrito.OnChange += StateHasChanged;
+        Navigation.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        mobileNavOpen = false;
+        StateHasChanged();
     }
 
     public void Dispose()
     {
-        // Buena práctica: desconectar el cable si cerramos la página
         Carrito.OnChange -= StateHasChanged;
+        Navigation.LocationChanged -= OnLocationChanged;
     }
 }

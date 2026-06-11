@@ -73,8 +73,8 @@ namespace Api.Controllers
             // Le devolvemos un mensaje y su token de seguridad
             return Ok(new
             {
-                Mensaje = $"¡Bienvenido {usuario.NombreCompleto}!",
-                Token = token
+                mensaje = $"¡Bienvenido {usuario.NombreCompleto}!",
+                token = token
             });
         }
     }
