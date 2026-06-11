@@ -1,0 +1,152 @@
+2026-06-11 10:44:32.033 -03:00 [WRN] No store type was specified for the decimal property 'DeudaTotal' on entity type 'Cliente'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-06-11 10:44:32.119 -03:00 [WRN] No store type was specified for the decimal property 'PrecioUnitario' on entity type 'DetallePedido'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-06-11 10:44:32.123 -03:00 [WRN] No store type was specified for the decimal property 'Monto' on entity type 'Pago'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-06-11 10:44:32.126 -03:00 [WRN] No store type was specified for the decimal property 'Total' on entity type 'Pedido'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-06-11 10:46:47.687 -03:00 [WRN] No store type was specified for the decimal property 'DeudaTotal' on entity type 'Cliente'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-06-11 10:46:47.748 -03:00 [WRN] No store type was specified for the decimal property 'PrecioUnitario' on entity type 'DetallePedido'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-06-11 10:46:47.752 -03:00 [WRN] No store type was specified for the decimal property 'Monto' on entity type 'Pago'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-06-11 10:46:47.754 -03:00 [WRN] No store type was specified for the decimal property 'Total' on entity type 'Pedido'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-06-11 10:51:05.751 -03:00 [WRN] No store type was specified for the decimal property 'DeudaTotal' on entity type 'Cliente'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-06-11 10:51:05.805 -03:00 [WRN] No store type was specified for the decimal property 'PrecioUnitario' on entity type 'DetallePedido'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-06-11 10:51:05.808 -03:00 [WRN] No store type was specified for the decimal property 'Monto' on entity type 'Pago'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-06-11 10:51:05.810 -03:00 [WRN] No store type was specified for the decimal property 'Total' on entity type 'Pedido'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-06-11 10:52:43.222 -03:00 [WRN] No store type was specified for the decimal property 'DeudaTotal' on entity type 'Cliente'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-06-11 10:52:43.307 -03:00 [WRN] No store type was specified for the decimal property 'PrecioUnitario' on entity type 'DetallePedido'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-06-11 10:52:43.311 -03:00 [WRN] No store type was specified for the decimal property 'Monto' on entity type 'Pago'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-06-11 10:52:43.319 -03:00 [WRN] No store type was specified for the decimal property 'Total' on entity type 'Pedido'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2026-06-11 10:52:44.195 -03:00 [INF] Executed DbCommand (69ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-06-11 10:52:44.210 -03:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2026-06-11 10:52:44.286 -03:00 [INF] Executed DbCommand (71ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2026-06-11 10:52:44.490 -03:00 [INF] Executed DbCommand (60ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2026-06-11 10:52:44.652 -03:00 [INF] Executed DbCommand (48ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-06-11 10:52:44.705 -03:00 [INF] Executed DbCommand (49ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2026-06-11 10:52:44.772 -03:00 [INF] Executed DbCommand (60ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2026-06-11 10:52:44.800 -03:00 [INF] Applying migration '20260211151516_AgregarTablaClientes'.
+2026-06-11 10:52:44.866 -03:00 [INF] Executed DbCommand (50ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Clientes] (
+    [Id] int NOT NULL IDENTITY,
+    [NombreCompleto] nvarchar(max) NOT NULL,
+    [Telefono] nvarchar(max) NOT NULL,
+    [DeudaTotal] decimal(18,2) NOT NULL,
+    CONSTRAINT [PK_Clientes] PRIMARY KEY ([Id])
+);
+2026-06-11 10:52:44.919 -03:00 [INF] Executed DbCommand (50ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Productos] (
+    [Id] int NOT NULL IDENTITY,
+    [Nombre] nvarchar(max) NOT NULL,
+    [Precio] decimal(18,2) NOT NULL,
+    [Stock] int NOT NULL,
+    CONSTRAINT [PK_Productos] PRIMARY KEY ([Id])
+);
+2026-06-11 10:52:44.973 -03:00 [INF] Executed DbCommand (50ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Usuarios] (
+    [Id] int NOT NULL IDENTITY,
+    [Nombre] nvarchar(max) NOT NULL,
+    [Email] nvarchar(max) NOT NULL,
+    [Password] nvarchar(max) NOT NULL,
+    [EsAdmin] bit NOT NULL,
+    CONSTRAINT [PK_Usuarios] PRIMARY KEY ([Id])
+);
+2026-06-11 10:52:45.027 -03:00 [INF] Executed DbCommand (51ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20260211151516_AgregarTablaClientes', N'9.0.1');
+2026-06-11 10:52:45.030 -03:00 [INF] Applying migration '20260218220052_AgregarTablasPedidos'.
+2026-06-11 10:52:45.094 -03:00 [INF] Executed DbCommand (50ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Pedidos] (
+    [Id] int NOT NULL IDENTITY,
+    [FechaCreacion] datetime2 NOT NULL,
+    [ClienteId] int NOT NULL,
+    [Total] decimal(18,2) NOT NULL,
+    CONSTRAINT [PK_Pedidos] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Pedidos_Clientes_ClienteId] FOREIGN KEY ([ClienteId]) REFERENCES [Clientes] ([Id]) ON DELETE CASCADE
+);
+2026-06-11 10:52:45.149 -03:00 [INF] Executed DbCommand (50ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [DetallesPedido] (
+    [Id] int NOT NULL IDENTITY,
+    [PedidoId] int NOT NULL,
+    [ProductoId] int NOT NULL,
+    [Cantidad] int NOT NULL,
+    [PrecioUnitario] decimal(18,2) NOT NULL,
+    CONSTRAINT [PK_DetallesPedido] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_DetallesPedido_Pedidos_PedidoId] FOREIGN KEY ([PedidoId]) REFERENCES [Pedidos] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_DetallesPedido_Productos_ProductoId] FOREIGN KEY ([ProductoId]) REFERENCES [Productos] ([Id]) ON DELETE CASCADE
+);
+2026-06-11 10:52:45.203 -03:00 [INF] Executed DbCommand (49ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_DetallesPedido_PedidoId] ON [DetallesPedido] ([PedidoId]);
+2026-06-11 10:52:45.258 -03:00 [INF] Executed DbCommand (49ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_DetallesPedido_ProductoId] ON [DetallesPedido] ([ProductoId]);
+2026-06-11 10:52:45.311 -03:00 [INF] Executed DbCommand (49ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Pedidos_ClienteId] ON [Pedidos] ([ClienteId]);
+2026-06-11 10:52:45.370 -03:00 [INF] Executed DbCommand (56ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20260218220052_AgregarTablasPedidos', N'9.0.1');
+2026-06-11 10:52:45.378 -03:00 [INF] Applying migration '20260219200758_AgregarTablaPagos'.
+2026-06-11 10:52:45.455 -03:00 [INF] Executed DbCommand (50ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Pagos] (
+    [Id] int NOT NULL IDENTITY,
+    [FechaPago] datetime2 NOT NULL,
+    [Monto] decimal(18,2) NOT NULL,
+    [ClienteId] int NOT NULL,
+    CONSTRAINT [PK_Pagos] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Pagos_Clientes_ClienteId] FOREIGN KEY ([ClienteId]) REFERENCES [Clientes] ([Id]) ON DELETE CASCADE
+);
+2026-06-11 10:52:45.509 -03:00 [INF] Executed DbCommand (49ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Pagos_ClienteId] ON [Pagos] ([ClienteId]);
+2026-06-11 10:52:45.562 -03:00 [INF] Executed DbCommand (48ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20260219200758_AgregarTablaPagos', N'9.0.1');
+2026-06-11 10:52:45.565 -03:00 [INF] Applying migration '20260219205841_AgregarTablaUsuarios'.
+2026-06-11 10:52:45.627 -03:00 [INF] Executed DbCommand (51ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DROP TABLE [Usuarios];
+2026-06-11 10:52:45.685 -03:00 [INF] Executed DbCommand (53ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Usuario] (
+    [Id] int NOT NULL IDENTITY,
+    [NombreCompleto] nvarchar(max) NOT NULL,
+    [Email] nvarchar(max) NOT NULL,
+    [PasswordHash] varbinary(max) NOT NULL,
+    [PasswordSalt] varbinary(max) NOT NULL,
+    [EsAdmin] bit NOT NULL,
+    CONSTRAINT [PK_Usuario] PRIMARY KEY ([Id])
+);
+2026-06-11 10:52:45.737 -03:00 [INF] Executed DbCommand (48ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20260219205841_AgregarTablaUsuarios', N'9.0.1');
+2026-06-11 10:52:45.740 -03:00 [INF] Applying migration '20260305185422_AgregandoStockYDesc'.
+2026-06-11 10:52:45.807 -03:00 [INF] Executed DbCommand (50ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Productos] ADD [Descripcion] nvarchar(max) NULL;
+2026-06-11 10:52:45.860 -03:00 [INF] Executed DbCommand (48ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20260305185422_AgregandoStockYDesc', N'9.0.1');
+2026-06-11 10:52:45.864 -03:00 [INF] Applying migration '20260305230056_ActualizacionFinalAdmin'.
+2026-06-11 10:52:45.923 -03:00 [INF] Executed DbCommand (49ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Pedidos] ADD [Estado] nvarchar(max) NULL;
+2026-06-11 10:52:45.975 -03:00 [INF] Executed DbCommand (49ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20260305230056_ActualizacionFinalAdmin', N'9.0.1');
+2026-06-11 10:52:45.978 -03:00 [INF] Applying migration '20260306183225_AgregarImagenProducto'.
+2026-06-11 10:52:46.047 -03:00 [INF] Executed DbCommand (50ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [Productos] ADD [ImagenUrl] nvarchar(max) NOT NULL DEFAULT N'';
+2026-06-11 10:52:46.102 -03:00 [INF] Executed DbCommand (49ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20260306183225_AgregarImagenProducto', N'9.0.1');
+2026-06-11 10:52:46.230 -03:00 [INF] Executed DbCommand (70ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_releaseapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session';
+SELECT @result
