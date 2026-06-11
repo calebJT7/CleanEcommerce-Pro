@@ -20,88 +20,132 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
-// 1. BASE DE DATOS (Separamos Desarrollo de Producción)
+// 1. DATABASE (Separate Development from Production)
 if (builder.Environment.IsDevelopment())
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     builder.Services.AddDbContext<EcommerceDbContext>(options =>
         options.UseSqlServer(connectionString));
-    // Registrar el servicio de encriptación
-    builder.Services.AddScoped<Application.Services.AuthService>();
-    //  CONFIGURACIÓN DEL GUARDIA DE SEGURIDAD (JWT)
-    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        .AddJwtBearer(options =>
-        {
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = false, // Lo pongo en false para evitar rebotes por nombre de servidor
-                ValidateAudience = false, // Lo pongo en false para desarrollo local
-                ValidateLifetime = true,  // Mantengo la validación de fecha de expiración
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Tu_Palabra_Secreta_Super_Larga_De_32_CharsTu_Palabra_Secreta_Super_Larga_De_32_CharsTu_Palabra_Secreta_Super_Larga_De_32_Chars"))
-            };
-        });
 }
 else
 {
-    //  MODO NUBE (Render): PostgreSQL
-    // Render nos pasará la conexión en una variable de entorno oculta
-    var dbUrl = "Host=dpg-d64vbg8gjchc73feqhug-a;Database=db_ecommerce_caleb;Username=db_ecommerce_caleb_user;Password=X3dprCpnUHx8TKzfBOMBneJJPw7QThD1;Ssl Mode=Require;";
+    // PRODUCTION MODE (Azure): PostgreSQL from connection string
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+        ?? "Host=localhost;Database=ecommerce;Username=postgres;Password=password;Ssl Mode=Disable;";
     builder.Services.AddDbContext<EcommerceDbContext>(options =>
-        options.UseNpgsql(dbUrl));
+        options.UseNpgsql(connectionString));
 }
 
-// B. Inyección de Dependencias
+// 2. AUTHENTICATION - REGISTERED GLOBALLY (NOT just in development)
+var jwtSecret = builder.Configuration["AppSettings:Token"]
+    ?? "Tu_Palabra_Secreta_Super_Larga_De_32_CharsTu_Palabra_Secreta_Super_Larga_De_32_CharsTu_Palabra_Secreta_Super_Larga_De_32_Chars";
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret))
+        };
+    });
+
+// 3. AUTHORIZATION
+builder.Services.AddAuthorization();
+
+// 4. DEPENDENCY INJECTION
+builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IProductoService, ProductoService>();
+
+// 5. CONTROLLERS & SWAGGER
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddCors(options =>
+builder.Services.AddSwaggerGen(c =>
 {
-    options.AddDefaultPolicy(policy =>
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
+        Description = "JWT Authorization header using the Bearer scheme (Example: 'Bearer 12345abcdef')",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] { }
+        }
     });
 });
 
-// CORS
+// 6. CORS - Allow all origins for development/production flexibility
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
-        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader());
 });
 
+// 7. MESSAGE QUEUE
 builder.Services.AddMassTransit(x =>
 {
-    x.UsingRabbitMq((context, cfg) => { cfg.Host("localhost", "/"); });
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host("localhost", "/");
+    });
 });
 
 var app = builder.Build();
 
-// 4. PIPELINE
+// 8. DATABASE INITIALIZATION
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<EcommerceDbContext>();
     context.Database.EnsureCreated();
 }
 
+// 9. MIDDLEWARE PIPELINE
 app.UseMiddleware<ExceptionMiddleware>();
-app.UseSwagger();
-app.UseSwaggerUI(c =>
+
+if (app.Environment.IsDevelopment())
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "CleanEcommerce API v1");
-    c.RoutePrefix = string.Empty;
-});
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "CleanEcommerce API v1");
+        c.RoutePrefix = string.Empty;
+    });
+}
+else
+{
+    // Production: Still show Swagger for admin use
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "CleanEcommerce API v1");
+        c.RoutePrefix = "swagger";
+    });
+}
+
 app.UseHttpsRedirection();
-
 app.UseCors("AllowAll");
-
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();
