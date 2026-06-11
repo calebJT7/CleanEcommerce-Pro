@@ -80,7 +80,11 @@ builder.Services.AddMassTransit(x =>
         cfg.Host("localhost", "/");
     });
 });
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+});
 // 2. CONSTRUCCIÓN DE LA APP
 var app = builder.Build();
 
@@ -123,6 +127,7 @@ app.UseHttpsRedirection();
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization(); // Importante agregarlo aunque no lo uses full todavía
+app.UseCors("AllowAll");
 
 app.MapControllers();
 
