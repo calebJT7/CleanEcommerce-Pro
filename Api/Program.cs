@@ -19,24 +19,11 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
-// 1. SERVICIOS
+// 1. BASE DE DATOS (Separamos Desarrollo de Producción)
 if (builder.Environment.IsDevelopment())
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     builder.Services.AddDbContext<EcommerceDbContext>(options => options.UseSqlServer(connectionString));
-    builder.Services.AddScoped<Application.Services.AuthService>();
-    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        .AddJwtBearer(options =>
-        {
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Tu_Palabra_Secreta_Super_Larga_De_32_CharsTu_Palabra_Secreta_Super_Larga_De_32_CharsTu_Palabra_Secreta_Super_Larga_De_32_Chars"))
-            };
-        });
 }
 else
 {
@@ -44,6 +31,22 @@ else
     builder.Services.AddDbContext<EcommerceDbContext>(options => options.UseNpgsql(dbUrl));
 }
 
+// 2. SEGURIDAD (Ahora está afuera del IF, Azure lo va a leer)
+builder.Services.AddScoped<Application.Services.AuthService>();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Tu_Palabra_Secreta_Super_Larga_De_32_CharsTu_Palabra_Secreta_Super_Larga_De_32_CharsTu_Palabra_Secreta_Super_Larga_De_32_Chars"))
+        };
+    });
+
+// 3. INYECCIÓN DE DEPENDENCIAS
 builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IProductoService, ProductoService>();
@@ -51,7 +54,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// SOLO UNA CONFIGURACIÓN DE CORS
+// CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -65,7 +68,7 @@ builder.Services.AddMassTransit(x =>
 
 var app = builder.Build();
 
-// 2. MIDDLEWARES
+// 4. PIPELINE
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<EcommerceDbContext>();
@@ -77,7 +80,6 @@ app.UseSwagger();
 app.UseSwaggerUI();
 app.UseHttpsRedirection();
 
-// APLICAR CORS ANTES DE AUTH
 app.UseCors("AllowAll");
 
 app.UseAuthentication();
