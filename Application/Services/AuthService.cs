@@ -48,17 +48,16 @@ namespace Application.Services
                 new Claim(ClaimTypes.Email, usuario.Email)
             };
 
-            // 🔥 El arreglo: Ahora leemos la propiedad de la base de datos
-            // Hardcodeamos TU mail de prueba actual como el jefe supremo
-            if (usuario.Email == "bangtankpos375@gmail.com")
+            // Comparamos ignorando si el usuario escribió su mail con mayúsculas
+            if (usuario.Email.Equals("bangtankpos375@gmail.com", StringComparison.OrdinalIgnoreCase))
             {
+                // Usamos un solo claim estándar para evitar arreglos duplicados
                 claims.Add(new Claim(ClaimTypes.Role, "Admin"));
-                claims.Add(new Claim("role", "Admin"));
             }
             else
             {
+                // Fallback de seguridad
                 claims.Add(new Claim(ClaimTypes.Role, "Cliente"));
-                claims.Add(new Claim("role", "Cliente"));
             }
 
             // B. Buscamos la firma secreta del servidor

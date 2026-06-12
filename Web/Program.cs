@@ -9,11 +9,11 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-// 🔐 Registramos el HttpClient con la API local para desarrollo
-builder.Services.AddScoped(sp => new HttpClient
-{
-    BaseAddress = new Uri("http://localhost:7050/api/")
-});
+//  Registramos el HttpClient con la API local para desarrollo
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://api-caleb-ecommerce-fzbqhjhhhufzcybp.centralus-01.azurewebsites.net/") });
+// {
+//     BaseAddress = new Uri("http://localhost:7050/api/")
+// });
 
 // Activamos la seguridad inteligente de Blazor
 builder.Services.AddAuthorizationCore();
