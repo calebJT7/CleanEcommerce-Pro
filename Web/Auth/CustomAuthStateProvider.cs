@@ -23,21 +23,38 @@ namespace Web.Auth
                 return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
             }
 
-            // 🪄 AQUÍ ESTÁ LA MAGIA NUEVA: Extraemos tus datos reales del token
             var claims = ParseClaimsFromJwt(token);
+            // Ya no hace falta el cuarto parámetro porque el traductor de abajo hace el mapeo perfecto
             var identity = new ClaimsIdentity(claims, "jwt");
             var user = new ClaimsPrincipal(identity);
 
             return new AuthenticationState(user);
         }
 
-        // --- MÉTODOS TRADUCTORES (No hace falta tocarlos, hacen el trabajo sucio) ---
+        // --- MÉTODOS TRADUCTORES ---
         private IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
         {
+            var claims = new List<Claim>();
             var payload = jwt.Split('.')[1];
             var jsonBytes = ParseBase64WithoutPadding(payload);
             var keyValuePairs = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonBytes);
-            return keyValuePairs!.Select(kvp => new Claim(kvp.Key, kvp.Value.ToString()!));
+
+            foreach (var kvp in keyValuePairs!)
+            {
+                var value = kvp.Value.ToString()!;
+
+                // 🚀 INTERCEPCIÓN VITAL: Si el token dice "role", lo traducimos al idioma de Microsoft
+                if (kvp.Key == "role")
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, value));
+                }
+                else
+                {
+                    claims.Add(new Claim(kvp.Key, value));
+                }
+            }
+
+            return claims;
         }
 
         private byte[] ParseBase64WithoutPadding(string base64)

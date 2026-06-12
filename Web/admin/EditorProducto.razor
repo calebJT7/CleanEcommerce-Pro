@@ -1,4 +1,5 @@
 @page "/admin/productos/editar/{Id:int}"
+@attribute [Authorize(Roles = "Admin")]
 @using Application.DTOs
 @inject HttpClient Http
 @inject NavigationManager NavigationManager

@@ -27,7 +27,7 @@
                             <span class="app-user">@emailLogueado</span>
                         }
 
-                        @if (emailLogueado == "bangtankpos375@gmail.com")
+                        @if (context.User.IsInRole("Admin"))
                         {
                             <nav class="app-admin-nav" aria-label="Administración">
                                 <span class="d-none d-md-inline text-secondary small me-1"
