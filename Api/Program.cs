@@ -34,7 +34,7 @@ else
     var connectionString = "Server=tcp:server-caleb-1.database.windows.net,1433;Initial Catalog=CleanEcommerceDB;Persist Security Info=False;User ID=calebadmin;Password=Bangtan1612;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
     builder.Services.AddDbContext<EcommerceDbContext>(options =>
-        options.UseNpgsql(connectionString));
+        options.UseSqlServer(connectionString));
 }
 
 // 2. AUTHENTICATION - REGISTERED GLOBALLY
