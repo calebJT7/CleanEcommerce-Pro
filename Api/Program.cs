@@ -30,8 +30,10 @@ if (builder.Environment.IsDevelopment())
 else
 {
     // PRODUCTION MODE (Azure): PostgreSQL from connection string
+    // OJO: Acá tenés que pegar el External Database URL de Render, NO la interna que termina en -a.
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-        ?? "Host=localhost;Database=ecommerce;Username=postgres;Password=password;Ssl Mode=Disable;";
+        ?? "Server=tcp:server-caleb-1.database.windows.net,1433;Initial Catalog=CleanEcommerceDB;Persist Security Info=False;User ID=calebadmin;Password=Bangtan1612;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+
     builder.Services.AddDbContext<EcommerceDbContext>(options =>
         options.UseNpgsql(connectionString));
 }
