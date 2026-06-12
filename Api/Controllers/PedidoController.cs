@@ -5,7 +5,6 @@ using Domain;         // Para las Entidades
 using Application.DTOs; // Para los DTOs
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
-using MassTransit; //  IMPORTANTE: Para la mensajería asíncrona
 
 namespace Api.Controllers
 {
@@ -68,25 +67,37 @@ namespace Api.Controllers
             return Ok(historial);
         }
 
-        // 3. REGISTRAR UNA NUEVA VENTA (Checkout con RabbitMQ)
+        // 3. REGISTRAR UNA NUEVA VENTA (Checkout)
         [HttpPost]
-        public async Task<ActionResult> CrearPedido([FromBody] CrearPedidoDto peticion, [FromServices] IPublishEndpoint publishEndpoint)
+        public async Task<ActionResult> CrearPedido([FromBody] CrearPedidoDto peticion)
         {
             var userEmail = User.FindFirstValue(ClaimTypes.Email) ?? User.FindFirstValue(ClaimTypes.Name);
 
             if (string.IsNullOrEmpty(userEmail))
                 return Unauthorized("No se pudo identificar al usuario desde el token.");
 
-            var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.NombreCompleto == userEmail);
+            var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.Email == userEmail || c.NombreCompleto == userEmail);
 
             if (cliente == null)
-                return NotFound($"Error: El cliente con email {userEmail} no existe en la base de datos.");
+            {
+                cliente = new Cliente
+                {
+                    Email = userEmail,
+                    NombreCompleto = userEmail,
+                    Telefono = string.Empty,
+                    DeudaTotal = 0
+                };
+
+                _context.Clientes.Add(cliente);
+                await _context.SaveChangesAsync();
+            }
 
             var nuevoPedido = new Pedido
             {
                 ClienteId = cliente.Id,
                 FechaCreacion = DateTime.UtcNow,
                 Total = 0,
+                Estado = "Pendiente",
                 Detalles = new List<DetallePedido>()
             };
 
@@ -109,15 +120,7 @@ namespace Api.Controllers
             _context.Pedidos.Add(nuevoPedido);
             await _context.SaveChangesAsync();
 
-            //  NOTIFICACIÓN ASÍNCRONA CON RABBITMQ
-            // Esto dispara el evento para que otros microservicios lo procesen
-            await publishEndpoint.Publish(new PedidoCreated(
-                nuevoPedido.Id,
-                userEmail,
-                nuevoPedido.Total
-            ));
-
-            return Ok(new { mensaje = "Venta registrada con éxito y notificación enviada!" });
+            return Ok(new { mensaje = "Venta registrada con éxito.", pedidoId = nuevoPedido.Id });
         }
 
         //  4. ACTUALIZAR ESTADO DEL PEDIDO
@@ -178,13 +181,13 @@ namespace Api.Controllers
 
             var misPedidos = await _context.Pedidos
                 .Include(p => p.Cliente)
-                .Where(p => p.Cliente!.NombreCompleto == userEmail)
+                .Where(p => p.Cliente!.Email == userEmail || p.Cliente!.NombreCompleto == userEmail)
                 .OrderByDescending(p => p.FechaCreacion)
                 .Select(p => new PedidoAdminDto
                 {
                     Id = p.Id,
                     FechaCreacion = p.FechaCreacion,
-                    ClienteEmail = p.Cliente!.NombreCompleto,
+                    ClienteEmail = p.Cliente!.Email ?? p.Cliente!.NombreCompleto,
                     Total = p.Total,
                     Estado = p.Estado ?? "Pendiente"
                 })

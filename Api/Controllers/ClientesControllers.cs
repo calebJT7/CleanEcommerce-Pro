@@ -33,6 +33,7 @@ namespace Api.Controllers
             var nuevoCliente = new Cliente
             {
                 NombreCompleto = clienteDto.NombreCompleto,
+                Email = clienteDto.Email,
                 Telefono = clienteDto.Telefono,
                 DeudaTotal = 0 // ¡Todo cliente nuevo empieza con deuda cero!
             };
@@ -54,6 +55,7 @@ namespace Api.Controllers
             }
             // 2. Actualizamos solo los datos permitidos (¡Prohibido tocar la DeudaTotal aquí!)
             cliente.NombreCompleto = clienteDto.NombreCompleto;
+            cliente.Email = clienteDto.Email;
             cliente.Telefono = clienteDto.Telefono;
             // 3. Guardamos los cambios
             await _context.SaveChangesAsync();
