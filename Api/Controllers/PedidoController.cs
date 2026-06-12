@@ -68,59 +68,72 @@ namespace Api.Controllers
         }
 
         // 3. REGISTRAR UNA NUEVA VENTA (Checkout)
+        // 3. REGISTRAR UNA NUEVA VENTA (Checkout)
         [HttpPost]
         public async Task<ActionResult> CrearPedido([FromBody] CrearPedidoDto peticion)
         {
-            var userEmail = User.FindFirstValue(ClaimTypes.Email) ?? User.FindFirstValue(ClaimTypes.Name);
-
-            if (string.IsNullOrEmpty(userEmail))
-                return Unauthorized("No se pudo identificar al usuario desde el token.");
-
-            var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.Email == userEmail || c.NombreCompleto == userEmail);
-
-            if (cliente == null)
+            try
             {
-                cliente = new Cliente
+                var userEmail = User.FindFirstValue(ClaimTypes.Email) ?? User.FindFirstValue(ClaimTypes.Name);
+
+                if (string.IsNullOrEmpty(userEmail))
+                    return Unauthorized("No se pudo identificar al usuario desde el token.");
+
+                var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.Email == userEmail || c.NombreCompleto == userEmail);
+
+                if (cliente == null)
                 {
-                    Email = userEmail,
-                    NombreCompleto = userEmail,
-                    Telefono = string.Empty,
-                    DeudaTotal = 0
+                    cliente = new Cliente
+                    {
+                        Email = userEmail,
+                        NombreCompleto = userEmail,
+                        Telefono = string.Empty,
+                        DeudaTotal = 0
+                    };
+
+                    _context.Clientes.Add(cliente);
+                    await _context.SaveChangesAsync();
+                }
+
+                var nuevoPedido = new Pedido
+                {
+                    ClienteId = cliente.Id,
+                    FechaCreacion = DateTime.UtcNow,
+                    Total = 0,
+                    Estado = "Pendiente",
+                    Detalles = new List<DetallePedido>()
                 };
 
-                _context.Clientes.Add(cliente);
-                await _context.SaveChangesAsync();
-            }
-
-            var nuevoPedido = new Pedido
-            {
-                ClienteId = cliente.Id,
-                FechaCreacion = DateTime.UtcNow,
-                Total = 0,
-                Estado = "Pendiente",
-                Detalles = new List<DetallePedido>()
-            };
-
-            foreach (var pId in peticion.ProductoIds)
-            {
-                var producto = await _context.Productos.FindAsync(pId);
-                if (producto == null) continue;
-
-                producto.Stock -= 1;
-                nuevoPedido.Total += producto.Precio;
-                nuevoPedido.Detalles.Add(new DetallePedido
+                foreach (var pId in peticion.ProductoIds)
                 {
-                    ProductoId = pId,
-                    Cantidad = 1,
-                    PrecioUnitario = producto.Precio
+                    var producto = await _context.Productos.FindAsync(pId);
+                    if (producto == null) continue;
+
+                    producto.Stock -= 1;
+                    nuevoPedido.Total += producto.Precio;
+                    nuevoPedido.Detalles.Add(new DetallePedido
+                    {
+                        ProductoId = pId,
+                        Cantidad = 1,
+                        PrecioUnitario = producto.Precio
+                    });
+                }
+
+                cliente.DeudaTotal += nuevoPedido.Total;
+                _context.Pedidos.Add(nuevoPedido);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { mensaje = "Venta registrada con éxito.", pedidoId = nuevoPedido.Id });
+            }
+            catch (Exception ex)
+            {
+                // EL CHISMOSO: Atrapa el error y te lo manda al navegador
+                return StatusCode(500, new
+                {
+                    MensajeDelError = ex.Message,
+                    DetalleProfundo = ex.InnerException?.Message
                 });
             }
-
-            cliente.DeudaTotal += nuevoPedido.Total;
-            _context.Pedidos.Add(nuevoPedido);
-            await _context.SaveChangesAsync();
-
-            return Ok(new { mensaje = "Venta registrada con éxito.", pedidoId = nuevoPedido.Id });
         }
 
         //  4. ACTUALIZAR ESTADO DEL PEDIDO
