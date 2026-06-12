@@ -142,7 +142,7 @@ else
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "CleanEcommerce API v1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "API DE CALEB - PRUEBA");
         c.RoutePrefix = "swagger";
     });
 }
