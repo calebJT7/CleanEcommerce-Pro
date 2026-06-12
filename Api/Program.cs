@@ -107,13 +107,13 @@ builder.Services.AddCors(options =>
 });
 
 // 7. MESSAGE QUEUE
-builder.Services.AddMassTransit(x =>
-{
-    x.UsingRabbitMq((context, cfg) =>
-    {
-        cfg.Host("localhost", "/");
-    });
-});
+//builder.Services.AddMassTransit(x =>
+//{
+//x.UsingRabbitMq((context, cfg) =>
+//{
+//    cfg.Host("localhost", "/");
+//  });
+//});
 
 var app = builder.Build();
 
@@ -132,7 +132,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "CleanEcommerce API v1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "API DE CALEB - PRUEBA");
         c.RoutePrefix = string.Empty;
     });
 }
