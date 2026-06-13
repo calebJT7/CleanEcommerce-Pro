@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { authService } from "../../services/authServices";
-import { Loader2 } from "lucide-react";
 import Link from "next/link";
+import { authService } from "../../services/authServices";
+import { Lock, ShoppingBag } from "lucide-react";
+import Input from "@/components/ui/Input";
+import Button from "@/components/ui/Button";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -20,17 +22,11 @@ export default function LoginPage() {
 
     try {
       const response = await authService.login({ email, password: clave });
-      
-      // Guarda el token en el almacenamiento del navegador
       localStorage.setItem("authToken", response.token);
-      
-      // Redirige al inicio
       router.push("/");
-   } catch (err: any) { 
-      // Atrapa el mensaje exacto que nos manda C# y lo mostramos en la consola
+    } catch (err: any) {
       console.error("Error detallado de C#:", err.response?.data);
-      
-      // Intenta mostrar el error real en el cartelito rojo
+
       if (err.response?.data?.errors) {
         setError(JSON.stringify(err.response.data.errors));
       } else if (err.response?.data) {
@@ -44,72 +40,73 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-2xl font-semibold tracking-tight text-gray-900">
-          Iniciar sesión
-        </h2>
-        <p className="mt-2 text-center text-sm text-gray-500">
-          O{" "}
-          <Link href="/" className="font-medium text-black hover:underline transition-all">
-            vuelve a la tienda
+    <div className="min-h-screen flex bg-bg-base relative overflow-hidden">
+      <div className="absolute inset-0 mesh-gradient" />
+      <div className="absolute inset-0 grid-bg" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-accent/5 rounded-full blur-3xl" />
+
+      <div className="relative flex flex-col justify-center w-full py-12 px-4 sm:px-6 lg:px-8">
+        <div className="sm:mx-auto sm:w-full sm:max-w-md animate-fade-in-up opacity-0" style={{ animationFillMode: "forwards" }}>
+          <Link href="/" className="flex items-center justify-center gap-3 mb-8 group">
+            <div className="w-10 h-10 rounded-xl bg-accent-dim border border-accent/30 flex items-center justify-center group-hover:shadow-glow-sm transition-all">
+              <ShoppingBag size={20} className="text-accent" />
+            </div>
+            <span className="font-bold text-xl text-text-primary">
+              Clean<span className="text-accent">Ecommerce</span>
+            </span>
           </Link>
-        </p>
-      </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow-sm sm:rounded-xl border border-gray-200 sm:px-10">
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            {error && (
-              <div className="bg-red-50 border border-red-200 text-red-600 text-sm p-3 rounded-md text-center">
-                {error}
-              </div>
-            )}
-
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Correo electrónico
-              </label>
-              <div className="mt-2">
-                <input
-                  id="email"
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-black focus:outline-none focus:ring-1 focus:ring-black sm:text-sm transition-colors"
-                  placeholder="ejemplo@empresa.com"
-                />
-              </div>
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-accent-dim border border-accent/30 mb-4">
+              <Lock size={24} className="text-accent" />
             </div>
+            <h2 className="text-2xl font-bold text-text-primary tracking-tight">
+              Iniciar sesión
+            </h2>
+            <p className="mt-2 text-sm text-text-muted">
+              O{" "}
+              <Link href="/" className="font-medium text-accent hover:text-accent-bright transition-colors">
+                volvé a la tienda
+              </Link>
+            </p>
+          </div>
 
-            <div>
-              <label htmlFor="clave" className="block text-sm font-medium text-gray-700">
-                Contraseña
-              </label>
-              <div className="mt-2">
-                <input
-                  id="clave"
-                  type="password"
-                  required
-                  value={clave}
-                  onChange={(e) => setClave(e.target.value)}
-                  className="block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-black focus:outline-none focus:ring-1 focus:ring-black sm:text-sm transition-colors"
-                />
-              </div>
-            </div>
+          <div className="glow-border rounded-2xl border border-border-subtle bg-bg-card/80 backdrop-blur-xl p-8 shadow-card">
+            <form className="space-y-5" onSubmit={handleSubmit}>
+              {error && (
+                <div className="bg-error-dim border border-error/30 text-error text-sm p-4 rounded-xl text-center">
+                  {error}
+                </div>
+              )}
 
-            <div>
-              <button
-                type="submit"
-                disabled={loading}
-                className="flex w-full justify-center items-center rounded-md border border-transparent bg-black py-2.5 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed transition-all"
-              >
-                {loading && <Loader2 className="animate-spin mr-2" size={18} />}
+              <Input
+                id="email"
+                label="Correo electrónico"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="ejemplo@empresa.com"
+              />
+
+              <Input
+                id="clave"
+                label="Contraseña"
+                type="password"
+                required
+                value={clave}
+                onChange={(e) => setClave(e.target.value)}
+              />
+
+              <Button type="submit" loading={loading} className="w-full" size="lg">
                 {loading ? "Iniciando sesión..." : "Ingresar"}
-              </button>
-            </div>
-          </form>
+              </Button>
+            </form>
+          </div>
+
+          <p className="mt-6 text-center text-xs text-text-muted">
+            Acceso seguro con encriptación de extremo a extremo
+          </p>
         </div>
       </div>
     </div>

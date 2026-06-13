@@ -1,1 +1,207 @@
 @import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --color-bg-base: #08080a;
+  --color-bg-elevated: #0f0f12;
+  --color-bg-surface: #141418;
+  --color-bg-card: #1a1a1f;
+  --color-bg-hover: #222228;
+
+  --color-border-subtle: #2a2a32;
+  --color-border-default: #33333d;
+  --color-border-accent: #00c96b40;
+
+  --color-text-primary: #f0f0f2;
+  --color-text-secondary: #a0a0ab;
+  --color-text-muted: #6b6b78;
+
+  --color-accent: #00c96b;
+  --color-accent-bright: #00e87a;
+  --color-accent-dim: #00c96b20;
+  --color-accent-glow: #00ff8840;
+
+  --color-success: #00c96b;
+  --color-error: #ef4444;
+  --color-error-dim: #ef444420;
+  --color-warning: #f59e0b;
+
+  --shadow-glow-sm: 0 0 20px #00c96b15;
+  --shadow-glow-md: 0 0 40px #00c96b25;
+  --shadow-glow-lg: 0 0 60px #00c96b35;
+  --shadow-card: 0 4px 24px #00000060;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes grid-pulse {
+  0%, 100% { opacity: 0.03; }
+  50% { opacity: 0.06; }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg-base);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background-color: #00c96b40;
+  color: var(--color-text-primary);
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(#00c96b08 1px, transparent 1px),
+    linear-gradient(90deg, #00c96b08 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+.mesh-gradient {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -20%, #00c96b18, transparent),
+    radial-gradient(ellipse 60% 40% at 100% 0%, #00c96b08, transparent),
+    radial-gradient(ellipse 50% 30% at 0% 100%, #00c96b06, transparent);
+}
+
+.glass {
+  background: #0f0f12c0;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.glass-strong {
+  background: #141418e0;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #f0f0f2 0%, #a0a0ab 50%, #00e87a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-accent {
+  background: linear-gradient(135deg, #00e87a 0%, #00c96b 50%, #00a85a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glow-border {
+  position: relative;
+}
+
+.glow-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, #00c96b60, transparent 40%, transparent 60%, #00c96b30);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.glow-border:hover::before {
+  opacity: 1;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+
+.card-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    #ffffff08 45%,
+    #ffffff12 50%,
+    #ffffff08 55%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.card-shine:hover::after {
+  opacity: 1;
+  animation: shimmer 1.5s ease-out;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #141418 inset;
+  -webkit-text-fill-color: #f0f0f2;
+  caret-color: #f0f0f2;
+}

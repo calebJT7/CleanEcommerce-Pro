@@ -3,9 +3,18 @@
 import { useState } from "react";
 import Link from "next/link";
 import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import Button from "@/components/ui/Button";
+import Badge from "@/components/ui/Badge";
 import { useCart } from "../../context/CartContext";
 import { pedidoService } from "../../services/pedidoService";
-import { Trash2, ShoppingBag, CheckCircle, Loader2 } from "lucide-react";
+import {
+  ShoppingBag,
+  CheckCircle,
+  ArrowRight,
+  CreditCard,
+  Package,
+} from "lucide-react";
 
 export default function CarritoPage() {
   const { carrito, vaciarCarrito } = useCart();
@@ -14,19 +23,15 @@ export default function CarritoPage() {
   const [error, setError] = useState("");
 
   const total = carrito.reduce((suma, item) => suma + item.precio * item.cantidad, 0);
+  const subtotal = total;
 
   const handleFinalizarCompra = async () => {
     setProcesando(true);
     setError("");
 
     try {
-      // 1. Envia el pedido a C#
       await pedidoService.crearPedido(carrito, total);
-      
-      // 2. Vacia el carrito local
       vaciarCarrito();
-      
-      // 3. Muestra la pantalla de éxito
       setCompraExitosa(true);
     } catch (err) {
       console.error(err);
@@ -36,89 +41,165 @@ export default function CarritoPage() {
     }
   };
 
-  // --- PANTALLA DE ÉXITO ---
   if (compraExitosa) {
     return (
-      <div className="min-h-screen bg-[#F9FAFB]">
+      <div className="min-h-screen flex flex-col bg-bg-base">
         <Navbar />
-        <main className="max-w-4xl mx-auto px-4 py-20 text-center">
-          <div className="bg-white rounded-xl border border-gray-200 p-12 flex flex-col items-center shadow-sm">
-            <CheckCircle size={64} className="text-green-500 mb-6" />
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">¡Compra confirmada!</h1>
-            <p className="text-gray-500 mb-8 text-lg">Tu pedido ha sido procesado correctamente. En breve nos pondremos en contacto.</p>
-            <Link href="/" className="bg-black text-white px-8 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors">
-              Seguir comprando
-            </Link>
+        <main className="flex-grow flex items-center justify-center px-4 py-20">
+          <div className="max-w-lg w-full text-center animate-fade-in-up opacity-0" style={{ animationFillMode: "forwards" }}>
+            <div className="glow-border rounded-2xl border border-border-subtle bg-bg-card p-12 shadow-glow-md">
+              <div className="w-20 h-20 rounded-full bg-accent-dim border border-accent/30 flex items-center justify-center mx-auto mb-6">
+                <CheckCircle size={40} className="text-accent" />
+              </div>
+              <h1 className="text-3xl font-bold text-text-primary mb-3">¡Compra confirmada!</h1>
+              <p className="text-text-secondary mb-8 leading-relaxed">
+                Tu pedido ha sido procesado correctamente. En breve nos pondremos en contacto.
+              </p>
+              <Link href="/">
+                <Button size="lg" className="group">
+                  Seguir comprando
+                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+            </div>
           </div>
         </main>
+        <Footer />
       </div>
     );
   }
 
-  // --- PANTALLA DEL CARRITO (Con el botón funcional) ---
   return (
-    <div className="min-h-screen bg-[#F9FAFB]">
+    <div className="min-h-screen flex flex-col bg-bg-base">
       <Navbar />
-      
-      <main className="max-w-4xl mx-auto px-4 py-12">
-        <h1 className="text-3xl font-semibold text-gray-900 mb-8">Tu Carrito</h1>
+
+      <main className="flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 w-full">
+        <div className="mb-10">
+          <div className="flex items-center gap-2 mb-3">
+            <ShoppingBag size={16} className="text-accent" />
+            <span className="text-xs font-semibold uppercase tracking-widest text-accent">
+              Checkout
+            </span>
+          </div>
+          <h1 className="text-3xl md:text-4xl font-bold text-text-primary tracking-tight">
+            Tu carrito
+          </h1>
+          {carrito.length > 0 && (
+            <p className="text-text-muted mt-2">
+              {carrito.reduce((sum, item) => sum + item.cantidad, 0)} artículo
+              {carrito.reduce((sum, item) => sum + item.cantidad, 0) !== 1 ? "s" : ""} en tu pedido
+            </p>
+          )}
+        </div>
 
         {error && (
-          <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-lg border border-red-200">
+          <div className="mb-6 p-4 bg-error-dim text-error rounded-xl border border-error/30">
             {error}
           </div>
         )}
 
         {carrito.length === 0 ? (
-          <div className="bg-white rounded-xl border border-gray-200 p-12 text-center flex flex-col items-center">
-            <ShoppingBag size={48} className="text-gray-300 mb-4" />
-            <h2 className="text-xl font-medium text-gray-900 mb-2">Tu carrito está vacío</h2>
-            <Link href="/" className="bg-black text-white px-6 py-3 rounded-lg font-medium mt-6 hover:bg-gray-800 transition-colors">
-              Volver a la tienda
+          <div className="rounded-2xl border border-border-subtle bg-bg-card p-16 text-center flex flex-col items-center">
+            <div className="w-16 h-16 rounded-2xl bg-bg-surface border border-border-subtle flex items-center justify-center mb-6">
+              <ShoppingBag size={32} className="text-text-muted" strokeWidth={1.5} />
+            </div>
+            <h2 className="text-xl font-semibold text-text-primary mb-2">Tu carrito está vacío</h2>
+            <p className="text-text-muted text-sm mb-8 max-w-sm">
+              Explorá nuestro catálogo y encontrá la tecnología que necesitás.
+            </p>
+            <Link href="/">
+              <Button size="lg">Volver a la tienda</Button>
             </Link>
           </div>
         ) : (
-          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
-            {/* Lista de productos  */}
-            <ul className="divide-y divide-gray-200">
-              {carrito.map((item) => (
-                <li key={item.id} className="p-6 flex items-center justify-between">
-                  <div className="flex items-center gap-6">
-                    <div className="w-24 h-24 bg-gray-100 rounded-md overflow-hidden">
-                      {item.imagenUrl ? <img src={item.imagenUrl} className="w-full h-full object-cover" /> : <div className="w-full h-full text-xs flex items-center text-gray-400">Sin foto</div>}
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-medium text-gray-900">{item.nombre}</h3>
-                      <p className="text-gray-500 text-sm mt-1">Cantidad: {item.cantidad}</p>
-                    </div>
-                  </div>
-                  <span className="text-lg font-semibold">${(item.precio * item.cantidad).toLocaleString()}</span>
-                </li>
-              ))}
-            </ul>
-            
-            <div className="bg-gray-50 p-6 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center gap-4">
-              <div>
-                <p className="text-sm text-gray-500">Total a pagar</p>
-                <p className="text-2xl font-bold text-gray-900">${total.toLocaleString()}</p>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2">
+              <div className="rounded-2xl border border-border-subtle bg-bg-card overflow-hidden">
+                <ul className="divide-y divide-border-subtle">
+                  {carrito.map((item) => (
+                    <li
+                      key={item.id}
+                      className="p-5 md:p-6 flex items-center justify-between gap-4 hover:bg-bg-hover/50 transition-colors duration-300"
+                    >
+                      <div className="flex items-center gap-4 md:gap-6 min-w-0">
+                        <div className="w-20 h-20 md:w-24 md:h-24 rounded-xl bg-bg-surface border border-border-subtle overflow-hidden flex-shrink-0">
+                          {item.imagenUrl ? (
+                            <img
+                              src={item.imagenUrl}
+                              alt={item.nombre}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center">
+                              <Package size={20} className="text-text-muted" />
+                            </div>
+                          )}
+                        </div>
+                        <div className="min-w-0">
+                          <h3 className="text-base md:text-lg font-semibold text-text-primary truncate">
+                            {item.nombre}
+                          </h3>
+                          <div className="flex items-center gap-2 mt-2">
+                            <Badge variant="outline">x{item.cantidad}</Badge>
+                            <span className="text-text-muted text-sm">
+                              ${item.precio.toLocaleString()} c/u
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <span className="text-lg font-bold text-accent flex-shrink-0">
+                        ${(item.precio * item.cantidad).toLocaleString()}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              
-              {/* BOTÓN MÁGICO */}
-              <button 
-                onClick={handleFinalizarCompra}
-                disabled={procesando}
-                className="w-full sm:w-auto bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition-all shadow-sm flex items-center justify-center disabled:bg-blue-400 gap-2"
-              >
-                {procesando ? (
-                  <><Loader2 size={18} className="animate-spin" /> Procesando...</>
-                ) : (
-                  "Finalizar Compra"
-                )}
-              </button>
+            </div>
+
+            <div className="lg:col-span-1">
+              <div className="glow-border sticky top-24 rounded-2xl border border-border-subtle bg-bg-card p-6 shadow-card">
+                <h3 className="text-lg font-semibold text-text-primary mb-6 flex items-center gap-2">
+                  <CreditCard size={18} className="text-accent" />
+                  Resumen del pedido
+                </h3>
+
+                <div className="space-y-3 mb-6">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-text-muted">Subtotal</span>
+                    <span className="text-text-secondary">${subtotal.toLocaleString()}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-text-muted">Envío</span>
+                    <span className="text-accent font-medium">Gratis</span>
+                  </div>
+                  <div className="h-px bg-border-subtle" />
+                  <div className="flex justify-between">
+                    <span className="text-text-secondary font-medium">Total</span>
+                    <span className="text-2xl font-bold text-text-primary">
+                      ${total.toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+
+                <Button
+                  onClick={handleFinalizarCompra}
+                  loading={procesando}
+                  className="w-full"
+                  size="lg"
+                >
+                  {procesando ? "Procesando..." : "Finalizar compra"}
+                </Button>
+
+                <p className="text-xs text-text-muted text-center mt-4">
+                  Pago seguro · Confirmación inmediata
+                </p>
+              </div>
             </div>
           </div>
         )}
       </main>
+
+      <Footer />
     </div>
   );
 }
