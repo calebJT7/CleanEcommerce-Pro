@@ -117,13 +117,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Ejecutar las migraciones pendientes automáticamente al arrancar
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<EcommerceDbContext>();
-    dbContext.Database.Migrate();
-}
-
 // 8. DATABASE INITIALIZATION
 using (var scope = app.Services.CreateScope())
 {
