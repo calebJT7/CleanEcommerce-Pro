@@ -21,16 +21,16 @@ export default function LoginPage() {
     try {
       const response = await authService.login({ email, password: clave });
       
-      // Guardamos el token en el almacenamiento del navegador
+      // Guarda el token en el almacenamiento del navegador
       localStorage.setItem("authToken", response.token);
       
-      // Redirigimos al inicio
+      // Redirige al inicio
       router.push("/");
-   } catch (err: any) { // <-- Agregamos : any acá
-      // Atrapamos el mensaje exacto que nos manda C# y lo mostramos en la consola
+   } catch (err: any) { 
+      // Atrapa el mensaje exacto que nos manda C# y lo mostramos en la consola
       console.error("Error detallado de C#:", err.response?.data);
       
-      // Intentamos mostrar el error real en el cartelito rojo
+      // Intenta mostrar el error real en el cartelito rojo
       if (err.response?.data?.errors) {
         setError(JSON.stringify(err.response.data.errors));
       } else if (err.response?.data) {

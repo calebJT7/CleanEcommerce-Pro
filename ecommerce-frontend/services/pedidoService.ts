@@ -3,7 +3,7 @@ import { CartItem } from '../context/CartContext';
 
 export const pedidoService = {
   crearPedido: async (carrito: CartItem[], total: number) => {
-    // Guardamos el token de sesión si existe y es válido
+    // Guarda el token de sesión si existe y es válido
     const token = localStorage.getItem("authToken")?.trim();
     const validToken = token && token !== "undefined" && token !== "null" ? token : null;
 
@@ -11,7 +11,7 @@ export const pedidoService = {
       throw new Error("Necesitas iniciar sesión para completar la compra.");
     }
 
-    // Armamos el paquete que espera el backend
+    // Arma el paquete que espera el backend
     const payload = {
       productoIds: carrito.flatMap(item => Array.from({ length: item.cantidad }, () => item.id))
     };

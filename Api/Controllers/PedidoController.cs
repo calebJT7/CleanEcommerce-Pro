@@ -20,7 +20,7 @@ namespace Api.Controllers
             _context = context;
         }
 
-        //  1. OBTENER TODOS LOS PEDIDOS
+        // 1. Obtengo todos los pedidos
         [HttpGet]
         public async Task<ActionResult<List<PedidoAdminDto>>> GetTodosLosPedidos()
         {
@@ -40,7 +40,7 @@ namespace Api.Controllers
             return Ok(pedidos);
         }
 
-        // 2. OBTENER HISTORIAL DETALLADO
+        // 2. Obtengo historial detallado
         [HttpGet("historial")]
         public async Task<ActionResult> GetPedidosDetallados()
         {
@@ -67,8 +67,7 @@ namespace Api.Controllers
             return Ok(historial);
         }
 
-        // 3. REGISTRAR UNA NUEVA VENTA (Checkout)
-        // 3. REGISTRAR UNA NUEVA VENTA (Checkout)
+        // 3. Registro una nueva venta (checkout)
         [HttpPost]
         public async Task<ActionResult> CrearPedido([FromBody] CrearPedidoDto peticion)
         {
@@ -127,7 +126,7 @@ namespace Api.Controllers
             }
             catch (Exception ex)
             {
-                // EL CHISMOSO: Atrapa el error y te lo manda al navegador
+                // Capturo el error y devuelvo 500
                 return StatusCode(500, new
                 {
                     MensajeDelError = ex.Message,
@@ -136,7 +135,7 @@ namespace Api.Controllers
             }
         }
 
-        //  4. ACTUALIZAR ESTADO DEL PEDIDO
+        // 4. Actualizo estado del pedido
         [HttpPut("{id}/estado")]
         public async Task<ActionResult> ActualizarEstado(int id, [FromBody] CambiarEstadoDto peticion)
         {
@@ -151,7 +150,7 @@ namespace Api.Controllers
             return Ok(new { mensaje = $"El pedido #{id} ahora está: {peticion.NuevoEstado}" });
         }
 
-        //  5. VER EL DETALLE EXACTO DE UN PEDIDO
+        // 5. Devuelvo detalle de un pedido
         [HttpGet("{id}")]
         public async Task<ActionResult<Application.DTOs.PedidoDetalleDto>> GetPedidoDetalle(int id)
         {
@@ -183,7 +182,7 @@ namespace Api.Controllers
             return Ok(ticket);
         }
 
-        //  6. VER MIS COMPRAS
+        // 6. Obtengo mis compras
         [HttpGet("mis-compras")]
         public async Task<ActionResult<List<PedidoAdminDto>>> GetMisPedidos()
         {
@@ -209,7 +208,7 @@ namespace Api.Controllers
             return Ok(misPedidos);
         }
 
-        //  7. ESTADÍSTICAS DEL DASHBOARD
+        // 7. Calculo estadísticas básicas
         [HttpGet("estadisticas")]
         public async Task<ActionResult<EstadisticasDto>> GetEstadisticas()
         {

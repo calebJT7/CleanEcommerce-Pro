@@ -17,20 +17,20 @@ namespace Api.Controllers
             _context = context;
         }
 
-        // 💵 REGISTRAR UN PAGO (POST)
+        // Registrar un pago
         [HttpPost]
         public async Task<ActionResult> RegistrarPago(PagoDto pagoDto)
         {
-            // 1. Validaciones básicas de negocio
+            // 1. Validaciones básicas
             if (pagoDto.Monto <= 0)
                 return BadRequest("El monto del pago debe ser mayor a cero.");
 
-            // 2. Buscamos al cliente que está pagando
+            // 2. Busco al cliente que paga
             var cliente = await _context.Clientes.FindAsync(pagoDto.ClienteId);
             if (cliente == null)
                 return NotFound("Error: El cliente no existe.");
 
-            // 3. Creamos el recibo
+            // 3. Creo el recibo
             var nuevoPago = new Pago
             {
                 ClienteId = pagoDto.ClienteId,
@@ -38,10 +38,10 @@ namespace Api.Controllers
                 FechaPago = DateTime.UtcNow
             };
 
-            // 4. ¡REGLA DE NEGOCIO!: Le restamos la plata a su deuda
+            // 4. Aplico regla de negocio: resto el pago de la deuda
             cliente.DeudaTotal -= pagoDto.Monto;
 
-            // 5. Guardamos TODO junto en una sola transacción segura
+            // 5. Guardo en la base de datos
             _context.Pagos.Add(nuevoPago);
             await _context.SaveChangesAsync();
 
@@ -53,7 +53,7 @@ namespace Api.Controllers
             });
         }
 
-        // 🔵 OBTENER HISTORIAL DE PAGOS (GET)
+        // Obtengo historial de pagos
         [HttpGet]
         public async Task<ActionResult> GetPagos()
         {

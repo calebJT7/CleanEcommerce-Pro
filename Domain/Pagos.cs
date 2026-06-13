@@ -5,10 +5,10 @@ namespace Domain
         public int Id { get; set; }
         public DateTime FechaPago { get; set; } = DateTime.UtcNow;
 
-        // ¿Cuánta plata entregó el cliente?
+        // Monto pagado por el cliente
         public decimal Monto { get; set; }
 
-        // 🔗 Relación: ¿Quién hizo este pago?
+        // FK al cliente
         public int ClienteId { get; set; }
         public Cliente? Cliente { get; set; }
     }

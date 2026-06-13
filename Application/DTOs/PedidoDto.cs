@@ -2,7 +2,7 @@ namespace Application.DTOs
 {
     public class PedidoDto
     {
-        // ¿Quién está comprando?
+        // Quién está comprando?
         public int ClienteId { get; set; }
 
         // La lista de cosas que metió al carrito

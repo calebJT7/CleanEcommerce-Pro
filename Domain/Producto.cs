@@ -8,7 +8,7 @@ public class Producto
     [Required]
     public string Nombre { get; set; } = string.Empty;
 
-    // "decimal" es mejor que "double" para dinero (más preciso)
+    // "decimal" es mejor que "double" para plata (más preciso)
     [Column(TypeName = "decimal(18,2)")]
     public decimal Precio { get; set; }
     public string? Descripcion { get; set; }

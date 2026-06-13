@@ -10,19 +10,19 @@ namespace Api.Middlewares
 
         public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
         {
-            _next = next;   // El siguiente paso en la tubería
-            _logger = logger; // Para guardar el error en los logs (consola)
+            _next = next;   // Guardo siguiente middleware
+            _logger = logger; // Uso logger para errores
         }
 
-        // Este método se ejecuta en CADA petición
+        // Manejo excepciones por petición
         public async Task InvokeAsync(HttpContext context)
         {
             try
             {
-                // Intenta dejar pasar la petición...
+                // Intento procesar la petición
                 await _next(context);
             }
-            catch (Exception ex) // ¡Si algo explota en el camino, cae aquí!
+            catch (Exception ex) // Capturo excepciones
             {
                 _logger.LogError(ex, "Algo salió mal: {Message}", ex.Message);
                 await HandleExceptionAsync(context, ex);
@@ -38,7 +38,7 @@ namespace Api.Middlewares
             {
                 StatusCode = context.Response.StatusCode,
                 Mensaje = "Ocurrió un error interno en el servidor. Por favor, contacte a soporte.",
-                Detalle = exception.Message // En producción, esto no se suele mostrar
+                Detalle = exception.Message // No muestro detalle en producción
             };
 
             var json = JsonSerializer.Serialize(response);

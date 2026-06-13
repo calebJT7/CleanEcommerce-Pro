@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Domain;// <--- Importante para ver Entidades
+using Domain;// para ver Entidades
 
 namespace Infrastructure
 {

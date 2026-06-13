@@ -14,34 +14,33 @@ namespace Api.Controllers
         private readonly EcommerceDbContext _context;
         private readonly AuthService _authService;
 
-        // 💉 Inyectamos la base de datos y nuestro motor criptográfico
+        // Inyecto DbContext y AuthService
         public UsuariosController(EcommerceDbContext context, AuthService authService)
         {
             _context = context;
             _authService = authService;
         }
-
-        // 📝 1. REGISTRAR UN NUEVO USUARIO
+        // 1. Registrar nuevo usuario
         [HttpPost("registrar")]
         public async Task<ActionResult> Registrar(UsuarioRegistroDto request)
         {
-            // Verificamos si el correo ya existe en la base de datos
+            // Verifico si el correo ya existe
             if (await _context.Usuarios.AnyAsync(u => u.Email == request.Email))
             {
                 return BadRequest("El correo ya está registrado.");
             }
 
-            // Usamos nuestro servicio para encriptar la contraseña que escribió
+            // Creo hash de la contraseña
             _authService.CrearPasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-            // Creamos el nuevo usuario seguro
+            // Creo el usuario
             var nuevoUsuario = new Usuario
             {
                 NombreCompleto = request.NombreCompleto,
                 Email = request.Email,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
-                EsAdmin = true // Por ahora hacemos a todos administradores
+                EsAdmin = true // Temporal
             };
 
             _context.Usuarios.Add(nuevoUsuario);
@@ -50,27 +49,27 @@ namespace Api.Controllers
             return Ok("¡Usuario registrado con éxito!");
         }
 
-        // 🔐 2. INICIAR SESIÓN (LOGIN)
+        // 2. Login
         [HttpPost("login")]
         public async Task<ActionResult> Login(UsuarioLoginDto request)
         {
-            // Buscamos al usuario por su correo
+            // Busco al usuario por email
             var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == request.Email);
             if (usuario == null)
             {
                 return BadRequest("Usuario no encontrado.");
             }
 
-            // Verificamos si la contraseña coincide con la encriptada
+            // Verifico la contraseña
             if (!_authService.VerificarPasswordHash(request.Password, usuario.PasswordHash, usuario.PasswordSalt))
             {
                 return BadRequest("Contraseña incorrecta.");
             }
 
-            // Si la contraseña es correcta, fabricamos su Pase VIP (Token)
+            // Genero token JWT
             var token = _authService.CrearToken(usuario);
 
-            // Le devolvemos un mensaje y su token de seguridad
+            // Devuelvo token y mensaje
             return Ok(new
             {
                 mensaje = $"¡Bienvenido {usuario.NombreCompleto}!",

@@ -11,7 +11,7 @@ export default function Home() {
   const [productos, setProductos] = useState<Producto[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Apenas carga la página, llamamos a tu API de C#
+  // Apenas carga la página, llama a tu API de C#
   useEffect(() => {
     const cargarProductos = async () => {
       try {

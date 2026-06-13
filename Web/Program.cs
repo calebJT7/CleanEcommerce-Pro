@@ -9,15 +9,15 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-// 1. Registramos nuestro interceptor (el peaje)
+// 1. Registro interceptor
 builder.Services.AddTransient<Web.Auth.AuthHeaderHandler>();
 
-// 2. Armamos el HttpClient de forma manual conectándole el peaje
+// 2. Configuro HttpClient con mi handler
 builder.Services.AddScoped(sp =>
 {
     var authHandler = sp.GetRequiredService<Web.Auth.AuthHeaderHandler>();
 
-    // Le decimos que use el motor de red estándar de Blazor por debajo
+    // Uso HttpClientHandler interno
     authHandler.InnerHandler = new HttpClientHandler();
 
     return new HttpClient(authHandler)
@@ -25,16 +25,16 @@ builder.Services.AddScoped(sp =>
         BaseAddress = new Uri("https://api-caleb-ecommerce-fzbqhjhhhufzcybp.centralus-01.azurewebsites.net/")
     };
 });
-//  Registramos el HttpClient con la API local para desarrollo
+// Alternativa: registrar HttpClient para API local (dev)
 // builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://api-caleb-ecommerce-fzbqhjhhhufzcybp.centralus-01.azurewebsites.net/") });
 // {
 //     BaseAddress = new Uri("http://localhost:7050/api/")
 // });
 
-// Activamos la seguridad inteligente de Blazor
+// Habilito autorización
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
-// Registramos el motor del carrito para que viva en toda la app
+// Registro servicio del carrito
 builder.Services.AddScoped<CarritoService>();
 
 await builder.Build().RunAsync();

@@ -20,7 +20,7 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
-// 1. DATABASE (Separate Development from Production)
+// 1. Configuro la BD (dev / prod)
 if (builder.Environment.IsDevelopment())
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -29,15 +29,14 @@ if (builder.Environment.IsDevelopment())
 }
 else
 {
-    // PRODUCTION MODE (Azure): PostgreSQL from connection string
-    // OJO: Acá tenés que pegar el External Database URL de Render, NO la interna que termina en -a.
+    // Modo producción: usar URL externa de la DB
     var connectionString = "Server=tcp:server-caleb-1.database.windows.net,1433;Initial Catalog=CleanEcommerceDB;Persist Security Info=False;User ID=calebadmin;Password=Bangtan1612;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
     builder.Services.AddDbContext<EcommerceDbContext>(options =>
         options.UseSqlServer(connectionString));
 }
 
-// 2. AUTHENTICATION - REGISTERED GLOBALLY
+// 2. Configuro autenticación JWT
 var jwtSecret = builder.Configuration["AppSettings:Token"]
     ?? "Tu_Palabra_Secreta_Super_Larga_De_32_CharsTu_Palabra_Secreta_Super_Larga_De_32_CharsTu_Palabra_Secreta_Super_Larga_De_32_Chars";
 
@@ -59,16 +58,16 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// 3. AUTHORIZATION
+// 3. Configuro autorización
 builder.Services.AddAuthorization();
 
-// 4. DEPENDENCY INJECTION
+// 4. Registro dependencias
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IProductoService, ProductoService>();
 
-// 5. CONTROLLERS & SWAGGER
+// 5. Agrego controladores y Swagger
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -97,7 +96,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// 6. CORS - Allow all origins for development/production flexibility
+// 6. Habilito CORS (permito todo temporalmente)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -106,7 +105,7 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader());
 });
 
-// 7. MESSAGE QUEUE
+// 7. MQ (desactivado)
 //builder.Services.AddMassTransit(x =>
 //{
 //x.UsingRabbitMq((context, cfg) =>
@@ -117,14 +116,14 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// 8. DATABASE INITIALIZATION
+// 8. Inicializo la BD
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<EcommerceDbContext>();
     context.Database.EnsureCreated();
 }
 
-// 9. MIDDLEWARE PIPELINE
+// 9. Configuro pipeline de middlewares
 app.UseMiddleware<ExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())

@@ -17,7 +17,7 @@ namespace Api.Controllers
             _context = context;
         }
 
-        // 🔵 OBTENER TODOS LOS CLIENTES (GET)
+        // Obtener todos los clientes
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Cliente>>> GetClientes()
         {
@@ -25,17 +25,17 @@ namespace Api.Controllers
             return Ok(clientes);
         }
 
-        //  REGISTRAR UN NUEVO CLIENTE (POST)
+        // Registrar nuevo cliente
         [HttpPost]
         public async Task<ActionResult> PostCliente(ClienteDto clienteDto)
         {
-            // Transformamos el DTO en la Entidad real
+            // Convierto DTO a entidad
             var nuevoCliente = new Cliente
             {
                 NombreCompleto = clienteDto.NombreCompleto,
                 Email = clienteDto.Email,
                 Telefono = clienteDto.Telefono,
-                DeudaTotal = 0 // ¡Todo cliente nuevo empieza con deuda cero!
+                DeudaTotal = 0 // Nuevo cliente inicia con deuda cero
             };
 
             _context.Clientes.Add(nuevoCliente);
@@ -43,36 +43,36 @@ namespace Api.Controllers
 
             return Ok("¡Cliente registrado con éxito!");
         }
-        //  ACTUALIZAR UN CLIENTE (PUT)
+        // Actualizar un cliente
         [HttpPut("{id}")]
         public async Task<ActionResult> PutCliente(int id, ClienteDto clienteDto)
         {
-            // 1. Buscamos si el cliente existe
+            // Verifico si el cliente existe
             var cliente = await _context.Clientes.FindAsync(id);
             if (cliente == null)
             {
                 return NotFound("Error: cliente no existente");
             }
-            // 2. Actualizamos solo los datos permitidos (¡Prohibido tocar la DeudaTotal aquí!)
+            // Actualizo solo los campos permitidos (no tocar DeudaTotal)
             cliente.NombreCompleto = clienteDto.NombreCompleto;
             cliente.Email = clienteDto.Email;
             cliente.Telefono = clienteDto.Telefono;
-            // 3. Guardamos los cambios
+            // Guardo cambios
             await _context.SaveChangesAsync();
             return Ok("¡Cliente actualizado correctamente!");
         }
-        //  ELIMINAR UN CLIENTE (DELETE)
+        // Eliminar un cliente
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCliente(int id)
         {
-            // 1. Buscamos al cliente
+            // Busco al cliente
             var cliente = await _context.Clientes.FindAsync(id);
             if (cliente == null)
             {
                 return NotFound("Error: El cliente no existe.");
             }
 
-            // 2. Lo eliminamos
+            // Elimino el cliente
             _context.Clientes.Remove(cliente);
             await _context.SaveChangesAsync();
 

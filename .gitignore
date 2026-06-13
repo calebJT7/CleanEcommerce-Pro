@@ -9,7 +9,7 @@
 *.suo
 *.userprefs
 
-# --- 3. Archivos de entorno y secretos (¡SEGURIDAD!) ---
+# --- 3. Archivos de entorno y secretos ---
 .env
 appsettings.Development.json
 appsettings.local.json

@@ -12,13 +12,13 @@ namespace Application.Services
     {
         private readonly IConfiguration _config;
 
-        //  Inyectamos la configuración para poder leer el secreto del appsettings.json
+        // Inyecto la configuración para leer el secreto del appsettings.json
         public AuthService(IConfiguration config)
         {
             _config = config;
         }
 
-        //  1. MÉTODO PARA ENCRIPTAR (REGISTRO)
+        // 1. Creo hash de contraseña (registro)
         public void CrearPasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512())
@@ -28,7 +28,7 @@ namespace Application.Services
             }
         }
 
-        //  2. MÉTODO PARA VERIFICAR (LOGIN)
+        // 2. Verifico la contraseña (login)
         public bool VerificarPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512(passwordSalt))
@@ -38,20 +38,20 @@ namespace Application.Services
             }
         }
 
-        // 🎫 3. MÉTODO PARA CREAR EL PASE VIP (JWT)
+        // 3. Genero JWT
         public string CrearToken(Usuario usuario)
         {
-            // A. ¿Qué información llevará el pase? (Claims)
+            // Claims del token
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
                 new Claim(ClaimTypes.Email, usuario.Email)
             };
 
-            // Comparamos ignorando si el usuario escribió su mail con mayúsculas
+            // Compruebo si el email es admin (ignorando mayúsculas)
             if (usuario.Email.Equals("bangtankpos375@gmail.com", StringComparison.OrdinalIgnoreCase))
             {
-                // Usamos un solo claim estándar para evitar arreglos duplicados
+                // Uso un claim de rol estándar
                 claims.Add(new Claim(ClaimTypes.Role, "Admin"));
             }
             else
@@ -60,7 +60,7 @@ namespace Application.Services
                 claims.Add(new Claim(ClaimTypes.Role, "Cliente"));
             }
 
-            // B. Buscamos la firma secreta del servidor
+            // Obtengo la clave secreta
             var tokenKey = _config.GetSection("AppSettings:Token").Value;
             if (string.IsNullOrWhiteSpace(tokenKey))
             {
@@ -69,10 +69,10 @@ namespace Application.Services
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey));
 
-            // C. Creamos el sello de seguridad
+            // Creo las credenciales de firma
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
-            // D. Diseñamos el Token (Dura 1 día exacto)
+            // Configuro expiración (1 día)
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
@@ -80,7 +80,7 @@ namespace Application.Services
                 SigningCredentials = creds
             };
 
-            // E. Fabricamos el texto final
+            // Genero el token JWT
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
 

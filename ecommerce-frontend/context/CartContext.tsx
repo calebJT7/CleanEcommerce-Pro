@@ -20,7 +20,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: ReactNode }) {
   const [carrito, setCarrito] = useState<CartItem[]>([]);
 
-  // Cuando arranca la app, buscamos si había algo guardado
+  // Cuando arranca la app, busca si había algo guardado
   useEffect(() => {
     const carritoGuardado = localStorage.getItem("carrito");
     if (carritoGuardado) {
@@ -53,7 +53,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem("carrito");
   };
 
-  // Calculamos cuántos ítems hay en total para la barra superior
+  // Calcula cuántos ítems hay en total para la barra superior
   const cantidadTotal = carrito.reduce((total, item) => total + item.cantidad, 0);
 
   return (

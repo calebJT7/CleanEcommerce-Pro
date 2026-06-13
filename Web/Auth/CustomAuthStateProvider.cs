@@ -43,7 +43,7 @@ namespace Web.Auth
             {
                 var value = kvp.Value.ToString()!;
 
-                // 🚀 INTERCEPCIÓN VITAL: Si el token dice "role", lo traducimos al idioma de Microsoft
+                // Si el token dice "role", lo traducimos al idioma de Microsoft
                 if (kvp.Key == "role")
                 {
                     claims.Add(new Claim(ClaimTypes.Role, value));

@@ -16,12 +16,12 @@ namespace CleanEcommerce.UnitTest
         public async Task GetProductos_DebeRetornarStatus200OK_ConListaDeProductos()
         {
             // 1. ARRANGE (Preparar)
-            // Creamos un contexto de base de datos en memoria
+            // Crea un contexto de base de datos en memoria
             var options = new DbContextOptionsBuilder<EcommerceDbContext>()
                 .UseInMemoryDatabase(databaseName: "TestDatabase")
                 .Options;
 
-            // Creamos datos de prueba
+            // Crea datos de prueba
             using (var context = new EcommerceDbContext(options))
             {
                 context.Productos.Add(new Producto
@@ -35,7 +35,7 @@ namespace CleanEcommerce.UnitTest
                 await context.SaveChangesAsync();
             }
 
-            // Creamos el controlador con el contexto de prueba
+            // Crea el controlador con el contexto de prueba
             using (var context = new EcommerceDbContext(options))
             {
                 var controller = new ProductosController(context);

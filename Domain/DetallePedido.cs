@@ -4,15 +4,15 @@ namespace Domain
     {
         public int Id { get; set; }
 
-        // 🔗 ¿A qué Pedido pertenece este renglón?
+        // FK al pedido
         public int PedidoId { get; set; }
         public Pedido? Pedido { get; set; }
 
-        // 🔗 ¿Qué Producto se están llevando?
+        // FK al producto
         public int ProductoId { get; set; }
         public Producto? Producto { get; set; }
 
-        // ¿Cuántos se llevan y a qué precio en ese momento?
+        // Cantidad y precio unitario en el momento de la compra
         public int Cantidad { get; set; }
         public decimal PrecioUnitario { get; set; }
     }

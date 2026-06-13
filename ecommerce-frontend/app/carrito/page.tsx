@@ -20,13 +20,13 @@ export default function CarritoPage() {
     setError("");
 
     try {
-      // 1. Enviamos el pedido a C#
+      // 1. Envia el pedido a C#
       await pedidoService.crearPedido(carrito, total);
       
-      // 2. Vaciamos el carrito local
+      // 2. Vacia el carrito local
       vaciarCarrito();
       
-      // 3. Mostramos la pantalla de éxito
+      // 3. Muestra la pantalla de éxito
       setCompraExitosa(true);
     } catch (err) {
       console.error(err);
@@ -79,7 +79,7 @@ export default function CarritoPage() {
           </div>
         ) : (
           <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
-            {/* Lista de productos (igual que antes) */}
+            {/* Lista de productos  */}
             <ul className="divide-y divide-gray-200">
               {carrito.map((item) => (
                 <li key={item.id} className="p-6 flex items-center justify-between">

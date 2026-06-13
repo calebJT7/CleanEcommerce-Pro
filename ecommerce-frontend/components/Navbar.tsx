@@ -11,7 +11,7 @@ export default function Navbar() {
   const router = useRouter();
   const { cantidadTotal } = useCart();
 
-  // Apenas carga el menú, revisamos si hay un token guardado
+  // Apenas carga el menú, revisa si hay un token guardado
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (token) {
