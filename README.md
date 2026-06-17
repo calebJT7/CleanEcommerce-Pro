@@ -1,132 +1,116 @@
-# Clean E-Commerce Platform (Enterprise Architecture)
+# Clean E-Commerce — Full-Stack Architecture Project
 
-![CI Status](https://github.com/calebJT7/CleanEcommerce-Pro/actions/workflows/ci.yml/badge.svg)
-![.NET Version](https://img.shields.io/badge/.NET-9.0-purple?style=for-the-badge&logo=dotnet)
-![Architecture](https://img.shields.io/badge/Architecture-Clean-green?style=for-the-badge)
-![Messaging](https://img.shields.io/badge/Messaging-RabbitMQ-orange?style=for-the-badge&logo=rabbitmq)
+![.NET 9](https://img.shields.io/badge/.NET-9.0-purple?style=for-the-badge&logo=dotnet)
+![Next.js](https://img.shields.io/badge/Next.js-16.2.7-black?style=for-the-badge&logo=nextdotjs)
+![Blazor](https://img.shields.io/badge/Blazor-WebAssembly-blue?style=for-the-badge)
+![SQL Server](https://img.shields.io/badge/Database-SQL%20Server-0078D6?style=for-the-badge)
 
-A Full-Stack e-commerce ecosystem built with **Clean Architecture** and **Domain-Driven Design (DDD)** principles. This repository contains the Core Web API, Admin Dashboard, and Client Storefront—a complete monorepo solution deployed across multiple cloud platforms.
+A multi-client e-commerce platform built around a single ASP.NET Core API, demonstrating clean architecture principles, API-first design, and end-to-end ownership across backend, frontend, and admin tooling.
 
-## 🚀 Live Deployments
+## Technical Highlights
 
-- **API (Azure):** [https://api-caleb-ecommerce-fzbqhjhhhufzcybp.centralus-01.azurewebsites.net/](https://api-caleb-ecommerce-fzbqhjhhhufzcybp.centralus-01.azurewebsites.net/)
-- **Client Storefront (Vercel):** [https://clean-ecommerce-frontend-p28nl2arx-calebjt7s-projects.vercel.app/](https://clean-ecommerce-frontend-p28nl2arx-calebjt7s-projects.vercel.app/)
-- **Admin Dashboard (Blazor):** `http://localhost:7050` (Local development)
-- **API Swagger:** [https://api-caleb-ecommerce-fzbqhjhhhufzcybp.centralus-01.azurewebsites.net/swagger](https://api-caleb-ecommerce-fzbqhjhhhufzcybp.centralus-01.azurewebsites.net/swagger)
+The system is organized into distinct layers — Domain, Application, Infrastructure, and API — enforcing separation of concerns and a unidirectional dependency flow toward the domain core. Two independent clients consume the same backend through a versioned, documented API surface: a Blazor WebAssembly admin dashboard and a Next.js public storefront. Authentication and authorization are implemented with JWT, protected routes, and role-based access control, applied consistently across both client applications. Core e-commerce workflows are fully modeled, including product catalog management, cart state, order creation, and payment registration with historical tracking. Backend logic and controller behavior are covered by an automated xUnit test suite running against an in-memory database. The solution is containerized with Docker Compose for local development and is structured to support distributed deployment, with scaffolding already in place for asynchronous messaging via MassTransit and RabbitMQ.
+
+## Project Summary
+
+The application is composed of three independently deployable units sharing a common backend contract:
+
+- **API** (`Api/`): the core ASP.NET Core Web API, exposing endpoints for products, orders, payments, customers, and user accounts. It encapsulates all business logic and acts as the single source of truth for both clients.
+- **Admin Dashboard** (`Web/`): a Blazor WebAssembly application providing authenticated administrative access for product management and order lifecycle operations, consuming the API exclusively through JWT-protected endpoints.
+- **Client Storefront** (`ecommerce-frontend/`): a Next.js and React application serving the public-facing catalog, cart, and checkout experience, with client-side state management and HTTP communication handled through Axios.
 
 ## Architecture Overview
 
-The system features a strict separation of concerns, operating through a tri-frontend architecture:
+### Backend
 
-- **Core API (.NET 9):** Centralized backend handling secure endpoints, business logic, and database operations with role-based JWT claim validation. Deployed on Azure App Service with PostgreSQL.
-- **Admin Dashboard (Blazor WebAssembly):** A highly secure, private panel restricted to `Admin` roles for inventory management and order monitoring. Runs locally on developers' machines.
-- **Client Storefront (Next.js):** A public-facing, SEO-optimized application consuming public API endpoints (`[AllowAnonymous]`) for the end-user shopping experience. Deployed on Vercel with automatic CI/CD from GitHub.
+The backend is implemented in ASP.NET Core (.NET 9) following clean architecture conventions, with controllers, services, repositories, and DTOs organized into clearly bounded layers. Persistence is handled through Entity Framework Core against SQL Server, with a connection string compatible with local development environments. JWT-based authentication enforces role-based authorization at the endpoint level. Structured logging is implemented with Serilog, and the API surface is documented and testable through Swagger.
 
-## Advanced Enterprise Features
+### Frontend
 
-- **Asynchronous Messaging:** Integrated **RabbitMQ** with **MassTransit** to decouple order processing. The system publishes `PedidoCreated` events for background workers.
-- **Strict Role Isolation:** Custom JWT claim logic ensuring airtight security between public storefront consumers and administrative staff.
-- **Structured Logging:** Implemented **Serilog** with Console and File sinks for professional monitoring and troubleshooting.
-- **Automated Testing & CI/CD:** Core business logic covered by **xUnit** unit tests, integrated with **GitHub Actions** to ensure code quality on every push.
+The public storefront is built with Next.js 16 and React 19, using React Context for shopping cart state management and Axios for all API communication. TypeScript and Tailwind CSS are used throughout for type safety and consistent styling. The admin dashboard is implemented separately in Blazor WebAssembly, using `AuthenticationStateProvider` to manage JWT-based session state and `HttpClient` for API integration, kept fully decoupled from the storefront codebase.
 
-## Technologies Used
+### DevOps
 
-- **Backend:** ASP.NET Core Web API (.NET 9)
-- **Admin Panel:** Blazor WebAssembly (C#), HTML, Bootstrap 5
-- **Database:** SQL Server & Entity Framework Core
-- **Messaging:** RabbitMQ & MassTransit
-- **DevOps:** Docker, Docker Compose, GitHub Actions
+Local development is orchestrated through Docker Compose, allowing the API, database, and supporting services to be provisioned consistently. The repository structure is CI-ready, and the API and storefront are configured for independent cloud deployment, currently hosted on Azure App Service and Vercel respectively.
 
-## Future Roadmap
+## Main Features
 
-- [ ] Complete database persistence integration for the incoming Next.js `/api/Orders` payload.
-- [ ] Implement Refresh Token rotation to boost JWT security for long-lived admin sessions.
-- [ ] Migrate file logging to an ELK Stack (Elasticsearch, Logstash, Kibana) for cloud observability.
+- Public product catalog with images, pricing, and detail pages.
+- Secure user registration and authentication.
+- Authenticated cart and checkout flow with order submission.
+- Administrative CRUD operations over the product catalog.
+- Order detail views with status management.
+- Payment registration with customer balance and history tracking.
+- Centralized request and error logging via Serilog.
+- Automated unit tests covering controller and service-layer behavior.
 
----
+## Repository Structure
 
-# Plataforma de Comercio Electrónico (Arquitectura Empresarial)
+```
+Api/                      Core Web API project
+Web/                      Blazor admin dashboard project
+ecommerce-frontend/       Next.js public storefront
+Application/              DTOs, interfaces, and shared service contracts
+Domain/                   Business entities and domain models
+Infrastructure/           EF Core DbContext, repositories, and persistence logic
+CleanEcommerce.UnitTest/  Unit tests for API controllers and services
+Tests/                    Additional integration and validation scenarios
+```
 
-Ecosistema Full-Stack desarrollado bajo **Clean Architecture**, optimizado para entornos corporativos con un enfoque estricto en la seguridad, escalabilidad y la separación de responsabilidades.
+## Local Setup
 
-## Resumen de la Arquitectura
-
-El sistema opera mediante una arquitectura de múltiples frontends:
-
-- **Core API (.NET 9):** Backend centralizado que maneja la lógica de negocio y exposición de endpoints seguros mediante validación de claims y roles JWT.
-- **Panel Administrativo (Blazor):** Dashboard privado y de alto rendimiento, restringido exclusivamente a administradores para el control de inventario.
-- **Vitrina de Clientes (Next.js):** _En repositorio independiente._ Aplicación pública optimizada que consume los endpoints abiertos de la API para el catálogo y carrito de compras.
-
-## Funcionalidades Avanzadas
-
-- **Mensajería Asíncrona:** Uso de **RabbitMQ** y **MassTransit** para desacoplar el procesamiento de pedidos mediante eventos.
-- **Aislamiento de Seguridad:** Implementación de tokens JWT con validación personalizada para evitar la escalación de privilegios desde aplicaciones cliente.
-- **Logging Estructurado:** Trazabilidad profesional de errores y auditoría con **Serilog**.
-- **Calidad de Código:** Tests unitarios con **xUnit** y automatización de integración continua (CI) mediante **GitHub Actions**.
-
-## Reproduction Steps / Pasos para la Reproducción
-
-### 🇬🇧 English
-
-#### Local Development
-
-1. **Clone the repository:**
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/calebJT7/CleanEcommerce-Pro.git
 cd CleanEcommerce
 ```
 
-2. **Infrastructure Setup:** Run the following command to start services via Docker:
+### 2. Start required services
 
 ```bash
 docker-compose up -d
 ```
 
-3. **API Setup:**
-   - Open `Api/appsettings.Development.json`
-   - Update `ConnectionStrings:DefaultConnection` with your SQL Server instance
-   - Run migrations:
+### 3. Configure the backend database
 
-   ```bash
-   cd Api
-   dotnet ef database update
-   ```
+Open `Api/appsettings.Development.json` and update `ConnectionStrings:DefaultConnection` to point to your SQL Server instance.
 
-4. **Run the API:**
+### 4. Apply migrations and run the API
 
 ```bash
+cd Api
+dotnet ef database update
 dotnet run
-# API will be available at https://localhost:7050
 ```
 
-5. **Run the Admin Dashboard (Blazor):**
+### 5. Run the admin dashboard
 
 ```bash
 cd Web
 dotnet run
-# Dashboard will be available at https://localhost:7100
 ```
 
-6. **Run the Client Storefront (Next.js):**
+### 6. Run the storefront
 
 ```bash
 cd ecommerce-frontend
 npm install
 npm run dev
-# Frontend will be available at http://localhost:3000
-# Set NEXT_PUBLIC_API_URL=http://localhost:7050/api for local testing
 ```
 
-#### Production Deployment
+### 7. Configure the storefront environment
 
-- **API:** Automatically deploys to Azure from `main` branch via GitHub Actions
-- **Frontend:** Automatically deploys to Vercel from `main` branch when `ecommerce-frontend/` changes
-- **Environment Variables for Vercel:**
-  - `NEXT_PUBLIC_API_URL`: Set to `https://api-caleb-ecommerce-fzbqhjhhhufzcybp.centralus-01.azurewebsites.net/api`
+Set the following environment variable in the storefront project:
 
-## Autor
+```
+NEXT_PUBLIC_API_URL=http://localhost:7050/api
+```
 
-**Caleb Toledo** - Systems Analyst & Full-Stack Developer.
+## Live Demo
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/caleb-toledo-356b56336/)
+- **API:** https://api-caleb-ecommerce-fzbqhjhhhufzcybp.centralus-01.azurewebsites.net/
+- **API Documentation (Swagger):** https://api-caleb-ecommerce-fzbqhjhhhufzcybp.centralus-01.azurewebsites.net/swagger
+- **Client Storefront:** https://clean-ecommerce-frontend-p28nl2arx-calebjt7s-projects.vercel.app/
+
+The Blazor admin dashboard is currently configured for local execution and connects to the same backend API as the public storefront.
