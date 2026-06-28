@@ -19,6 +19,14 @@ The application is composed of three independently deployable units sharing a co
 - **Admin Dashboard** (`Web/`): a Blazor WebAssembly application providing authenticated administrative access for product management and order lifecycle operations, consuming the API exclusively through JWT-protected endpoints.
 - **Client Storefront** (`ecommerce-frontend/`): a Next.js and React application serving the public-facing catalog, cart, and checkout experience, with client-side state management and HTTP communication handled through Axios.
 
+## Live Demo
+
+- **API:** https://api-caleb-ecommerce-fzbqhjhhhufzcybp.centralus-01.azurewebsites.net/
+- **API Documentation (Swagger):** https://api-caleb-ecommerce-fzbqhjhhhufzcybp.centralus-01.azurewebsites.net/swagger
+- **Client Storefront:** https://clean-ecommerce-frontend-p28nl2arx-calebjt7s-projects.vercel.app/
+
+The Blazor admin dashboard is currently configured for local execution and connects to the same backend API as the public storefront.
+
 ## Architecture Overview
 
 ### Backend
@@ -107,10 +115,4 @@ Set the following environment variable in the storefront project:
 NEXT_PUBLIC_API_URL=http://localhost:7050/api
 ```
 
-## Live Demo
 
-- **API:** https://api-caleb-ecommerce-fzbqhjhhhufzcybp.centralus-01.azurewebsites.net/
-- **API Documentation (Swagger):** https://api-caleb-ecommerce-fzbqhjhhhufzcybp.centralus-01.azurewebsites.net/swagger
-- **Client Storefront:** https://clean-ecommerce-frontend-p28nl2arx-calebjt7s-projects.vercel.app/
-
-The Blazor admin dashboard is currently configured for local execution and connects to the same backend API as the public storefront.
