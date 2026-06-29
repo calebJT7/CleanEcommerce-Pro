@@ -23,7 +23,7 @@ The application is composed of three independently deployable units sharing a co
 
 - **API:** https://api-caleb-ecommerce-fzbqhjhhhufzcybp.centralus-01.azurewebsites.net/
 - **API Documentation (Swagger):** https://api-caleb-ecommerce-fzbqhjhhhufzcybp.centralus-01.azurewebsites.net/swagger
-- **Client Storefront:** https://clean-ecommerce-frontend-p28nl2arx-calebjt7s-projects.vercel.app/
+- **Client Storefront:** https://clean-ecommerce-frontend-9hr8gl1ae-calebjt7s-projects.vercel.app/
 
 The Blazor admin dashboard is currently configured for local execution and connects to the same backend API as the public storefront.
 
